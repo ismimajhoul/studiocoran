@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Studio Coran – Lecteur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&family=Scheherazade&display=swap" rel="stylesheet">
+  <style>
+    /* RESET */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 18px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #c4d1dd;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 1rem;
+      min-height: 100vh;
+    }
+    button, input { font-family: inherit; }
+
+    /* LAYOUT */
+    .card {
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      gap: 1rem;
+      width: 100%;
+      max-width: 1400px;
+      background: #c4d1dd;
+      border-radius: 1rem;
+      box-shadow: 8px 8px 16px #a1b0b9, -8px -8px 16px #ffffff;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) { .card { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { html { font-size: 16px; } body { padding: 0.5rem; } }
+
+    /* HAMBURGER (mobile) */
+    #menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      background: #c4d1dd;
+      border: none;
+      font-size: 1.5rem;
+      z-index: 1000;
+    }
+    @media (max-width: 768px) { #menu-toggle { display: block; } }
+
+    /* SIDEBAR */
+    #sidebar {
+      padding: 1rem;
+      border-right: 1px solid #b0bcc2;
+      background: inherit;
+      transition: transform 0.3s ease;
+    }
+    @media (max-width: 768px) {
+      #sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 80%;
+        max-width: 300px;
+        transform: translateX(-100%);
+        box-shadow: 4px 0 8px rgba(0,0,0,0.2);
+      }
+      #sidebar.open { transform: translateX(0); }
+    }
+    #sidebar h2 {
+      text-align: center;
+      margin-bottom: .5rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .search {
+      display: flex;
+      margin-bottom: .5rem;
+    }
+    .search input {
+      flex: 1;
+      padding: .5rem;
+      border: none;
+      border-radius: .5rem 0 0 .5rem;
+      box-shadow: inset 4px 4px 8px #a1b0b9, inset -4px -4px 8px #ffffff;
+      font-size: 1rem;
+    }
+    .search button {
+      padding: 0 .75rem;
+      border: none;
+      background: inherit;
+      border-radius: 0 .5rem .5rem 0;
+      box-shadow: 4px 4px 8px #a1b0b9, -4px -4px 8px #ffffff;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+    .search button:hover { transform: translateY(-2px); }
+    #buttonGrid {
+      max-height: calc(100vh - 6rem);
+      overflow-y: auto;
+    }
+    #buttonGrid h3 {
+      margin: .75rem 0 .25rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #555;
+    }
+    #buttonGrid button {
+      width: 100%;
+      margin-bottom: .5rem;
+      padding: .75rem;
+      border: none;
+      background: inherit;
+      border-radius: .5rem;
+      box-shadow: 4px 4px 8px #a1b0b9, -4px -4px 8px #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: transform .2s, background .2s;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    #buttonGrid button:hover {
+      transform: scale(1.05);
+      background: #b0bac2;
+      color: #111;
+    }
+
+    /* CONTENT */
+    #content {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    #content .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      margin-bottom: .75rem;
+    }
+    #content .header h1 {
+      font-family: 'Scheherazade', serif;
+      font-size: 2.25rem;
+      line-height: 1;
+    }
+    #content .header span {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* PAGE CONTROLS - UNIFORM HEIGHT */
+    .page-controls {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: .75rem;
+      flex-wrap: nowrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .page-controls button {
+      flex: 1;
+      padding: .5rem .75rem;
+      border: none;
+      background: inherit;
+      border-radius: .5rem;
+      box-shadow: 4px 4px 8px #a1b0b9, -4px -4px 8px #ffffff;
+      cursor: pointer;
+      transition: transform .2s;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .page-controls input {
+      flex: 0 0 auto;
+      padding: .5rem .75rem;
+      margin: 0;
+      border: none;
+      background: inherit;
+      border-radius: .5rem;
+      box-shadow: inset 4px 4px 8px #a1b0b9, inset -4px -4px 8px #ffffff;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .page-controls button:hover,
+    .page-controls input:focus {
+      background: #b0bac2;
+    }
+
+    #results { margin-bottom: .75rem; font-weight: 500; color: #444; font-size: 1rem; }
+    #quranContent {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      background: inherit;
+      border-radius: 1.25rem;
+      box-shadow: inset 4px 4px 12px #a1b0b9, inset -4px -4px 12px #ffffff;
+      font-family: 'Scheherazade', serif;
+      font-size: 2.4rem;
+      line-height: 3.2rem;
+      color: #000;
+      font-weight: bold;
+      direction: rtl;
+      text-align: right;
+    }
+    #quranContent .verse {
+      margin-bottom: 1.5rem;
+      background-color: #fffbe6;
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+    }
+
+    /* TAJWEED */
+    .tajweed-letter {
+      color: red !important;
+      /* Astuce pour colorier les diacritiques combinants (tanwin, soukoun…)
+         dont la lettre porteuse est hors du span : un text-shadow rouge
+         à offset 0 force le glyphe à apparaître en rouge. */
+      text-shadow: 0 0 0 currentColor;
+    }
+    .tajweed-overlay { display: inline-block; transition: transform .2s, background .2s; transform-origin: center; }
+    .tajweed-overlay:hover { transform: scale(5); background: rgba(217,83,79,0.2); z-index: 10; }
+  </style>
+</head>
+<body>
+  <button id="menu-toggle">☰</button>
+  <div class="card">
+    <div id="sidebar">
+      <h2>أحكام التجويد / Tajwid</h2>
+      <div class="search">
+        <input type="text" id="searchInput" placeholder="Recherche...">
+        <button onclick="search()">🔍</button>
+      </div>
+      <select id="voiceSelect" title="Voix arabe (TTS)" style="width:100%; padding:.4rem; margin-bottom:.5rem; border:none; border-radius:.5rem; background:inherit; box-shadow: inset 4px 4px 8px #a1b0b9, inset -4px -4px 8px #ffffff; font-size: .9rem;">
+        <option value="">— Voix automatique —</option>
+      </select>
+      <div id="buttonGrid">
+        <h3>ن noun</h3>
+        <button id="kalkala">القلقلة <span>Al qalqalah</span></button>
+        <button id="ikhfa">إخفاء <span>Ikhfa</span></button>
+        <button id="idghamGhouna">الادغام بغنة <span>Idgham avec ghouna</span></button>
+        <button id="idghamNoGhouna">الإدغام بغير غنة <span>Idgham sans ghouna</span></button>
+        <button id="izhar">إظهار <span>Izhar</span></button>
+        <button id="iqlab">الإقلاب <span>Iqlab</span></button>
+        <button id="nounshedda">النون المشددة <span>noun avec shedda</span></button>
+        <h3>م mim</h3>
+        <button id="idghamShafawi">إِدْغام شَفَوِيّ <span>Idgham shafawi</span></button>
+        <button id="izharShafawi">إِظْهار شَفَوِيّ <span>Izhar shafawi</span></button>
+        <button id="ikhfaShafawi">إِخْفاء شَفَوِيّ <span>Ikhfa shafawi</span></button>
+        <button id="mimshedda">المَّ المشددة <span>mim avec shedda</span></button>
+        <h3>ل lam</h3>
+        <button id="lamshamsi">اللام الشمسية <span>lam solaires</span></button>
+        <button id="lamqamari">اللام القمرية <span>lam lunaires</span></button>
+        <h3>المد الأصلي mad asli</h3>
+        <button id="asli">الطبيعي <span>Tabi'i</span></button>
+        <button id="badal">البدل <span>badal</span></button>
+        <button id="iwad">ٱلْعِوَض <span>iwad</span></button>
+        <button id="silatuSura">الصلة الصغرى <span>silatusura</span></button>
+        <h3>المد الفرعي mad secondaire</h3>
+        <button id="mouttasil">المتصل <span>mouttasil</span></button>
+        <button id="mounfasil">المنفصل <span>mounfasil</span></button>
+        <button id="silatuKubra">الصلة الكبرى <span>silatukubra</span></button>
+        <h3>اللازم الكلمي laazim kalami</h3>
+        <button id="laazim_k_tha">المثقل <span>mouthaqqal</span></button>
+        <button id="laazim_k_kha">المخفف <span>moukhaffaf</span></button>
+        <h3>اللازم الحرفي laazim harfi</h3>
+        <button id="laazim_h_kha">المخفف <span>moukhaffaf</span></button>
+        <button id="laazim_h_tha">المثقل <span>mouthaqqal</span></button>
+        <h3>المد العارض mad 'alid</h3>
+        <button id="waqfSoukoun">للسكون <span>soukoun</span></button>
+      </div>
+    </div>
+    <div id="content">
+      <div class="header">
+        <h1>ستوديو القرآن</h1>
+        <span>Studio Coran</span>
+      </div>
+      <div class="page-controls">
+        <button onclick="LoadPageBefore()">Avant</button>
+        <button onclick="loadPage()">Charger</button>
+        <input type="number" id="pageNumberInput" min="1" max="1206" placeholder="n°">
+        <button onclick="LoadPageAfter()">Après</button>
+      </div>
+      <div id="results">Résultats : <span id="arabicCount"></span> / <span id="frenchCount"></span></div>
+      <div id="quranContent"></div>
+    </div>
+  </div>
+
+  <script src="utilitaires.js"></script>
+  <script src="script_wasla.js"></script>
+</body>
+</html>

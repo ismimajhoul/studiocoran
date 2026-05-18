@@ -1,0 +1,186 @@
+/* ----- Aesthetic (version Bootstrap) ----- */
+html {
+    height: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(167, 235, 255);
+}
+
+body {
+    margin: 0 auto;
+    height: 100%;
+    max-width: 100%;
+    background: linear-gradient(rgb(31, 155, 193), rgb(167, 235, 255));
+}
+
+.container_main {
+    max-width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+}
+
+.buttonMenu2 {
+    position: fixed;
+    top: 180px;
+    left: 0;
+    border: none;
+    box-shadow: 0 0 30px rgba(0, 0, 0);
+    height: 50px;
+    width: 40px;
+    border-radius: 0 50px 50px 0;
+}
+.buttonMenu2 i { left: -10px; }
+.buttonMenu2:focus { background: #fff; }
+
+.buttonMenu {
+    position: fixed;
+    top: 180px;
+    right: 0;
+    border: none;
+    box-shadow: 0 0 30px rgba(0, 0, 0);
+    height: 50px;
+    width: 40px;
+    border-radius: 50px 0 0 50px;
+}
+.buttonMenu:focus { background: #fff; }
+
+section { display: flex; justify-content: center; }
+
+.div_title {
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 0 5px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.title_h2 { display: flex; justify-content: space-between; max-width: 600px; }
+
+.buttonMenu, .buttonMenu2,
+#sidebarPC button, #sidebarPC input,
+.sidebar button, .sidebar input,
+button.rule-button {
+    cursor: pointer;
+}
+
+.verse {
+    padding: 5px;
+    margin: 0 10px 10px 0;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+#quranContent,
+#tajweedContent {
+    width: 100%;
+    font-family: 'Scheherazade', serif;
+    font-size: 30px;
+    padding: 20px;
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+input, button {
+    max-width: 300px;
+    font-size: 24px;
+    text-align: center;
+    border: 2px solid #000;
+    background: #fff;
+}
+input:focus, button:focus { background: grey; }
+
+#pageNumberInput {
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+    direction: ltr;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+#BAbutton, #divButtonPage {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+#divButtonPage2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#results {
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#logoContact {
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.arrow {
+    color: rgb(31, 155, 193);
+    font-weight: bold;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    border: 3px solid #000;
+    border-radius: 10px;
+    background: #000;
+    cursor: pointer;
+    padding: 0 10px;
+}
+
+footer {
+    margin-top: 200px;
+    background: #fff;
+    height: 300px;
+    border-radius: 60px 60px 0 0;
+    width: 100%;
+}
+#div_footer {
+    padding-top: 20px;
+    width: 50%;
+    height: 215px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+#i1foot { color: #C32AA3; }
+#i2foot { color: #ff0050; }
+#i3foot { color: #1DA1F2; }
+
+@media screen and (max-width: 768px) {
+    #tajweedContent, #quranContent { font-size: 1.2em; }
+    .div_title { border: 0; padding: 0 5px; margin: 0; }
+    .title_h2 { font-size: 1.2em; }
+    .center_h2 span { font-size: 0.8em; }
+    #div_footer {
+        height: 300px;
+        width: 70%;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    #sidebarPC { border: none; }
+    .container_main { padding: 0 5px; }
+    #results { width: 80%; }
+    #pageNumberInput { width: 40%; }
+}

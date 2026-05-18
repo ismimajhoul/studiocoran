@@ -50,7 +50,9 @@ async function loadPageWithButton(ruleId, useOptionA = true) {
 
     updateCounters(ruleDetails, totalHits);
     bindAudioOnOverlay(useOptionA);
-    bindSpeechOnOverlay();
+    // L'ancien bindSpeechOnOverlay (clic droit direct sur lettre coloriée) est
+    // remplacé par bindContextDetection, monté UNE fois au chargement de la
+    // page (cf. DOMContentLoaded). On ne l'appelle donc plus ici.
 
     // Une seule prise de parole : annonce + résultat dans la même phrase.
     // (Pas de chevauchement possible puisqu'on n'a qu'un seul speakText.)
@@ -100,8 +102,14 @@ function enrichHits(hits, offsets) {
  *    ou deux mots consécutifs.
  */
 function groupHitInfos(hitInfos) {
+  // Tri ascendant par word-start : indispensable car certaines règles
+  // (applyMounfasil notamment) itèrent le verset à l'envers et retournent
+  // donc des hits en ordre descendant. Sans ce tri, le regroupement
+  // confond les bornes et wrapTajweedLetters reçoit des hits dont l'index
+  // est antérieur au chunk extrait → HTML cassé.
+  const sorted = [...hitInfos].sort((a, b) => a.ws - b.ws);
   const groups = [];
-  for (const h of hitInfos) {
+  for (const h of sorted) {
     const prev = groups[groups.length - 1];
     if (!prev || h.ws > prev.endWordIdx + 1) {
       groups.push({ startWordIdx: h.ws, endWordIdx: h.we, hits: [h] });
@@ -121,9 +129,27 @@ function groupHitInfos(hitInfos) {
  *    baseIndex = position de début du chunk dans le verset complet.
  */
 function wrapTajweedLetters(chunk, hits, baseIndex) {
+  // Fusionne d'abord les hits qui se chevauchent. Sans ça, certaines règles
+  // (typ. mad mounfasil) qui peuvent pousser des ranges qui se croisent
+  // produisent du HTML corrompu (un <span> ouvre au milieu d'un attribut
+  // de <span> précédent → l'attribut s'affiche en texte brut).
+  const sorted = [...hits].sort((a, b) => a.index - b.index);
+  const merged = [];
+  for (const h of sorted) {
+    const last = merged[merged.length - 1];
+    if (last && h.index < last.index + last.length) {
+      // chevauchement → on étend le dernier au lieu d'ajouter un nouveau wrap
+      const newEnd = Math.max(last.index + last.length, h.index + h.length);
+      last.length = newEnd - last.index;
+      // on garde le speech/style du premier (suffit pour le rendu)
+    } else {
+      merged.push({ ...h });
+    }
+  }
+
   let s = chunk;
-  // tri descendant pour ne pas casser les offsets
-  hits
+  // tri descendant pour ne pas casser les offsets lors de l'injection
+  merged
     .sort((a, b) => (b.index - baseIndex) - (a.index - baseIndex))
     .forEach(h => {
       const localI = h.index - baseIndex;
@@ -193,10 +219,24 @@ function renderVerseWithHighlight(verse, hits) {
 
   const vDiv = document.createElement('div');
   vDiv.className = 'verse';
-  vDiv.appendChild(
-    document.createTextNode(`Sura : ${verse.sura}, Aya : ${verse.aya}, `)
-  );
-  vDiv.innerHTML += html;
+  // Métadonnées pour la détection contextuelle au clic droit :
+  // on garde sura, aya, et le texte arabe ORIGINAL (sans les overlays HTML).
+  vDiv.dataset.sura = verse.sura;
+  vDiv.dataset.aya  = verse.aya;
+  vDiv.dataset.text = text;
+
+  // En-tête « Sura : X, Aya : Y, » dans un span dédié → on peut ainsi
+  // isoler le corps arabe et calculer les offsets sans risque de pollution.
+  const header = document.createElement('span');
+  header.className = 'verseHeader';
+  header.textContent = `Sura : ${verse.sura}, Aya : ${verse.aya}, `;
+  vDiv.appendChild(header);
+
+  const body = document.createElement('span');
+  body.className = 'verseBody';
+  body.innerHTML = html;
+  vDiv.appendChild(body);
+
   return vDiv;
 }
 
@@ -328,6 +368,372 @@ function describeOccurrence(chunk) {
   return tokens.map((t, idx) => describeToken(t, idx === 0)).join(' و بعده ');
 }
 
+// ————————————————————————————————————————————————————————————
+//  Détection au clic droit (menu contextuel) — analyse d'UN caractère
+// ————————————————————————————————————————————————————————————
+
+// Lettres toujours emphatiques (mufakhama) — v1 simplifiée.
+// ر et ل (contextuelles) seront traitées plus tard.
+const EMPHATIC_LETTERS = new Set(['خ', 'ص', 'ض', 'غ', 'ط', 'ق', 'ظ']);
+
+const VOWEL_NAMES = {
+  'َ': 'بالفتحة',
+  'ُ': 'بالضمة',
+  'ِ': 'بالكسرة',
+  'ْ': 'ساكنة',
+};
+
+/**
+ * Trouve le caractère du verset arabe sous les coordonnées écran (x, y).
+ * Retourne { sura, aya, verseText, index, char } ou null si hors verset.
+ */
+function pickCharacterAt(x, y) {
+  if (!document.caretPositionFromPoint) return null;
+  const p = document.caretPositionFromPoint(x, y);
+  if (!p) return null;
+  const node = p.offsetNode;
+  if (!node || node.nodeType !== Node.TEXT_NODE) return null;
+
+  // p.offset est la position du CARET (entre 2 caractères), pas l'index du
+  // caractère cliqué. Pour trouver la bonne lettre, on teste les 2 candidats
+  // autour du caret et on garde celui dont le rectangle contient (x, y).
+  const containsClick = (ofs) => {
+    if (ofs < 0 || ofs >= node.textContent.length) return false;
+    const r = document.createRange();
+    r.setStart(node, ofs);
+    r.setEnd(node, ofs + 1);
+    const rect = r.getBoundingClientRect();
+    return (rect.width > 0 || rect.height > 0)
+        && x >= rect.left && x <= rect.right
+        && y >= rect.top  && y <= rect.bottom;
+  };
+
+  let offset = p.offset;
+  if      (containsClick(offset))                            { /* OK */ }
+  else if (containsClick(offset - 1))                        offset -= 1;
+  // Repli si aucun rect ne contient strictement le clic (espaces, bordures…)
+  else if (offset >= node.textContent.length)                offset = node.textContent.length - 1;
+  else if (offset > 0)                                       offset -= 1;
+  if (offset < 0 || offset >= node.textContent.length) return null;
+
+  const verseDiv = node.parentElement && node.parentElement.closest('.verse');
+  if (!verseDiv) return null;
+  const verseText = verseDiv.dataset.text;
+  if (!verseText) return null;
+
+  // Reconstruit l'offset global dans le texte arabe ORIGINAL, en parcourant
+  // les text nodes uniquement dans .verseBody (pour exclure l'en-tête).
+  const body = verseDiv.querySelector('.verseBody');
+  if (!body || !body.contains(node)) return null;
+
+  const walker = document.createTreeWalker(body, NodeFilter.SHOW_TEXT);
+  let acc = 0, n, found = false;
+  while ((n = walker.nextNode())) {
+    if (n === node) { acc += offset; found = true; break; }
+    acc += n.textContent.length;
+  }
+  if (!found) return null;
+
+  // Le DOM peut différer marginalement du texte original à cause des
+  // injections de span ; on clampe pour éviter de sortir de la chaîne.
+  if (acc >= verseText.length) acc = verseText.length - 1;
+  if (acc < 0) return null;
+
+  return {
+    sura: +verseDiv.dataset.sura,
+    aya:  +verseDiv.dataset.aya,
+    verseText,
+    index: acc,
+    char: verseText[acc],
+    node, offset,   // pour pouvoir re-sélectionner ce caractère via une Range
+  };
+}
+
+/**
+ * Place le marqueur visuel sous la lettre désignée.
+ * Utilise un Range DOM pour obtenir le rectangle exact du caractère, qui
+ * fonctionne même quand la lettre est dans un span surligné ou imbriqué.
+ */
+function highlightDesignatedLetter(target) {
+  const marker = document.getElementById('designatedMarker');
+  if (!marker) return;
+  if (!target || !target.node) { marker.hidden = true; return; }
+  try {
+    const range = document.createRange();
+    const len = target.node.textContent.length;
+    const start = Math.min(target.offset, len);
+    const end   = Math.min(start + 1, len);
+    if (end <= start) { marker.hidden = true; return; }
+    range.setStart(target.node, start);
+    range.setEnd(target.node, end);
+    const rect = range.getBoundingClientRect();
+    if (rect.width === 0 && rect.height === 0) { marker.hidden = true; return; }
+    marker.style.left   = (rect.left   + window.scrollX) + 'px';
+    marker.style.top    = (rect.top    + window.scrollY) + 'px';
+    marker.style.width  = rect.width  + 'px';
+    marker.style.height = rect.height + 'px';
+    marker.hidden = false;
+  } catch (e) {
+    marker.hidden = true;
+  }
+}
+
+/**
+ * Décrit un caractère arabe lorsque aucune règle ne s'applique.
+ * Si le pointeur est sur un diacritique, on remonte à la lettre porteuse.
+ *
+ * Exemples :
+ *   كَ      → « حرف الكاف بالفتحة »
+ *   قِّ      → « حرف القاف بالكسرة مشددة وهي مفخمة »
+ *   نْ      → « حرف النون ساكنة »
+ *   ٌ isolé → « تنوين بالضم »
+ */
+function describeCharacter(verseText, index) {
+  let i = index;
+  // Si on est sur un diacritique, remonter à la lettre porteuse précédente.
+  while (i > 0 && isDiacritic(verseText[i])) i--;
+
+  // Cas tanwin isolé (rare en pratique car il y a toujours une porteuse,
+  // mais on garde la robustesse).
+  if (isTanwin(verseText[i])) return TANWIN_NAMES[verseText[i]] || 'تنوين';
+
+  const letter = verseText[i];
+  if (!letter) return '';
+  let letterName = LETTER_NAMES[letter] || letter;
+
+  // Cas particulier : ى (alif maksoura, U+0649) joue le rôle de YA prolongé
+  // quand la lettre précédente porte une kasra (ou kasratan). Pédagogiquement
+  // on l'appelle alors « ياء » et non « ألف مقصورة ».
+  // Exemples : فِى, ٱلَّتِى → ya  ;  هُدًى, فَتَوَلَّى → alif maksoura.
+  if (letter === 'ى' && i > 0) {
+    let k = i - 1;
+    while (k >= 0 && isDiacritic(verseText[k])) {
+      const m = verseText[k];
+      if (m === 'ِ' || m === 'ٍ') { letterName = 'ياء'; break; }
+      if (m === 'َ' || m === 'ً' || m === 'ُ' || m === 'ٌ') break;
+      k--;
+    }
+  }
+
+  // Diacritiques qui suivent la lettre
+  const marks = [];
+  let j = i + 1;
+  while (j < verseText.length && isDiacritic(verseText[j])) { marks.push(verseText[j]); j++; }
+
+  // Voyelle (le tanwin a priorité s'il est présent)
+  let vowel = '';
+  const tn = marks.find(isTanwin);
+  if (tn)      vowel = TANWIN_NAMES[tn] || 'تنوين';
+  else         for (const m of marks) { if (VOWEL_NAMES[m]) { vowel = VOWEL_NAMES[m]; break; } }
+
+  const hasShadda  = marks.some(isShadda);
+  const isEmphatic = EMPHATIC_LETTERS.has(letter);
+
+  const parts = [`حرف ${letterName}`];
+  if (vowel)      parts.push(vowel);
+  if (hasShadda)  parts.push('مشددة');
+  if (isEmphatic) parts.push('وهي مفخمة');
+  return parts.join(' ');
+}
+
+/**
+ * Tente de trouver une règle de tajwid qui s'applique au caractère à l'index
+ * donné dans le verset. Pour la v1, on n'examine que les règles autour du
+ * noun saakinah et du tanwin.
+ *
+ * @returns {{ ruleAr:string|null, ruleFr:string|null, ruleFn:Function|null, description:string, speech:string }}
+ */
+function analyzeAt(verseText, index) {
+  const RULES = [
+    { fn: applyIzharRule,          ar: 'إظهار',          fr: 'Izhar' },
+    { fn: applyIkhfaRule,          ar: 'إخفاء',          fr: 'Ikhfa' },
+    { fn: applyIdghamGhounaRule,   ar: 'إدغام بغنة',     fr: 'Idgham avec ghouna' },
+    { fn: applyIdghamNoGhounaRule, ar: 'إدغام بغير غنة', fr: 'Idgham sans ghouna' },
+    { fn: applyIqlabRule,          ar: 'إقلاب',          fr: 'Iqlab' },
+    { fn: findKalkalaInVerse,      ar: 'قلقلة',          fr: 'Qalqala' },
+    { fn: applyIdghamShafawiRule,  ar: 'إدغام شفوي',     fr: 'Idgham shafawi' },
+    { fn: applyIkhfaShafawiRule,   ar: 'إخفاء شفوي',     fr: 'Ikhfa shafawi' },
+    { fn: applyIzharShafawiRule,   ar: 'إظهار شفوي',     fr: 'Izhar shafawi' },
+    { fn: applyMimSheddaRule,      ar: 'ميم مشددة',      fr: 'Mim mushaddada' },
+    // triggerOnStart = la règle ne matche que si on a cliqué sur la lettre
+    // principale (le 1er caractère du hit), pas sur le ya/waw/alif de
+    // prolongation qui suit. Adapté aux règles de mad.
+    { fn: applyMadAsliRule,        ar: 'مد طبيعي',       fr: 'Mad at-tabiʼi', triggerOnStart: true },
+    { fn: applyMadBadalRule,       ar: 'مد بدل',         fr: 'Mad al-badal',  triggerOnStart: true },
+    { fn: applyMadIwadRule,        ar: 'مد عوض',         fr: 'Mad al-iwad',   triggerOnStart: true },
+    { fn: applySilatuSuraRule,     ar: 'صلة صغرى',       fr: 'Silatu sughra', triggerOnStart: true },
+    { fn: applyMouttasil,          ar: 'مد متصل',        fr: 'Mad muttasil',  triggerOnStart: true },
+    { fn: applyMounfasil,          ar: 'مد منفصل',       fr: 'Mad munfasil',  triggerOnStart: true },
+    { fn: applySilatuKubraRule,    ar: 'صلة كبرى',       fr: 'Silatu kubra',  triggerOnStart: true },
+    { fn: applyLaazim_K_Thaqqal,   ar: 'مد لازم كلمي مثقل',  fr: 'Mad lazim kalami mouthaqqal', triggerOnStart: true },
+    { fn: applyLaazim_K_Khaffaf,   ar: 'مد لازم كلمي مخفف',  fr: 'Mad lazim kalami moukhaffaf', triggerOnStart: true },
+    { fn: applyLaazim_H_Thaqqal,   ar: 'مد لازم حرفي مثقل',  fr: 'Mad lazim harfi mouthaqqal',  triggerOnStart: true },
+    { fn: applyLaazim_H_Khaffaf,   ar: 'مد لازم حرفي مخفف',  fr: 'Mad lazim harfi moukhaffaf',  triggerOnStart: true },
+    { fn: applyWaqfSoukounRule,    ar: 'مد عارض للسكون',  fr: 'Mad ʿarid lis-sukoun',         triggerOnStart: true },
+    // Noun mushaddada AVANT lam shamsiya : sinon, clic sur le ن de ٱلنَّاسِ
+    // renverrait « lam shamsiya » alors que c'est le ن qui porte la shadda.
+    // Les patterns plus spécifiques (3 chars sur le ن) gagnent contre les
+    // patterns plus larges (4 chars ٱل + lettre solaire).
+    { fn: applyNounSheddaRule,     ar: 'نون مشددة',       fr: 'Noun mushaddada' },
+    // Lam shamsi/qamari : pas de triggerOnStart, le clic sur ٱ, ل ou la
+    // lettre suivante (solaire/lunaire) déclenche la détection.
+    { fn: applyLamShamsiRule,      ar: 'لام شمسية',       fr: 'Lam shamsiya' },
+    { fn: applyLamQamariRule,      ar: 'لام قمرية',       fr: 'Lam qamariya' },
+  ];
+  // Si le clic est tombé sur un diacritique (fatha, damma, sukun…), on
+  // remonte à la lettre porteuse pour la recherche de règle. Sinon une
+  // qalqala sur le د de ٱلصَّمَدُ ne serait pas détectée quand on clique pile
+  // sur la damma au-dessus.
+  let searchIndex = index;
+  while (searchIndex > 0 && isDiacritic(verseText[searchIndex])) searchIndex--;
+
+  for (const rule of RULES) {
+    const hits = rule.fn(verseText) || [];
+    for (const hit of hits) {
+      const hitEnd = hit.index + hit.length;
+      // Pour les règles avec triggerOnStart (ex: les mads), on ne déclenche
+      // QUE si le clic est sur le 1er caractère du hit — la lettre principale.
+      // Un clic sur le diacritique juste après est accepté car searchIndex
+      // remonte automatiquement à la lettre porteuse.
+      const inHit = rule.triggerOnStart
+        ? (index === hit.index || searchIndex === hit.index)
+        : ((index       >= hit.index && index       < hitEnd)
+        || (searchIndex >= hit.index && searchIndex < hitEnd));
+      if (inHit) {
+        const description = hit.speech || describeOccurrence(verseText.substr(hit.index, hit.length));
+        return {
+          ruleAr: rule.ar,
+          ruleFr: rule.fr,
+          ruleFn: rule.fn,
+          hit,                 // le hit précis (index/length) pour colorier UNIQUEMENT cette occurrence
+          description,
+          speech: `${rule.ar}. ${description}`,
+        };
+      }
+    }
+  }
+  // Aucune règle ne s'applique : on décrit juste le caractère
+  const description = describeCharacter(verseText, index);
+  return { ruleAr: null, ruleFr: null, ruleFn: null, description, speech: description };
+}
+
+/**
+ * Applique UNE seule occurrence d'une règle (le hit qui contient la lettre
+ * désignée) sur le verset contenant la lettre. Les autres versets de la
+ * page et les autres occurrences de la règle restent inchangés.
+ *
+ * Re-render le .verse avec ce seul hit → la coloration rouge, le voile
+ * .tajweed-overlay (avec la loupe au survol) et la possibilité de jouer
+ * l'audio du mot au clic gauche sont restaurés pour ce mot précis.
+ */
+function applyHitToDesignatedVerse(designated, hit) {
+  if (!designated || !hit) return;
+  const verseDiv = document.querySelector(
+    `#quranContent .verse[data-sura="${designated.sura}"][data-aya="${designated.aya}"]`
+  );
+  if (!verseDiv) return;
+  const text = verseDiv.dataset.text;
+  if (!text) return;
+  const newDiv = renderVerseWithHighlight(
+    { sura: designated.sura, aya: designated.aya, text },
+    [hit]
+  );
+  verseDiv.replaceWith(newDiv);
+  bindAudioOnOverlay(true);
+}
+
+/**
+ * Met à jour le panneau d'analyse et déclenche la lecture vocale.
+ * Accepte un objet { ruleAr, ruleFr, description, speech }.
+ */
+function showAnalysis(result) {
+  if (!result) return;
+  const ruleDiv = document.getElementById('analysisRule');
+  const txtDiv  = document.getElementById('analysisText');
+  if (ruleDiv) {
+    ruleDiv.textContent = result.ruleAr
+      ? `${result.ruleAr}  /  ${result.ruleFr}`
+      : '';
+  }
+  if (txtDiv) txtDiv.textContent = result.description;
+  speakText(result.speech);
+}
+
+/**
+ * Pose les bindings :
+ *  - clic droit dans une .verse → affiche le menu contextuel
+ *  - clic ailleurs → ferme le menu
+ *  - clic sur un item du menu → exécute l'action correspondante
+ *
+ * À appeler UNE seule fois (le menu et #quranContent sont permanents).
+ */
+function bindContextDetection() {
+  const content = document.getElementById('quranContent');
+  const menu    = document.getElementById('ctxMenu');
+  if (!content || !menu) return;
+
+  // La « lettre désignée » est posée par un clic gauche sur une lettre.
+  // Elle reste mémorisée jusqu'au prochain clic gauche. Le clic droit
+  // ouvre le menu contextuel pour agir sur cette lettre.
+  let designated = null;
+
+  // CLIC GAUCHE — désigne la lettre sous le curseur (si on est dans un verset)
+  content.addEventListener('click', (e) => {
+    const verseDiv = e.target.closest('.verse');
+    if (!verseDiv) return;
+    const target = pickCharacterAt(e.clientX, e.clientY);
+    if (!target) return;
+    designated = target;
+    highlightDesignatedLetter(designated);
+  });
+
+  // CLIC DROIT — ouvre le menu contextuel sur la lettre désignée
+  content.addEventListener('contextmenu', (e) => {
+    const verseDiv = e.target.closest('.verse');
+    if (!verseDiv) return; // hors verset → menu navigateur normal
+    e.preventDefault();
+    if (!designated) {
+      // pas encore de lettre désignée → on n'affiche rien
+      menu.hidden = true;
+      return;
+    }
+    menu.style.left = e.pageX + 'px';
+    menu.style.top  = e.pageY + 'px';
+    menu.hidden = false;
+  });
+
+  // Ferme le menu sur tout autre clic à l'extérieur
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target)) menu.hidden = true;
+  });
+
+  // Action du menu : analyse de la lettre désignée
+  menu.addEventListener('click', (e) => {
+    const btn = e.target.closest('.ctxItem');
+    if (!btn) return;
+    menu.hidden = true;
+    if (btn.dataset.action === 'detect' && designated) {
+      const result = analyzeAt(designated.verseText, designated.index);
+      showAnalysis(result);
+      // Si une règle a été identifiée : on colorie UNIQUEMENT le mot/segment
+      // contenant la lettre désignée (le hit spécifique). Les autres versets
+      // de la page et les autres occurrences de la même règle restent
+      // inchangés — c'est une analyse ciblée, pas une recherche globale.
+      if (result.hit) {
+        applyHitToDesignatedVerse(designated, result.hit);
+        const marker = document.getElementById('designatedMarker');
+        if (marker) marker.hidden = true;
+        designated = null; // la désignation a été « consommée »
+      }
+    }
+  });
+
+  // Repositionne le marqueur si la mise en page change (scroll, resize)
+  const refreshMarker = () => { if (designated) highlightDesignatedLetter(designated); };
+  window.addEventListener('scroll', refreshMarker, true);
+  window.addEventListener('resize', refreshMarker);
+}
+
 function bindSpeechOnOverlay() {
   document.querySelectorAll('.tajweed-overlay').forEach(span => {
     span.oncontextmenu = (e) => {
@@ -397,6 +803,12 @@ function resetDisplay() {
   document.getElementById('quranContent').innerHTML    = '';
   document.getElementById('frenchCount').textContent   = '';
   document.getElementById('arabicCount').textContent   = '';
+  // Efface aussi le panneau d'analyse en bas (résultat d'un précédent
+  // « Détecter la règle ») — il n'est plus pertinent pour la nouvelle recherche.
+  const rule = document.getElementById('analysisRule');
+  const txt  = document.getElementById('analysisText');
+  if (rule) rule.textContent = '';
+  if (txt)  txt.textContent  = '';
 }
 
 function renderPageTitle(pageNumber) {
@@ -946,32 +1358,47 @@ function applyLaazim_K_Thaqqal(verse) {
   const laazimColor = { color: '#FF5733', weight: 'bold', size: '50px' };
   const words = verse.split(' ');
 
+  const speechFor = (absIdx) => {
+    const letter = verse[absIdx];
+    const name = LETTER_NAMES[letter] || letter;
+    return `مد لازم كلمي مثقل على حرف ${name}`;
+  };
+
   const checkSequence = (word, wordIndex) => {
     const sequences = [
-      [0x64e, 0x627, 0x653], // Fatha + Alif
-      [0x650, 0x64a, 0x653], // Kasra + Ya
-      [0x64f, 0x648, 0x653]  // Damma + Waw
+      [0x64e, 0x627, 0x653], // Fatha + Alif + maddah
+      [0x650, 0x64a, 0x653], // Kasra + Ya   + maddah
+      [0x64f, 0x648, 0x653]  // Damma + Waw  + maddah
     ];
 
     for (let index = 0; index <= word.length - sequences[0].length; index++) {
-      console.log(`Vérification de l'index ${index} dans le mot "${word}" (0x${word.charCodeAt(index).toString(16)})`);
-
       for (const sequence of sequences) {
-        if (sequence.every((charCode, seqIndex) => {
-            return word.charCodeAt(index + seqIndex) === charCode;
-          })) {
-
-          const nextChar = word.charCodeAt(index + sequence.length);
+        if (sequence.every((charCode, seqIndex) =>
+              word.charCodeAt(index + seqIndex) === charCode)) {
+          const nextChar     = word.charCodeAt(index + sequence.length);
           const nextNextChar = word.charCodeAt(index + sequence.length + 1);
 
-          console.log(`Séquence trouvée à l'index ${index} dans le mot "${word}" :`, sequence.map(c => `0x${c.toString(16)}`).join(', '));
-          console.log(`4ème caractère : ${String.fromCharCode(nextChar)} (code: 0x${nextChar.toString(16)})`);
-          console.log(`5ème caractère : ${String.fromCharCode(nextNextChar)} (code: 0x${nextNextChar.toString(16)})`);
-
+          // Lettre + shedda → mouthaqqal
           if ((nextChar >= 0x621 && nextChar <= 0x64A) && (nextNextChar === 0x651)) {
-            console.log(`Match complet trouvé à l'index ${index} dans le mot "${word}"`);
             const absoluteIndex = wordIndex + index;
-            result.push({ index: absoluteIndex, length: sequence.length + 2, style: laazimColor });
+            // Extension d'1 char à gauche pour inclure la lettre principale
+            // (porteuse de la voyelle) — permet à triggerOnStart de matcher.
+            if (index >= 1) {
+              const extIdx = absoluteIndex - 1;
+              result.push({
+                index: extIdx,
+                length: sequence.length + 3,
+                style: laazimColor,
+                speech: speechFor(extIdx)
+              });
+            } else {
+              result.push({
+                index: absoluteIndex,
+                length: sequence.length + 2,
+                style: laazimColor,
+                speech: speechFor(absoluteIndex)
+              });
+            }
           }
         }
       }
@@ -981,7 +1408,7 @@ function applyLaazim_K_Thaqqal(verse) {
   let currentIndex = 0;
   for (const word of words) {
     checkSequence(word, currentIndex);
-    currentIndex += word.length + 1; // +1 pour l'espace entre les mots
+    currentIndex += word.length + 1;
   }
 
   return result;
@@ -992,32 +1419,45 @@ function applyLaazim_K_Khaffaf(verse) {
   const laazimColor = { color: '#FF5733', weight: 'bold', size: '50px' };
   const words = verse.split(' ');
 
+  const speechFor = (absIdx) => {
+    const letter = verse[absIdx];
+    const name = LETTER_NAMES[letter] || letter;
+    return `مد لازم كلمي مخفف على حرف ${name}`;
+  };
+
   const checkSequence = (word, wordIndex) => {
     const sequences = [
-      [0x64e, 0x627, 0x653], // Fatha + Alif
-      [0x650, 0x64a, 0x653], // Kasra + Ya
-      [0x64f, 0x648, 0x653]  // Damma + Waw
+      [0x64e, 0x627, 0x653],
+      [0x650, 0x64a, 0x653],
+      [0x64f, 0x648, 0x653]
     ];
 
     for (let index = 0; index <= word.length - sequences[0].length; index++) {
-      console.log(`Vérification de l'index ${index} dans le mot "${word}" (0x${word.charCodeAt(index).toString(16)})`);
-
       for (const sequence of sequences) {
-        if (sequence.every((charCode, seqIndex) => {
-            return word.charCodeAt(index + seqIndex) === charCode;
-          })) {
-
-          const nextChar = word.charCodeAt(index + sequence.length);
+        if (sequence.every((charCode, seqIndex) =>
+              word.charCodeAt(index + seqIndex) === charCode)) {
+          const nextChar     = word.charCodeAt(index + sequence.length);
           const nextNextChar = word.charCodeAt(index + sequence.length + 1);
 
-          console.log(`Séquence trouvée à l'index ${index} dans le mot "${word}" :`, sequence.map(c => `0x${c.toString(16)}`).join(', '));
-          console.log(`4ème caractère : ${String.fromCharCode(nextChar)} (code: 0x${nextChar.toString(16)})`);
-          console.log(`5ème caractère : ${String.fromCharCode(nextNextChar)} (code: 0x${nextNextChar.toString(16)})`);
-
+          // Lettre + sukun → moukhaffaf
           if ((nextChar >= 0x621 && nextChar <= 0x64A) && (nextNextChar === 0x652)) {
-            console.log(`Match complet trouvé à l'index ${index} dans le mot "${word}"`);
             const absoluteIndex = wordIndex + index;
-            result.push({ index: absoluteIndex, length: sequence.length + 2, style: laazimColor });
+            if (index >= 1) {
+              const extIdx = absoluteIndex - 1;
+              result.push({
+                index: extIdx,
+                length: sequence.length + 3,
+                style: laazimColor,
+                speech: speechFor(extIdx)
+              });
+            } else {
+              result.push({
+                index: absoluteIndex,
+                length: sequence.length + 2,
+                style: laazimColor,
+                speech: speechFor(absoluteIndex)
+              });
+            }
           }
         }
       }
@@ -1027,7 +1467,7 @@ function applyLaazim_K_Khaffaf(verse) {
   let currentIndex = 0;
   for (const word of words) {
     checkSequence(word, currentIndex);
-    currentIndex += word.length + 1; // +1 pour l'espace entre les mots
+    currentIndex += word.length + 1;
   }
 
   return result;
@@ -1090,46 +1530,73 @@ function applyLiin(verse) {
 
 function applyMounfasil(verse) {
   const result = [];
-  const mounfasilColor = { color: '#642EFE', weight: 'bold', size: '50px' }; // Vous pouvez modifier ces styles comme vous le souhaitez.
+  const mounfasilColor = { color: '#642EFE', weight: 'bold', size: '50px' };
+
+  // Speech : la lettre principale est à hit.index (après extension du hit
+  // pour inclure la lettre porteuse de la voyelle, et non commencer sur la
+  // voyelle elle-même). Cohérent avec Mad muttasil / Mad tabii.
+  const speechFor = (idx) => {
+    const letter = verse[idx];
+    const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[letter]) || letter;
+    return `مد منفصل على حرف ${name}`;
+  };
 
   // La fonction qui vérifie les caractères donnés en séquence
   const checkSequence = (index) => {
     const sequences = [
-  [0x64e, 0x627, 0x653, 0x20, 0x621],
-  [0x64e, 0x627, 0x653, 0x20, 0x623],
-  [0x64e, 0x627, 0x653, 0x20, 0x625],
-  [0x650, 0x649, 0x653, 0x20, 0x621],
-  [0x650, 0x649, 0x653, 0x20, 0x623],
-  [0x650, 0x649, 0x653, 0x20, 0x625],
-  [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x621],
-  [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x623],
-  [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x625],
-  [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x621],
-  [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x623],
-  [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x625],
-  [0x64E, 0x640, 0x670, 0x653, 0x623],
-  [0x64E, 0x649, 0x670, 0x653, 0x20,0x623],
-  [0x64E, 0x649, 0x670, 0x653, 0x20,0x625],
-  [0x64E, 0x640, 0x670, 0x653, 0x624],
-  [0x64A, 0x64E, 0x640, 0x670, 0x653,0x640,0x654],
-     ];
+      [0x64e, 0x627, 0x653, 0x20, 0x621],
+      [0x64e, 0x627, 0x653, 0x20, 0x623],
+      [0x64e, 0x627, 0x653, 0x20, 0x625],
+      [0x650, 0x649, 0x653, 0x20, 0x621],
+      [0x650, 0x649, 0x653, 0x20, 0x623],
+      [0x650, 0x649, 0x653, 0x20, 0x625],
+      [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x621],
+      [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x623],
+      [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x625],
+      [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x621],
+      [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x623],
+      [0x64f, 0x648, 0x653, 0x627, 0x6df, 0x20, 0x625],
+      [0x64E, 0x640, 0x670, 0x653, 0x623],
+      [0x64E, 0x649, 0x670, 0x653, 0x20, 0x623],
+      [0x64E, 0x649, 0x670, 0x653, 0x20, 0x625],
+      [0x64E, 0x640, 0x670, 0x653, 0x624],
+      [0x64A, 0x64E, 0x640, 0x670, 0x653, 0x640, 0x654],
+    ];
 
     for (const sequence of sequences) {
       if (sequence.every((charCode, seqIndex) => {
         return verse.charCodeAt(index - (sequence.length - 1) + seqIndex) === charCode;
       })) {
-        return sequence.length; // Retourne la longueur de la séquence correspondante
+        return sequence.length;
       }
     }
-    return 0; // Retourne 0 si aucune correspondance n'est trouvée
+    return 0;
   };
 
-  for (let i = verse.length - 1; i >= 0; i--) 
+  for (let i = verse.length - 1; i >= 0; i--)
   {
     const length = checkSequence(i);
-    if (length > 0) 
-    {
-      result.push({ index: i - (length - 1), length: length, style: mounfasilColor });
+    if (length > 0) {
+      // Extension d'1 caractère à gauche : on inclut la lettre principale
+      // (celle qui porte la voyelle). Permet à triggerOnStart de matcher.
+      const extStart = i - length;
+      if (extStart >= 0) {
+        result.push({
+          index: extStart,
+          length: length + 1,
+          style: mounfasilColor,
+          speech: speechFor(extStart)
+        });
+      } else {
+        // Cas où le mad est en début de verset (rare) : on garde l'ancien hit.
+        const idx = i - (length - 1);
+        result.push({
+          index: idx,
+          length: length,
+          style: mounfasilColor,
+          speech: speechFor(idx)
+        });
+      }
     }
   }
   return result;
@@ -1140,56 +1607,75 @@ function applyMouttasil(verse) {
   const result = [];
   const mouttasilColor = { color: '#DF3A01', weight: 'bold', size: '50px' };
 
-// La fonction qui vérifie les caractères de fatha, damma, kasra, tanwin in, tanwin oun, soukoun
-const checkFathaDammaKasra = charCode =>
-charCode === 0x64E || charCode === 0x64F || charCode === 0x650 || charCode === 0x652 || charCode === 0x64D || charCode === 0x64C;
+  // Speech : la lettre principale est à hit.index (après extension du hit
+  // pour qu'il commence sur le caractère porteur de la voyelle, et non sur
+  // la voyelle elle-même).
+  const speechFor = (idx) => {
+    const letter = verse[idx];
+    const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[letter]) || letter;
+    return `مد متصل على حرف ${name}`;
+  };
 
-  for (let i = 4; i < verse.length; i++) 
+  // Vérifie fatha, damma, kasra, soukoun, tanwin in, tanwin oun
+  const checkFathaDammaKasra = charCode =>
+    charCode === 0x64E || charCode === 0x64F || charCode === 0x650 ||
+    charCode === 0x652 || charCode === 0x64D || charCode === 0x64C;
+
+  for (let i = 4; i < verse.length; i++)
   {
     const charCode = verse.charCodeAt(i);
 
-    // Scénario 1
+    // Scénario 1 : letter + vowel + alif/waw/ya + maddah + hamza ء + vowel
+    // Hit étendu d'1 caractère pour inclure la lettre principale (i-4).
     if (charCode === 0x621 &&
       (checkFathaDammaKasra(verse.charCodeAt(i + 1)) || verse.charCodeAt(i + 1) === 0x64B) &&
       verse.charCodeAt(i - 1) === 0x653 &&
       (verse.charCodeAt(i - 2) === 0x627 || verse.charCodeAt(i - 2) === 0x648 || verse.charCodeAt(i - 2) === 0x64A || verse.charCodeAt(i - 2) === 0x670) &&
       checkFathaDammaKasra(verse.charCodeAt(i - 3))) {
-    result.push({ index: i - 3, length: 4, style: mouttasilColor });
+      const idx = i - 4;
+      result.push({ index: idx, length: 5, style: mouttasilColor, speech: speechFor(idx) });
     }
-    else if // Scénario 2
-    (charCode === 0x654 && checkFathaDammaKasra(verse.charCodeAt(i + 1)) &&
+    // Scénario 2
+    else if (charCode === 0x654 && checkFathaDammaKasra(verse.charCodeAt(i + 1)) &&
         verse.charCodeAt(i - 1) === 0x640 && verse.charCodeAt(i - 2) === 0x653 &&
         (verse.charCodeAt(i - 3) === 0x627 || verse.charCodeAt(i - 3) === 0x648 || verse.charCodeAt(i - 3) === 0x64A) &&
-        checkFathaDammaKasra(verse.charCodeAt(i - 4))) {
-      result.push({ index: i - 4, length: 5, style: mouttasilColor });
+        checkFathaDammaKasra(verse.charCodeAt(i - 4)) && i >= 5) {
+      const idx = i - 5;
+      result.push({ index: idx, length: 6, style: mouttasilColor, speech: speechFor(idx) });
     }
     // Scénario 3
     else if (charCode === 0x626 && checkFathaDammaKasra(verse.charCodeAt(i + 1)) &&
         verse.charCodeAt(i - 1) === 0x653 && verse.charCodeAt(i - 2) === 0x670 && verse.charCodeAt(i - 3) === 0x640 &&
-        checkFathaDammaKasra(verse.charCodeAt(i - 4))) {
-      result.push({ index: i - 4, length: 5, style: mouttasilColor });
+        checkFathaDammaKasra(verse.charCodeAt(i - 4)) && i >= 5) {
+      const idx = i - 5;
+      result.push({ index: idx, length: 6, style: mouttasilColor, speech: speechFor(idx) });
     }
     // Scénario 4
     else if (charCode === 0x654 && checkFathaDammaKasra(verse.charCodeAt(i + 1)) &&
         verse.charCodeAt(i - 1) === 0x640 && verse.charCodeAt(i - 2) === 0x653 && verse.charCodeAt(i - 3) === 0x6E5 &&
         (verse.charCodeAt(i - 4) === 0x627 || verse.charCodeAt(i - 4) === 0x648 || verse.charCodeAt(i - 4) === 0x64A) &&
-        checkFathaDammaKasra(verse.charCodeAt(i - 5))) {
-      result.push({ index: i - 5, length: 6, style: mouttasilColor });
+        checkFathaDammaKasra(verse.charCodeAt(i - 5)) && i >= 6) {
+      const idx = i - 6;
+      result.push({ index: idx, length: 7, style: mouttasilColor, speech: speechFor(idx) });
     }
     // Scénario 5
     else if (charCode === 0x654 && checkFathaDammaKasra(verse.charCodeAt(i + 1)) &&
         verse.charCodeAt(i - 1) === 0x640 && verse.charCodeAt(i - 2) === 0x653 && verse.charCodeAt(i - 3) === 0x6E6 &&
         (verse.charCodeAt(i - 4) === 0x627 || verse.charCodeAt(i - 4) === 0x648 || verse.charCodeAt(i - 4) === 0x64A) &&
-        checkFathaDammaKasra(verse.charCodeAt(i - 5))) {
-      result.push({ index: i - 5, length: 6, style: mouttasilColor });
+        checkFathaDammaKasra(verse.charCodeAt(i - 5)) && i >= 6) {
+      const idx = i - 6;
+      result.push({ index: idx, length: 7, style: mouttasilColor, speech: speechFor(idx) });
     }
-    // Scénario 6
+    // Scénario 6 : pattern alif + maddah + ئ — cas particulier sans
+    // lettre principale clairement identifiable. On laisse le hit tel quel.
     else if (charCode === 0x626 && verse.charCodeAt(i - 1) === 0x653 && verse.charCodeAt(i - 2) === 0x627) {
-      result.push({ index: i - 2, length: 3, style: mouttasilColor });
+      const idx = i - 2;
+      result.push({ index: idx, length: 3, style: mouttasilColor, speech: speechFor(idx) });
     }
     // Scénario 7
-    else if (charCode === 0x654 && verse.charCodeAt(i - 1) === 0x640 && verse.charCodeAt(i - 2) === 0x653 && verse.charCodeAt(i - 3) === 0x64a && verse.charCodeAt(i - 4) === 0x650) {
-      result.push({ index: i - 4, length: 5, style: mouttasilColor });
+    else if (charCode === 0x654 && verse.charCodeAt(i - 1) === 0x640 && verse.charCodeAt(i - 2) === 0x653 && verse.charCodeAt(i - 3) === 0x64a && verse.charCodeAt(i - 4) === 0x650 && i >= 5) {
+      const idx = i - 5;
+      result.push({ index: idx, length: 6, style: mouttasilColor, speech: speechFor(idx) });
     }
   }
 
@@ -1212,17 +1698,24 @@ function applyWaqfSoukounRule(verse) {
     pos -= 2;
   }
 
-  // Maintenant, vérifiez les conditions de la règle waqf soukoun
-  if (pos >= 4 && 
+  // Vérifie les conditions de la règle mad ʿarid lis-sukoun
+  if (pos >= 4 &&
       (verse.charCodeAt(pos) === 0x64E || verse.charCodeAt(pos) === 0x64F || verse.charCodeAt(pos) === 0x650 || verse.charCodeAt(pos) === 0x64C || verse.charCodeAt(pos) === 0x64D) &&
       (verse.charCodeAt(pos - 1) >= 0x622 && verse.charCodeAt(pos - 1) <= 0x64A) &&
       (verse.charCodeAt(pos - 2) === 0x627 || verse.charCodeAt(pos - 2) === 0x648 || verse.charCodeAt(pos - 2) === 0x64A) &&
-      ((verse.charCodeAt(pos - 2) === 0x627 && verse.charCodeAt(pos - 3) === 0x64E) || 
-       (verse.charCodeAt(pos - 2) === 0x648 && verse.charCodeAt(pos - 3) === 0x64F) || 
-       (verse.charCodeAt(pos - 2) === 0x64A && verse.charCodeAt(pos - 3) === 0x650))) 
+      ((verse.charCodeAt(pos - 2) === 0x627 && verse.charCodeAt(pos - 3) === 0x64E) ||
+       (verse.charCodeAt(pos - 2) === 0x648 && verse.charCodeAt(pos - 3) === 0x64F) ||
+       (verse.charCodeAt(pos - 2) === 0x64A && verse.charCodeAt(pos - 3) === 0x650)))
   {
-    // Ajouter le résultat
-    result.push({ index: pos - 4, length:3 , style: waqfColor });
+    const mainIdx = pos - 4;     // lettre principale (porteuse de la voyelle prolongée)
+    const letter = verse[mainIdx];
+    const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[letter]) || letter;
+    result.push({
+      index: mainIdx,
+      length: 3,
+      style: waqfColor,
+      speech: `مد عارض للسكون على حرف ${name}`
+    });
   }
 
   return result;
@@ -1230,21 +1723,31 @@ function applyWaqfSoukounRule(verse) {
 
 function applySilatuKubraRule(verse) {
   const result = [];
-  const normalColor = { color: '#04B404', weight: 'bold', size: '50px' };
-  const specialColor = { color: '#FFA500', weight: 'bold', size: '50px' }; // Couleur orange pour la séquence spéciale
+  const normalColor  = { color: '#04B404', weight: 'bold', size: '50px' };
+  const specialColor = { color: '#FFA500', weight: 'bold', size: '50px' };
 
   for (let i = 0; i < verse.length - 1; i++) {
     if ((verse.charCodeAt(i) === 0x6E5 || verse.charCodeAt(i) === 0x6E6) && verse.charCodeAt(i + 1) === 0x653) {
-      let start = Math.max(i - 2, 0);
-      let end = Math.min(i + 4, verse.length);
+      // Doit être précédé de ه (haa du pronom) à la position i-2
+      if (i > 0 && verse.charCodeAt(i - 2) !== 0x647) {
+        continue;
+      }
 
-      // Vérifier si c'est le dernier caractère du verset
-      if (i === verse.length - 2) { // On vérifie -2 parce qu'on a maintenant deux caractères dans la séquence
-        // Utiliser la couleur spéciale
-        result.push({ index: start, length: end - start, style: specialColor });
+      let start = Math.max(i - 2, 0);
+      let end   = Math.min(i + 4, verse.length);
+
+      // 0x6E6 = small ya  → ha-pronoun « hi » (kasra)
+      // 0x6E5 = small waw → ha-pronoun « hu » (damma)
+      const isKasraVariant = verse.charCodeAt(i) === 0x6E6;
+      const speech = isKasraVariant
+        ? 'هاء الضمير المكسورة قبل همزة'
+        : 'هاء الضمير المضمومة قبل همزة';
+
+      const baseHit = { index: start, length: end - start, speech };
+      if (i === verse.length - 2) {
+        result.push({ ...baseHit, style: specialColor });
       } else {
-        // Utiliser la couleur normale
-        result.push({ index: start, length: end - start, style: normalColor });
+        result.push({ ...baseHit, style: normalColor });
       }
     }
   }
@@ -1254,26 +1757,29 @@ function applySilatuKubraRule(verse) {
 
 function applySilatuSuraRule(verse) {
   const result = [];
-  const normalColor = { color: '#8A0886', weight: 'bold', size: '50px' };
-  const specialColor = { color: '#FFA500', weight: 'bold', size: '50px' }; // Couleur orange pour la séquence spéciale
+  const normalColor  = { color: '#8A0886', weight: 'bold', size: '50px' };
+  const specialColor = { color: '#FFA500', weight: 'bold', size: '50px' };
 
   for (let i = 0; i < verse.length; i++) {
     if ((verse.charCodeAt(i) === 0x6E6 || verse.charCodeAt(i) === 0x6E5) && verse.charCodeAt(i + 1) !== 0x653) {
-      // Vérifiez si le caractère précédant est 'ه'
+      // Doit être précédé de ه (haa du pronom) à la position i-2
       if (i > 0 && verse.charCodeAt(i - 2) !== 0x647) {
-        continue;  // Si ce n'est pas le cas, passez à la prochaine itération
+        continue;
       }
-      
-      let start = Math.max(i - 2, 0);
-      let end = Math.min(i + 4, verse.length);
 
-      // Vérifier si c'est le dernier caractère du verset
+      let start = Math.max(i - 2, 0);
+      let end   = Math.min(i + 4, verse.length);
+
+      // 0x6E6 = small ya  → ha-pronoun « hi » (kasra)
+      // 0x6E5 = small waw → ha-pronoun « hu » (damma)
+      const isKasraVariant = verse.charCodeAt(i) === 0x6E6;
+      const speech = isKasraVariant ? 'هاء الضمير المكسورة' : 'هاء الضمير المضمومة';
+
+      const baseHit = { index: start, length: end - start, speech };
       if (i === verse.length - 1) {
-        // Utiliser la couleur spéciale
-        result.push({ index: start, length: end - start, style: specialColor });
+        result.push({ ...baseHit, style: specialColor });
       } else {
-        // Utiliser la couleur normale
-        result.push({ index: start, length: end - start, style: normalColor });
+        result.push({ ...baseHit, style: normalColor });
       }
     }
   }
@@ -1340,9 +1846,9 @@ function applyMadBadalRule(verseText) {
 }
 
 function applyMadIwadRule(verseText) {
-  const shedda = "\u0651";
-  const tanweenAn = "\u064B";
-  const alif = "\u0627";
+  const shedda = "ّ";
+  const tanweenAn = "ً";
+  const alif = "ا";
 
   // Extraire le dernier mot
   const words = verseText.split(' ');
@@ -1350,38 +1856,37 @@ function applyMadIwadRule(verseText) {
 
   let foundMadIwad = [];
 
+  // Speech par hit : la lettre principale est celle à hit.index (lettre porteuse du tanwin fath)
+  const speechFor = (letter) => {
+    const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[letter]) || letter;
+    return `حرف ${name} بالتنوين عند الوقف`;
+  };
+
   // Recherche de la séquence dans le dernier mot
   for (let i = 0; i < lastWord.length; i++) {
-    if (/[\u0621-\u064A]/.test(lastWord[i]) && lastWord[i + 1] === shedda && lastWord[i + 2] === tanweenAn && lastWord[i + 3] === alif) {
+    if (/[ء-ي]/.test(lastWord[i]) && lastWord[i + 1] === shedda && lastWord[i + 2] === tanweenAn && lastWord[i + 3] === alif) {
       const indexInVerse = words.slice(0, -1).reduce((sum, word) => sum + word.length + 1, 0) + i;
       foundMadIwad.push({
         index: indexInVerse,
-        length: 4, // Longueur de la séquence
-        style: {
-          color: 'red',
-          weight: 'bold',
-          size: '50px'
-        }
+        length: 4,
+        speech: speechFor(lastWord[i]),
+        style: { color: 'red', weight: 'bold', size: '50px' }
       });
     }
   }
 
   // Recherche de la séquence à la fin du dernier mot
-  const sequenceRegEx = /([\u0621-\u064A])\u064B[\u064B\u06E2]*[\u0627\u0649]$/;
+  const sequenceRegEx = /([ء-ي])ً[ًۢ]*[اى]$/;
 
   const match = sequenceRegEx.exec(lastWord);
 
   if (match) {
-    // Calculer l'index correct dans verseText
     const indexInVerse = words.slice(0, -1).reduce((sum, word) => sum + word.length + 1, 0) + match.index;
     foundMadIwad.push({
       index: indexInVerse,
       length: match[0].length,
-      style: {
-        color: 'red', // remplacer par la couleur souhaitée
-        weight: 'bold', // remplacer par le poids souhaité
-        size: '50px' // remplacer par la taille souhaitée
-      }
+      speech: speechFor(match[1]),   // match[1] = la lettre porteuse capturée
+      style: { color: 'red', weight: 'bold', size: '50px' }
     });
   }
 
@@ -1731,13 +2236,18 @@ function applyMadAsliRule(verseText) {
 
   const excludedSequenceStartIndex = excludeSequence(lastWord);
   console.log(excludedSequenceStartIndex);
-  if (excludedSequenceStartIndex > 0 && foundMadAsli.length > 0) 
+  if (excludedSequenceStartIndex > 0 && foundMadAsli.length > 0)
   {
     //console.log(foundMadAsli.pop()); // remove the last Mad
     foundMadAsli.pop();
   }
 
-  return foundMadAsli;
+  // Speech par hit : la lettre principale est celle à hit.index.
+  // Format : « مد طبيعي على حرف [nom de la lettre] ».
+  return foundMadAsli.map(h => ({
+    ...h,
+    speech: `مد طبيعي على حرف ${LETTER_NAMES[verseText[h.index]] || verseText[h.index]}`,
+  }));
 }
 
 function applyNounSheddaRule(verseText) {
@@ -1756,10 +2266,11 @@ function applyNounSheddaRule(verseText) {
     return {
       index: found.index,
       length: found.length,
+      speech: 'نون مشددة',
       style: {
-        color: '#B45F04', // Remplacez par la couleur désirée pour cette règle
-        weight: 'bold', // Remplacez par le poids de la police désiré pour cette règle
-        size: '50px' // Remplacez par la taille de la police désirée pour cette règle
+        color: '#B45F04',
+        weight: 'bold',
+        size: '50px'
       }
     };
   });
@@ -1782,60 +2293,81 @@ function applyMimSheddaRule(verseText) {
   return foundMimShedda.map((found) => ({
     index: found.index,
     length: found.length,
+    speech: 'ميم مشددة',
     style: {
-      color: '#0000FF', // Remplacez par la couleur désirée
-      weight: 'bold', // Remplacez par le poids désiré
-      size: '50px' // Remplacez par la taille désirée
+      color: '#0000FF',
+      weight: 'bold',
+      size: '50px'
     }
   }));
 }
 
 function applyLamShamsiRule(verseText) {
-  const alifWasla = '\u0671'; // Alif Wasla
+  const alifWasla = 'ٱ';
   const lam = 'ل';
-  const shamsiLetters = ['ت', 'ث', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ن', 'ل'];
+  const shamsiLetters = ['ت','ث','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ن','ل'];
   const shedda = 'ّ';
-  const diacriticalMarks = ['َ', 'ِ', 'ُ'];
+  const diacriticalMarks = ['َ','ِ','ُ'];
+  const style = { color: '#0080FF', weight: 'bold', size: '50px' };
   let foundLamShamsi = [];
 
   for (let i = 0; i < verseText.length; i++) {
-    if (verseText[i] === alifWasla && verseText[i + 1] === lam && shamsiLetters.includes(verseText[i + 2]) && verseText[i + 3] === shedda && diacriticalMarks.includes(verseText[i + 4])) {
-      foundLamShamsi.push({ index: i, length: 2 });
+    // Cas standard : ٱ + ل + lettre solaire + shedda + voyelle
+    if (verseText[i] === alifWasla
+        && verseText[i + 1] === lam
+        && shamsiLetters.includes(verseText[i + 2])
+        && verseText[i + 3] === shedda
+        && diacriticalMarks.includes(verseText[i + 4])) {
+      const target = verseText[i + 2];
+      const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[target]) || target;
+      foundLamShamsi.push({
+        index: i,
+        length: 4, // ٱ + ل + lettre solaire + shedda
+        speech: `لام شمسية مدغمة في حرف ${name}`,
+        style
+      });
+    }
+    // Cas spécial : ٱ + ل + shedda + voyelle (le ل visible joue à la fois
+    // le rôle de l'article et de la lettre solaire — fusion orthographique
+    // typique de ٱلَّذِينَ, ٱلَّتِي, etc.).
+    else if (verseText[i] === alifWasla
+        && verseText[i + 1] === lam
+        && verseText[i + 2] === shedda
+        && diacriticalMarks.includes(verseText[i + 3])) {
+      foundLamShamsi.push({
+        index: i,
+        length: 3, // ٱ + ل + shedda
+        speech: 'لام شمسية مدغمة في حرف لام',
+        style
+      });
     }
   }
-  return foundLamShamsi.map((found) => ({
-    index: found.index,
-    length: found.length,
-    style: {
-      color: '#0080FF', // Remplacez par la couleur désirée
-      weight: 'bold', // Remplacez par le poids désiré
-      size: '50px' // Remplacez par la taille désirée
-    }
-  }));
+  return foundLamShamsi;
 }
 
 function applyLamQamariRule(verseText) {
-  const alifWasla = '\u0671'; // Alif Wasla
+  const alifWasla = 'ٱ';
   const lam = 'ل';
   const sukun = 'ْ';
-  const qamariLetters = ['أ', 'ب', 'ج', 'ح', 'خ', 'ع', 'غ', 'ف', 'ق', 'ك', 'م', 'ه', 'و', 'ى'];
+  const qamariLetters = ['أ','ب','ج','ح','خ','ع','غ','ف','ق','ك','م','ه','و','ى'];
   let foundLamQamari = [];
 
   for (let i = 0; i < verseText.length; i++) {
-    if (verseText[i] === alifWasla && verseText[i + 1] === lam && verseText[i + 2] === sukun && qamariLetters.includes(verseText[i + 3])) {
-      foundLamQamari.push({ index: i, length: 3 });
+    if (verseText[i] === alifWasla
+        && verseText[i + 1] === lam
+        && verseText[i + 2] === sukun
+        && qamariLetters.includes(verseText[i + 3])) {
+      const target = verseText[i + 3];
+      const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[target]) || target;
+      foundLamQamari.push({
+        index: i,
+        length: 4, // ٱ + ل + sukun + lettre lunaire
+        speech: `لام قمرية مظهرة قبل حرف ${name}`,
+        style: { color: '#FF00FF', weight: 'bold', size: '50px' }
+      });
     }
   }
-
-  return foundLamQamari.map((found) => ({
-    index: found.index,
-    length: found.length,
-    style: {
-      color: '#FF00FF', // Remplacez par la couleur désirée
-      weight: 'bold', // Remplacez par le poids désiré
-      size: '50px' // Remplacez par la taille désirée
-    }
-  }));
+  return foundLamQamari;
 }
 
 function applyIzharShafawiRule(verseText) {
@@ -1846,21 +2378,25 @@ function applyIzharShafawiRule(verseText) {
   for (let i = 0; i < verseText.length - 2; i++) {
     if (verseText.substring(i, i + 2) === mimSukun) {
       let length = 3;
+      let targetLetter = verseText[i + 2];
       if (verseText[i + 2] === ' ' && allLettersExceptMimAndBa.includes(verseText[i + 3])) {
         length = 4;
+        targetLetter = verseText[i + 3];
       } else if (!allLettersExceptMimAndBa.includes(verseText[i + 2])) {
         continue;
       }
-      foundIzhar.push({ index: i, length });
+      const targetName = LETTER_NAMES[targetLetter] || targetLetter;
+      foundIzhar.push({ index: i, length, speech: `ميم ساكنة و بعدها حرف ${targetName}` });
     }
   }
   return foundIzhar.map((found) => ({
     index: found.index,
     length: found.length,
+    speech: found.speech,
     style: {
-      color: '#40FF00', // Remplacez par la couleur désirée
-      weight: 'bold', // Remplacez par le poids désiré
-      size: '50px' // Remplacez par la taille désirée
+      color: '#40FF00',
+      weight: 'bold',
+      size: '50px'
     }
   }));
 }
@@ -1880,10 +2416,11 @@ function applyIdghamShafawiRule(verseText) {
     return {
       index: found.index,
       length: found.length,
+      speech: 'ميم ساكنة و بعدها ميم مشددة',
       style: {
-        color: '#B45F04', // Vous pouvez remplacer ceci par la couleur désirée pour cette règle
-        weight: 'bold', // Vous pouvez remplacer ceci par le poids de la police désiré pour cette règle
-        size: '50px' // Vous pouvez remplacer ceci par la taille de la police désirée pour cette règle
+        color: '#B45F04',
+        weight: 'bold',
+        size: '50px'
       }
     };
   });
@@ -1905,10 +2442,11 @@ function applyIkhfaShafawiRule(verseText) {
   return foundIkhfa.map((found) => ({
     index: found.index,
     length: found.length,
+    speech: 'ميم ساكنة و بعدها حرف الباء',
     style: {
-      color: '#01DF01', // Remplacez par la couleur désirée
-      weight: 'bold', // Remplacez par le poids désiré
-      size: '50px' // Remplacez par la taille désirée
+      color: '#01DF01',
+      weight: 'bold',
+      size: '50px'
     }
   }));
 }
@@ -2060,10 +2598,20 @@ function showHex(s) {
  */
 function findKalkalaInVerse(verseText) {
   const letters = new Set(['ق','ط','ب','ج','د']);
-  const SUKUN   = '\u0652';
+  const SUKUN   = 'ْ';
 
   const style = { color:'red', weight:'bold', size:'50px' };
   const hits = [];
+
+  // Construit la phrase d'analyse pour un hit donné.
+  //   'sukun' → qalqala sughra (lettre + soukoun explicite)
+  //   'waqf'  → qalqala kubra  (lettre en fin de verset, pause/waqf)
+  const speechFor = (letter, kind) => {
+    const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[letter]) || letter;
+    return kind === 'waqf'
+      ? `${name} ساكنة عند الوقف`
+      : `${name} ساكنة`;
+  };
 
   for (let i = 0; i < verseText.length; i++) {
     const ch = verseText[i];
@@ -2071,26 +2619,29 @@ function findKalkalaInVerse(verseText) {
 
     const next = verseText[i+1] || '';
     if (next === SUKUN) {
-      // lettre + sukun
-      hits.push({ index:i, length:2, style });
-    } else {
-      // si fin de mot/verset ou espace, on prend juste la lettre
-      const after = verseText[i+1] || '';
-      if (after === ' ' || i+1 === verseText.length) {
-        hits.push({ index:i, length:1, style });
-      }
+      // lettre + sukun → qalqala sughra
+      hits.push({ index:i, length:2, style, speech: speechFor(ch, 'sukun') });
+    } else if (next === ' ') {
+      // fin de mot mid-verset → qalqala sughra implicite
+      hits.push({ index:i, length:1, style, speech: speechFor(ch, 'sukun') });
+    } else if (i+1 === verseText.length) {
+      // strictement dernière position du texte → qalqala kubra
+      hits.push({ index:i, length:1, style, speech: speechFor(ch, 'waqf') });
     }
   }
 
-  // dernière lettre du verset (qalqala en fin de mot même sans sukun)
+  // Dernière lettre arabe du verset (gère diacritiques ET marques de pause ۖۗۘۙۚۛۜ…)
+  // On remonte en sautant TOUT ce qui n'est pas une lettre arabe de base.
   let idx = verseText.length - 1;
-  // on recule en ignorant tous diacritiques et espaces
-  const ignore = new Set([SUKUN,'\u064E','\u064F','\u0650','\u0651','\u064C','\u064D','\u06ED','\u06E2',' ']);
-  while (idx >= 0 && ignore.has(verseText[idx])) idx--;
+  while (idx >= 0 && !isArabicLetter(verseText[idx])) idx--;
   if (idx >= 0 && letters.has(verseText[idx])) {
-    // éviter double-push si déjà présent
     if (!hits.some(h => h.index === idx)) {
-      hits.push({ index:idx, length:1, style });
+      hits.push({ index:idx, length:1, style, speech: speechFor(verseText[idx], 'waqf') });
+    } else {
+      // Si déjà présent en mode 'sukun' alors qu'on est en fin de verset, on
+      // upgrade vers 'waqf' pour avoir le bon « عند الوقف ».
+      const existing = hits.find(h => h.index === idx);
+      if (existing) existing.speech = speechFor(verseText[idx], 'waqf');
     }
   }
 
@@ -2267,8 +2818,6 @@ function loadPage() {
     return;
   }
 
-  const enableHighlightBasmala = false; // Mettez ceci à false ou commentez-le pour désactiver la mise en évidence de la basmala
-
   getPageVerses(pageNumber)
     .then((verses) => {
       quranContent.innerHTML = '';
@@ -2277,16 +2826,14 @@ function loadPage() {
       quranContent.appendChild(pageDiv);
 
       verses.forEach((verse) => {
-        let verseText = verse.text; // Utilisation de la propriété 'text' de 'verse'
-
-        if (enableHighlightBasmala) {
-          verseText = highlightBasmala(verse.sura, verse.aya, verse.text);
-        }
-
-        const verseDiv = document.createElement('div');
-        verseDiv.className = 'verse';
-        verseDiv.innerHTML = `Sura : ${verse.sura}, Aya : ${verse.aya}, ${verseText}`; // Utilisation de la variable 'verseText'
-        quranContent.appendChild(verseDiv);
+        // On passe par renderVerseWithHighlight (avec aucun hit) pour avoir
+        // le MÊME format de DOM qu'après un clic sur une règle :
+        // - data-sura, data-aya, data-text sur le .verse
+        // - structure .verseHeader / .verseBody
+        // Sans ça, pickCharacterAt ne fonctionnerait pas sur les versets
+        // chargés par le seul bouton « Charger ».
+        const vDiv = renderVerseWithHighlight(verse, []);
+        quranContent.appendChild(vDiv);
       });
 
       lastLoadedPageNumber = pageNumber;
@@ -2319,11 +2866,29 @@ function initRuleButtons(useOptionA = true) {
   });
 }
 
+/**
+ * Aligne le panneau d'analyse flottant sur la zone #content : il colle
+ * au bord gauche et droit de la colonne de contenu, sans déborder sous
+ * la sidebar. À appeler au chargement et à chaque redimensionnement.
+ */
+function positionAnalysisPanel() {
+  const panel   = document.getElementById('analysisPanel');
+  const content = document.getElementById('content');
+  if (!panel || !content) return;
+  const rect = content.getBoundingClientRect();
+  const inset = 16; // 1rem de marge intérieure
+  panel.style.left  = (rect.left + inset) + 'px';
+  panel.style.width = Math.max(0, rect.width - 2 * inset) + 'px';
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('#sidebar button').forEach(btn => {
     btn.classList.add('rule-button');
   });
   initRuleButtons(true);
+  bindContextDetection();
+  positionAnalysisPanel();
+  window.addEventListener('resize', positionAnalysisPanel);
 });
 
 function LoadPageBefore() {

@@ -17,6 +17,7 @@
       justify-content: center;
       align-items: flex-start;
       padding: 1rem;
+      padding-bottom: 7rem; /* espace pour le panneau d'analyse flottant */
       min-height: 100vh;
     }
     button, input { font-family: inherit; }
@@ -212,6 +213,92 @@
       border-radius: 1rem;
     }
 
+    /* ANALYSIS PANEL — barre flottante en bas, alignée avec #content */
+    /* (left / width sont positionnés dynamiquement par JS pour suivre la
+       zone de contenu sans déborder sous la sidebar) */
+    #analysisPanel {
+      position: fixed;
+      bottom: 1rem;
+      z-index: 800;
+      padding: 0.9rem 1.4rem;
+      background: rgba(255, 251, 230, 0.97);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 1rem;
+      min-height: 3.5rem;
+      direction: rtl;
+      text-align: right;
+      color: #333;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.22), 0 -2px 6px rgba(0,0,0,0.05);
+      pointer-events: none; /* laisse passer les clics vers le Coran derrière */
+    }
+    #analysisRule {
+      font-family: 'Scheherazade', serif;
+      font-size: 2.2rem;
+      font-weight: bold;
+      color: #c0392b;
+      line-height: 1.2;
+      margin-bottom: 0.4rem;
+    }
+    #analysisRule:empty { display: none; }
+    #analysisText {
+      font-family: 'Scheherazade', serif;
+      font-size: 1.4rem;
+      color: #444;
+    }
+    #analysisText:empty::before {
+      content: '— كشف حكم التجويد —';
+      color: #aaa;
+      font-size: 1rem;
+    }
+
+    /* DESIGNATED LETTER MARKER — souligne la lettre choisie au clic gauche */
+    #designatedMarker {
+      position: absolute;
+      pointer-events: none;
+      border-bottom: 3px solid #0a84ff;
+      background: rgba(10,132,255,0.08);
+      z-index: 500;
+      transition: left .12s ease, top .12s ease, width .12s ease, height .12s ease;
+    }
+    #designatedMarker[hidden] { display: none; }
+
+    /* CONTEXT MENU — apparaît au clic droit dans un verset */
+    #ctxMenu {
+      position: absolute;
+      z-index: 9999;
+      background: #fff;
+      border: 1px solid #b0bcc2;
+      border-radius: 0.5rem;
+      box-shadow: 4px 4px 12px rgba(0,0,0,0.15);
+      padding: 0.25rem;
+      min-width: 14rem;
+    }
+    #ctxMenu[hidden] { display: none; }
+    #ctxMenu .ctxItem {
+      display: block;
+      width: 100%;
+      text-align: right;
+      direction: rtl;
+      padding: 0.5rem 0.75rem;
+      background: none;
+      border: none;
+      border-radius: 0.35rem;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+    #ctxMenu .ctxItem:hover { background: #eef3f7; }
+    #ctxMenu .ctxAr  { display: inline-block; margin: 0 .35rem; }
+    #ctxMenu .ctxSep { display: inline-block; margin: 0 .35rem; color: #999; }
+    #ctxMenu .ctxFr  {
+      display: inline-block;
+      color: #777;
+      font-size: 0.85rem;
+      direction: ltr;
+    }
+
     /* TAJWEED */
     .tajweed-letter {
       color: red !important;
@@ -285,7 +372,25 @@
       </div>
       <div id="results">Résultats : <span id="arabicCount"></span> / <span id="frenchCount"></span></div>
       <div id="quranContent"></div>
+      <div id="analysisPanel">
+        <div id="analysisRule"></div>
+        <div id="analysisText"></div>
+      </div>
     </div>
+  </div>
+
+  <!-- Marqueur visuel pour la lettre désignée (clic gauche sur une lettre) -->
+  <div id="designatedMarker" hidden></div>
+
+  <!-- Menu contextuel apparaissant au clic droit dans un verset -->
+  <div id="ctxMenu" hidden>
+    <button class="ctxItem" data-action="detect">
+      🔍 <span class="ctxAr">كشف حكم التجويد</span><span class="ctxSep">/</span><span class="ctxFr">Détecter la règle</span>
+    </button>
+    <!-- futurs items :
+    <button class="ctxItem" data-action="play-word">▶ Écouter le mot</button>
+    <button class="ctxItem" data-action="neighbors">📋 Règles voisines</button>
+    -->
   </div>
 
   <script src="utilitaires.js"></script>

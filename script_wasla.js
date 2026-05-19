@@ -726,48 +726,64 @@ function analyzeAt(verseText, index) {
   let searchIndex = index;
   while (searchIndex > 0 && isDiacritic(verseText[searchIndex])) searchIndex--;
 
+  const makeResult = (rule, hit) => {
+    const description = hit.speech || describeOccurrence(verseText.substr(hit.index, hit.length));
+    return {
+      ruleAr: rule.ar,
+      ruleFr: rule.fr,
+      ruleFn: rule.fn,
+      hit,                   // le hit précis (index/length) pour colorier UNIQUEMENT cette occurrence
+      description,
+      speech: `${rule.ar}. ${description}`,
+    };
+  };
+
+  // Cas particulier : si le hit.index tombe sur un diacritique (typ. la
+  // shadda d'une lettre avec mad lazim mouthaqqal comme ٱلضَّآلِّينَ), la
+  // VRAIE lettre principale est juste AVANT hit.index. On accepte donc
+  // aussi un clic sur une lettre qui n'est séparée de hit.index que par
+  // des diacritiques (forward walk).
+  //
+  // IMPORTANT : on exige que hit.index lui-même soit un diacritique.
+  // Si hit.index est une lettre, c'est une lettre différente du clic
+  // (par ex. ف après خْ) → on ne doit PAS matcher.
+  const reachesHitStart = (clickPos, hit) => {
+    if (clickPos >= hit.index) return false;
+    if (!isDiacritic(verseText[hit.index])) return false;
+    for (let p = clickPos + 1; p < hit.index; p++) {
+      if (!isDiacritic(verseText[p])) return false;
+    }
+    return true;
+  };
+
+  // Deux passes pour gérer la priorité spécifique > large.
+  //
+  // Pass 1 — règles avec triggerOnStart (mads, silatu, etc.) : la lettre
+  // cliquée doit être EXACTEMENT la lettre principale du hit. Plus spécifique
+  // que les règles de plage (idgham/ikhfa/iqlab) qui englobent plusieurs
+  // lettres. Exemple : sur le مِ de مِن مَّآءٍ, le clic sur le mim qui suit
+  // (lettre principale du mad muttasil) doit retourner « mad muttasil »
+  // plutôt que l'idgham qui inclut ce mim dans sa plage.
+  //
+  // Pass 2 — règles à plage large : un clic n'importe où dans [index, end)
+  // matche. Ne s'exécute QUE si aucune règle spécifique n'a déjà matché.
   for (const rule of RULES) {
+    if (!rule.triggerOnStart) continue;
+    const hits = rule.fn(verseText) || [];
+    for (const hit of hits) {
+      const inHit = index === hit.index || searchIndex === hit.index
+                 || reachesHitStart(index, hit) || reachesHitStart(searchIndex, hit);
+      if (inHit) return makeResult(rule, hit);
+    }
+  }
+  for (const rule of RULES) {
+    if (rule.triggerOnStart) continue;
     const hits = rule.fn(verseText) || [];
     for (const hit of hits) {
       const hitEnd = hit.index + hit.length;
-      // Pour les règles avec triggerOnStart (ex: les mads), on ne déclenche
-      // QUE si le clic est sur le 1er caractère du hit — la lettre principale.
-      // Un clic sur le diacritique juste après est accepté car searchIndex
-      // remonte automatiquement à la lettre porteuse.
-      //
-      // Cas particulier : si le hit.index tombe sur un diacritique (typ. la
-      // shadda d'une lettre avec mad lazim mouthaqqal comme ٱلضَّآلِّينَ), la
-      // VRAIE lettre principale est juste AVANT hit.index. On accepte donc
-      // aussi un clic sur une lettre qui n'est séparée de hit.index que par
-      // des diacritiques (forward walk).
-      //
-      // IMPORTANT : on exige que hit.index lui-même soit un diacritique.
-      // Si hit.index est une lettre, c'est une lettre différente du clic
-      // (par ex. ف après خْ) → on ne doit PAS matcher.
-      const reachesHitStart = (clickPos) => {
-        if (clickPos >= hit.index) return false;
-        if (!isDiacritic(verseText[hit.index])) return false;
-        for (let p = clickPos + 1; p < hit.index; p++) {
-          if (!isDiacritic(verseText[p])) return false;
-        }
-        return true;
-      };
-      const inHit = rule.triggerOnStart
-        ? (index === hit.index || searchIndex === hit.index
-           || reachesHitStart(index) || reachesHitStart(searchIndex))
-        : ((index       >= hit.index && index       < hitEnd)
-        || (searchIndex >= hit.index && searchIndex < hitEnd));
-      if (inHit) {
-        const description = hit.speech || describeOccurrence(verseText.substr(hit.index, hit.length));
-        return {
-          ruleAr: rule.ar,
-          ruleFr: rule.fr,
-          ruleFn: rule.fn,
-          hit,                 // le hit précis (index/length) pour colorier UNIQUEMENT cette occurrence
-          description,
-          speech: `${rule.ar}. ${description}`,
-        };
-      }
+      const inHit = (index       >= hit.index && index       < hitEnd)
+                 || (searchIndex >= hit.index && searchIndex < hitEnd);
+      if (inHit) return makeResult(rule, hit);
     }
   }
   // Aucune règle ne s'applique : on décrit juste le caractère

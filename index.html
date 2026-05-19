@@ -220,7 +220,7 @@
       position: fixed;
       bottom: 1rem;
       z-index: 800;
-      padding: 0.9rem 1.4rem 0.9rem 3.2rem; /* +place à gauche pour le bouton ✕ */
+      padding: 0.9rem 1.4rem 0.9rem 11rem; /* +place à gauche pour ✕ et le toggle Détection */
       background: rgba(255, 251, 230, 0.97);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
@@ -251,6 +251,35 @@
       display: none; /* masqué tant qu'il n'y a rien à effacer */
     }
     #clearAnalysisBtn:hover { color: #c0392b; background: #fff; }
+    #detectionToggleBtn {
+      position: absolute;
+      left: 3rem;
+      top: 50%;
+      transform: translateY(-50%);
+      min-width: 6.5rem;
+      min-height: 2.6rem;
+      padding: 0 0.9rem;
+      border-radius: 1.3rem;
+      border: 2px solid #b0a888;
+      background: #f5efd9;
+      color: #666;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      pointer-events: auto;
+      direction: ltr;
+      box-shadow: inset 1px 1px 3px #c9bf9e, inset -1px -1px 3px #fffbe6;
+      transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
+    }
+    #detectionToggleBtn:hover { background: #ebe3c2; }
+    #detectionToggleBtn[aria-pressed="true"] {
+      background: #c0392b;
+      color: #fff;
+      border-color: #8c2a20;
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.18), inset 0 -2px 4px rgba(0,0,0,0.18);
+    }
+    #detectionToggleBtn[aria-pressed="true"]:hover { background: #b03325; }
     #analysisRule {
       font-family: 'Scheherazade', serif;
       font-size: 2.2rem;
@@ -396,6 +425,8 @@
       <div id="quranContent"></div>
       <div id="analysisPanel">
         <button id="clearAnalysisBtn" type="button" title="Effacer la règle détectée">✕</button>
+        <button id="detectionToggleBtn" type="button" role="switch" aria-pressed="false"
+                title="Activer la détection au clic">🎯 Détection</button>
         <div id="analysisRule"></div>
         <div id="analysisText"></div>
       </div>

@@ -1,4 +1,15 @@
 let shouldSpeakCount = false;
+
+// Mode détection : quand actif, un clic gauche sur une lettre lance directement
+// l'analyse de règle (équivalent au clic droit → "Identifier" sur desktop).
+// Reset à chaque chargement de page (loadPage) — pas de persistance.
+let detectionMode = false;
+function setDetectionMode(on) {
+  detectionMode = !!on;
+  const btn = document.getElementById('detectionToggleBtn');
+  if (btn) btn.setAttribute('aria-pressed', detectionMode ? 'true' : 'false');
+}
+
 // 1) Chargement unique des données d'alignement
 let alignmentData = null;
 loadAlignment('Alafasy_128kbps.json')
@@ -885,12 +896,46 @@ function bindContextDetection() {
   // ouvre le menu contextuel pour agir sur cette lettre.
   let designated = null;
 
-  // CLIC GAUCHE — désigne la lettre sous le curseur (si on est dans un verset)
+  // Logique partagée par le menu contextuel (clic droit) et le mode détection
+  // (clic gauche quand detectionMode est ON). Renvoie true si un hit a été
+  // appliqué (la désignation est alors « consommée » par l'appelant).
+  const performDetection = (target) => {
+    const result = analyzeAt(target.verseText, target.index);
+    showAnalysis(result);
+    if (result.hit) {
+      applyHitToDesignatedVerse(target, result.hit);
+      const marker = document.getElementById('designatedMarker');
+      if (marker) marker.hidden = true;
+      return true;
+    }
+    return false;
+  };
+
+  // CLIC GAUCHE — désigne la lettre sous le curseur (si on est dans un verset).
+  // En mode détection ON : lance directement l'analyse de règle, puis garde
+  // le marqueur bleu visible sur la lettre cliquée (utile quand la règle
+  // colore tout un mot/segment : le marqueur indique précisément la lettre
+  // que l'utilisateur a désignée).
   content.addEventListener('click', (e) => {
     const verseDiv = e.target.closest('.verse');
     if (!verseDiv) return;
     const target = pickCharacterAt(e.clientX, e.clientY);
     if (!target) return;
+    // Si le clic est sur une lettre déjà coloriée (hit existant), on laisse
+    // le mécanisme audio/loupe de .tajweed-overlay agir, sans relancer la
+    // détection (sinon on re-render le verset par-dessus l'overlay actif).
+    const onOverlay = !!e.target.closest('.tajweed-overlay');
+    if (detectionMode && !onOverlay) {
+      performDetection(target);
+      // Le verset peut avoir été re-rendu (si une règle a matché) → le node
+      // d'origine n'est plus dans le DOM. On re-pique à la MÊME position
+      // écran pour retrouver la lettre dans le nouveau DOM et remettre le
+      // marqueur dessus.
+      const refreshed = pickCharacterAt(e.clientX, e.clientY) || target;
+      designated = refreshed;
+      highlightDesignatedLetter(designated);
+      return;
+    }
     designated = target;
     highlightDesignatedLetter(designated);
   });
@@ -921,17 +966,11 @@ function bindContextDetection() {
     if (!btn) return;
     menu.hidden = true;
     if (btn.dataset.action === 'detect' && designated) {
-      const result = analyzeAt(designated.verseText, designated.index);
-      showAnalysis(result);
-      // Si une règle a été identifiée : on colorie UNIQUEMENT le mot/segment
-      // contenant la lettre désignée (le hit spécifique). Les autres versets
-      // de la page et les autres occurrences de la même règle restent
-      // inchangés — c'est une analyse ciblée, pas une recherche globale.
-      if (result.hit) {
-        applyHitToDesignatedVerse(designated, result.hit);
-        const marker = document.getElementById('designatedMarker');
-        if (marker) marker.hidden = true;
-        designated = null; // la désignation a été « consommée »
+      // Analyse ciblée sur la lettre désignée. Si un hit est trouvé, seul ce
+      // mot/segment est colorié (les autres versets et occurrences restent
+      // inchangés). La désignation est consommée si la règle a matché.
+      if (performDetection(designated)) {
+        designated = null;
       }
     }
   });
@@ -3066,6 +3105,8 @@ function loadPage() {
 
       lastLoadedPageNumber = pageNumber;
       updateClearAnalysisBtnVisibility();
+      // Reset du mode détection à chaque changement de page (pas de persistance).
+      setDetectionMode(false);
     })
     .catch((error) => {
       console.error('Une erreur s\'est produite lors de la récupération des données:', error);
@@ -3123,6 +3164,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const clearBtn = document.getElementById('clearAnalysisBtn');
   if (clearBtn) clearBtn.addEventListener('click', clearAnalysisAndHighlights);
   updateClearAnalysisBtnVisibility();
+
+  // Toggle "Détection" : active/désactive le mode où un clic gauche sur une
+  // lettre lance directement l'analyse de règle.
+  const detectionBtn = document.getElementById('detectionToggleBtn');
+  if (detectionBtn) {
+    detectionBtn.addEventListener('click', () => setDetectionMode(!detectionMode));
+  }
 });
 
 function LoadPageBefore() {

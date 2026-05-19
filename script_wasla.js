@@ -50,6 +50,7 @@ async function loadPageWithButton(ruleId, useOptionA = true) {
 
     updateCounters(ruleDetails, totalHits);
     bindAudioOnOverlay(useOptionA);
+    updateClearAnalysisBtnVisibility();
     // L'ancien bindSpeechOnOverlay (clic droit direct sur lettre coloriée) est
     // remplacé par bindContextDetection, monté UNE fois au chargement de la
     // page (cf. DOMContentLoaded). On ne l'appelle donc plus ici.
@@ -722,8 +723,27 @@ function analyzeAt(verseText, index) {
       // QUE si le clic est sur le 1er caractère du hit — la lettre principale.
       // Un clic sur le diacritique juste après est accepté car searchIndex
       // remonte automatiquement à la lettre porteuse.
+      //
+      // Cas particulier : si le hit.index tombe sur un diacritique (typ. la
+      // shadda d'une lettre avec mad lazim mouthaqqal comme ٱلضَّآلِّينَ), la
+      // VRAIE lettre principale est juste AVANT hit.index. On accepte donc
+      // aussi un clic sur une lettre qui n'est séparée de hit.index que par
+      // des diacritiques (forward walk).
+      //
+      // IMPORTANT : on exige que hit.index lui-même soit un diacritique.
+      // Si hit.index est une lettre, c'est une lettre différente du clic
+      // (par ex. ف après خْ) → on ne doit PAS matcher.
+      const reachesHitStart = (clickPos) => {
+        if (clickPos >= hit.index) return false;
+        if (!isDiacritic(verseText[hit.index])) return false;
+        for (let p = clickPos + 1; p < hit.index; p++) {
+          if (!isDiacritic(verseText[p])) return false;
+        }
+        return true;
+      };
       const inHit = rule.triggerOnStart
-        ? (index === hit.index || searchIndex === hit.index)
+        ? (index === hit.index || searchIndex === hit.index
+           || reachesHitStart(index) || reachesHitStart(searchIndex))
         : ((index       >= hit.index && index       < hitEnd)
         || (searchIndex >= hit.index && searchIndex < hitEnd));
       if (inHit) {
@@ -783,7 +803,68 @@ function showAnalysis(result) {
       : '';
   }
   if (txtDiv) txtDiv.textContent = result.description;
+  updateClearAnalysisBtnVisibility();
   speakText(result.speech);
+}
+
+/**
+ * Vide le panneau d'analyse, masque le marqueur de lettre désignée,
+ * et retire les effets couleur/loupe (.tajweed-letter) sur les versets
+ * qui ont été coloriés par une détection précédente, en les re-rendant
+ * sans hit.
+ */
+function clearAnalysisAndHighlights() {
+  // 1) coupe toute lecture vocale en cours
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if (window._currentQuranAudio) {
+    clearTimeout(window._currentQuranAudio._pauseTimer);
+    window._currentQuranAudio.pause();
+    window._currentQuranAudio = null;
+  }
+
+  // 2) vide le panneau d'analyse
+  const ruleDiv = document.getElementById('analysisRule');
+  const txtDiv  = document.getElementById('analysisText');
+  if (ruleDiv) ruleDiv.textContent = '';
+  if (txtDiv)  txtDiv.textContent  = '';
+
+  // 3) masque le marqueur de lettre désignée
+  const marker = document.getElementById('designatedMarker');
+  if (marker) marker.hidden = true;
+
+  // 4) retire couleur/loupe : pour chaque .verse contenant un .tajweed-letter,
+  //    re-render le verset sans hit (récupère sura/aya/text depuis data-*)
+  const colored = new Set();
+  document.querySelectorAll('#quranContent .verse .tajweed-letter')
+    .forEach(el => {
+      const v = el.closest('.verse');
+      if (v) colored.add(v);
+    });
+  colored.forEach(verseDiv => {
+    const sura = +verseDiv.dataset.sura;
+    const aya  = +verseDiv.dataset.aya;
+    const text = verseDiv.dataset.text;
+    if (!text) return;
+    const newDiv = renderVerseWithHighlight({ sura, aya, text }, []);
+    verseDiv.replaceWith(newDiv);
+  });
+
+  updateClearAnalysisBtnVisibility();
+}
+
+/**
+ * Affiche le bouton ✕ uniquement s'il y a quelque chose à effacer
+ * (texte dans le panneau OU couleur/loupe active dans la page).
+ */
+function updateClearAnalysisBtnVisibility() {
+  const btn = document.getElementById('clearAnalysisBtn');
+  if (!btn) return;
+  const ruleDiv = document.getElementById('analysisRule');
+  const txtDiv  = document.getElementById('analysisText');
+  const hasText = (ruleDiv && ruleDiv.textContent.trim() !== '')
+               || (txtDiv  && txtDiv.textContent.trim()  !== '');
+  const hasColor = !!document.querySelector('#quranContent .verse .tajweed-letter');
+  btn.style.display = (hasText || hasColor) ? 'block' : 'none';
 }
 
 /**
@@ -1486,7 +1567,11 @@ function applyLaazim_K_Thaqqal(verse) {
   const words = verse.split(' ');
 
   const speechFor = (absIdx) => {
-    const letter = verse[absIdx];
+    // Si absIdx pointe sur un diacritique (typ. shadda entre la lettre
+    // principale et la voyelle), on remonte jusqu'à la vraie lettre.
+    let p = absIdx;
+    while (p >= 0 && isDiacritic(verse[p])) p--;
+    const letter = (p >= 0 ? verse[p] : verse[absIdx]) || '';
     const name = LETTER_NAMES[letter] || letter;
     return `مد لازم كلمي مثقل على حرف ${name}`;
   };
@@ -1547,7 +1632,9 @@ function applyLaazim_K_Khaffaf(verse) {
   const words = verse.split(' ');
 
   const speechFor = (absIdx) => {
-    const letter = verse[absIdx];
+    let p = absIdx;
+    while (p >= 0 && isDiacritic(verse[p])) p--;
+    const letter = (p >= 0 ? verse[p] : verse[absIdx]) || '';
     const name = LETTER_NAMES[letter] || letter;
     return `مد لازم كلمي مخفف على حرف ${name}`;
   };
@@ -1663,7 +1750,9 @@ function applyMounfasil(verse) {
   // pour inclure la lettre porteuse de la voyelle, et non commencer sur la
   // voyelle elle-même). Cohérent avec Mad muttasil / Mad tabii.
   const speechFor = (idx) => {
-    const letter = verse[idx];
+    let p = idx;
+    while (p >= 0 && isDiacritic(verse[p])) p--;
+    const letter = (p >= 0 ? verse[p] : verse[idx]) || '';
     const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[letter]) || letter;
     return `مد منفصل على حرف ${name}`;
   };
@@ -1738,7 +1827,9 @@ function applyMouttasil(verse) {
   // pour qu'il commence sur le caractère porteur de la voyelle, et non sur
   // la voyelle elle-même).
   const speechFor = (idx) => {
-    const letter = verse[idx];
+    let p = idx;
+    while (p >= 0 && isDiacritic(verse[p])) p--;
+    const letter = (p >= 0 ? verse[p] : verse[idx]) || '';
     const name = (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[letter]) || letter;
     return `مد متصل على حرف ${name}`;
   };
@@ -2948,6 +3039,15 @@ function loadPage() {
   getPageVerses(pageNumber)
     .then((verses) => {
       quranContent.innerHTML = '';
+      // Changement de page → la règle précédemment détectée n'est plus
+      // pertinente : on vide le panneau d'analyse et on masque le bouton ✕.
+      const ruleDiv = document.getElementById('analysisRule');
+      const txtDiv  = document.getElementById('analysisText');
+      if (ruleDiv) ruleDiv.textContent = '';
+      if (txtDiv)  txtDiv.textContent  = '';
+      const marker = document.getElementById('designatedMarker');
+      if (marker) marker.hidden = true;
+
       const pageDiv = document.createElement('div');
       pageDiv.textContent = `Page : ${pageNumber}`;
       quranContent.appendChild(pageDiv);
@@ -2964,6 +3064,7 @@ function loadPage() {
       });
 
       lastLoadedPageNumber = pageNumber;
+      updateClearAnalysisBtnVisibility();
     })
     .catch((error) => {
       console.error('Une erreur s\'est produite lors de la récupération des données:', error);
@@ -3016,6 +3117,11 @@ document.addEventListener('DOMContentLoaded', () => {
   bindContextDetection();
   positionAnalysisPanel();
   window.addEventListener('resize', positionAnalysisPanel);
+
+  // Bouton ✕ : efface règle détectée + couleur/loupe en page
+  const clearBtn = document.getElementById('clearAnalysisBtn');
+  if (clearBtn) clearBtn.addEventListener('click', clearAnalysisAndHighlights);
+  updateClearAnalysisBtnVisibility();
 });
 
 function LoadPageBefore() {

@@ -203,6 +203,130 @@ function applyOverlay(text, verse, groups, offsets) {
   return result;
 }
 
+// ————————————————————————————————————————————————————————————
+//  Coloration de base permanente (Phases A + B + C)
+// ————————————————————————————————————————————————————————————
+
+// Charte de couleurs (palette du Mushaf en tajwid)
+const COLOR_MAD_4_TEMPS   = '#E91E63'; // rose  : mad muttasil / munfasil
+const COLOR_MAD_6_TEMPS   = '#CC0000'; // rouge : mad laazim (4 variantes)
+const COLOR_MAD_ARID      = '#FF8C00'; // orange: mad ʿarid lis-sukoun
+const COLOR_GHUNNA        = '#1E7A1E'; // vert  : règles avec nasillement
+const COLOR_QALQALA       = '#001F5F'; // bleu marine
+const COLOR_EMPHATIC      = '#4169E1'; // bleu foncé (différencié du marine)
+
+const ALWAYS_EMPHATIC_SET = new Set(['خ','ص','ض','غ','ط','ق','ظ']);
+
+/**
+ * Calcule la couleur de chaque position du verseText selon les règles
+ * de tajwid. La priorité (du plus fort au plus faible) :
+ *   1. Mads (rose / rouge / orange)
+ *   2. Qalqala (bleu marine)
+ *   3. Ghunna (vert)
+ *   4. Lettres emphatiques (bleu foncé) — fallback
+ *
+ * Retourne un tableau de la longueur de verseText, contenant la couleur
+ * (string CSS) ou null pour chaque position.
+ */
+function computeBaseColors(verseText) {
+  const colorAt = new Array(verseText.length).fill(null);
+
+  const applyHits = (hits, color) => {
+    for (const h of hits || []) {
+      const end = Math.min(h.index + h.length, verseText.length);
+      for (let p = h.index; p < end; p++) {
+        if (colorAt[p] === null) colorAt[p] = color; // first wins
+      }
+    }
+  };
+
+  // 1) Mads (priorité la plus haute — pédagogiquement les plus saillants)
+  applyHits(applyMouttasil(verseText),     COLOR_MAD_4_TEMPS);
+  applyHits(applyMounfasil(verseText),     COLOR_MAD_4_TEMPS);
+  applyHits(applyLaazim_K_Thaqqal(verseText), COLOR_MAD_6_TEMPS);
+  applyHits(applyLaazim_K_Khaffaf(verseText), COLOR_MAD_6_TEMPS);
+  applyHits(applyLaazim_H_Thaqqal(verseText), COLOR_MAD_6_TEMPS);
+  applyHits(applyLaazim_H_Khaffaf(verseText), COLOR_MAD_6_TEMPS);
+  applyHits(applyWaqfSoukounRule(verseText),  COLOR_MAD_ARID);
+
+  // 2) Qalqala
+  applyHits(findKalkalaInVerse(verseText), COLOR_QALQALA);
+
+  // 3) Ghunna (toutes les règles à nasillement)
+  applyHits(applyIdghamGhounaRule(verseText),  COLOR_GHUNNA);
+  applyHits(applyIqlabRule(verseText),         COLOR_GHUNNA);
+  applyHits(applyIkhfaRule(verseText),         COLOR_GHUNNA);
+  applyHits(applyNounSheddaRule(verseText),    COLOR_GHUNNA);
+  applyHits(applyMimSheddaRule(verseText),     COLOR_GHUNNA);
+  applyHits(applyIdghamShafawiRule(verseText), COLOR_GHUNNA);
+  applyHits(applyIkhfaShafawiRule(verseText),  COLOR_GHUNNA);
+
+  // 4) Lettres emphatiques (toujours) — uniquement les positions encore vides
+  for (let i = 0; i < verseText.length; i++) {
+    if (colorAt[i] === null && ALWAYS_EMPHATIC_SET.has(verseText[i])) {
+      colorAt[i] = COLOR_EMPHATIC;
+    }
+  }
+
+  return colorAt;
+}
+
+/**
+ * Post-traite le HTML produit par applyOverlay pour appliquer la coloration
+ * de base permanente. Walke le HTML et le verseText en parallèle pour mapper
+ * les positions, en évitant les zones déjà à l'intérieur d'un <span
+ * class="tajweed-letter"> (surlignage rouge actif via !important — prime).
+ */
+function applyBaseTajwidColors(html, verseText) {
+  const colorAt = computeBaseColors(verseText);
+
+  const out = [];
+  const stack = [];   // type des spans ouverts
+  let i = 0;          // position dans le html
+  let v = 0;          // position dans le verseText
+  let currentColor = null;
+
+  const closeCurrent = () => {
+    if (currentColor !== null) {
+      out.push('</span>');
+      currentColor = null;
+    }
+  };
+
+  while (i < html.length) {
+    if (html[i] === '<') {
+      closeCurrent();
+      const end = html.indexOf('>', i);
+      if (end === -1) { out.push(html.slice(i)); break; }
+      const tag = html.slice(i, end + 1);
+      out.push(tag);
+      if (tag.startsWith('</')) {
+        if (stack.length) stack.pop();
+      } else if (!tag.endsWith('/>')) {
+        stack.push(tag.includes('class="tajweed-letter"') ? 'letter' : 'other');
+      }
+      i = end + 1;
+    } else {
+      const ch = html[i];
+      const inLetter = stack.includes('letter');
+      const color = inLetter ? null : (colorAt[v] || null);
+
+      if (color !== currentColor) {
+        closeCurrent();
+        if (color !== null) {
+          out.push(`<span class="tajweed-base" style="color:${color}">`);
+          currentColor = color;
+        }
+      }
+      out.push(ch);
+      i++;
+      v++;
+    }
+  }
+  closeCurrent();
+  return out.join('');
+}
+
 /**
  * 6) Refonte de renderVerseWithHighlight en 6 lignes claires.
  *
@@ -215,7 +339,10 @@ function renderVerseWithHighlight(verse, hits) {
   const offsets = computeOffsets(text);
   const hitInfos= enrichHits(hits, offsets);
   const groups  = groupHitInfos(hitInfos);
-  const html    = applyOverlay(text, verse, groups, offsets);
+  let   html    = applyOverlay(text, verse, groups, offsets);
+  // Coloration de base permanente (lettres emphatiques en bleu foncé) :
+  // appliquée APRÈS applyOverlay pour ne pas casser les offsets des hits.
+  html = applyBaseTajwidColors(html, text);
 
   const vDiv = document.createElement('div');
   vDiv.className = 'verse';

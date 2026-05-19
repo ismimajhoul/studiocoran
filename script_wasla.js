@@ -1843,9 +1843,10 @@ function applyMouttasil(verse) {
   {
     const charCode = verse.charCodeAt(i);
 
-    // Scénario 1 : letter + vowel + alif/waw/ya + maddah + hamza ء + vowel
+    // Scénario 1 : letter + vowel + alif/waw/ya + maddah + hamza (ء ou ئ) + vowel
     // Hit étendu d'1 caractère pour inclure la lettre principale (i-4).
-    if (charCode === 0x621 &&
+    // ئ (0x626) accepté pour des mots comme ٱلسَّرَآئِرُ / شَعَآئِر / نِسَآئِك.
+    if ((charCode === 0x621 || charCode === 0x626) &&
       (checkFathaDammaKasra(verse.charCodeAt(i + 1)) || verse.charCodeAt(i + 1) === 0x64B) &&
       verse.charCodeAt(i - 1) === 0x653 &&
       (verse.charCodeAt(i - 2) === 0x627 || verse.charCodeAt(i - 2) === 0x648 || verse.charCodeAt(i - 2) === 0x64A || verse.charCodeAt(i - 2) === 0x670) &&

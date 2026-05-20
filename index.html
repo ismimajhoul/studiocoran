@@ -152,6 +152,137 @@
       font-size: 1rem;
       color: #666;
     }
+    #content .header .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    #qrShareBtn {
+      width: 2.4rem;
+      height: 2.4rem;
+      border-radius: 50%;
+      border: none;
+      background: inherit;
+      font-size: 1.2rem;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 3px 3px 6px #a1b0b9, -3px -3px 6px #ffffff;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    #qrShareBtn:hover { transform: translateY(-1px); }
+    #qrShareBtn:active {
+      box-shadow: inset 2px 2px 4px #a1b0b9, inset -2px -2px 4px #ffffff;
+      transform: translateY(0);
+    }
+
+    /* SHARE MODAL — popup QR + lien copiable + partage natif */
+    .share-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .share-modal[hidden] { display: none; }
+    .share-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+    }
+    .share-modal-content {
+      position: relative;
+      background: #fdf6e3;
+      border: 2px solid #d4b86a;
+      border-radius: 1.2rem;
+      padding: 1.5rem 1.4rem 1.2rem;
+      width: min(92vw, 22rem);
+      box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+      text-align: center;
+      animation: shareModalIn .18s ease-out;
+    }
+    @keyframes shareModalIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.96); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .share-modal-close {
+      position: absolute;
+      top: 0.6rem;
+      right: 0.7rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0, 0, 0, 0.06);
+      color: #555;
+      font-size: 1.05rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .share-modal-close:hover { background: rgba(0, 0, 0, 0.12); color: #000; }
+    .share-modal-content h2 {
+      font-size: 1.25rem;
+      color: #3a2a14;
+      margin: 0 0 0.9rem;
+    }
+    #shareModalQr {
+      display: block;
+      margin: 0 auto 0.8rem;
+      width: 260px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.5rem;
+      background: #fff;
+      padding: 0.4rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+    .share-modal-url {
+      font-family: ui-monospace, Menlo, Consolas, monospace;
+      font-size: 0.85rem;
+      background: rgba(58, 42, 20, 0.85);
+      color: #fff;
+      padding: 0.45rem 0.7rem;
+      border-radius: 1rem;
+      margin: 0.6rem auto;
+      word-break: break-all;
+      max-width: 100%;
+    }
+    .share-modal-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-top: 0.7rem;
+      flex-wrap: wrap;
+    }
+    .share-btn {
+      flex: 1 1 auto;
+      min-height: 2.4rem;
+      padding: 0 0.9rem;
+      border-radius: 0.6rem;
+      border: 1px solid #c0a868;
+      background: #fffaea;
+      color: #3a2a14;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .12s ease, transform .12s ease;
+    }
+    .share-btn:hover { background: #f1e7c4; }
+    .share-btn:active { transform: scale(0.97); }
+    .share-btn-primary {
+      background: #c0392b;
+      border-color: #8c2a20;
+      color: #fff;
+    }
+    .share-btn-primary:hover { background: #b03325; }
+    .share-modal-tagline {
+      color: #826f4b;
+      font-size: 0.85rem;
+      margin: 0.9rem 0 0;
+      font-style: italic;
+    }
 
     /* PAGE CONTROLS - UNIFORM HEIGHT */
     .page-controls {
@@ -413,7 +544,10 @@
     <div id="content">
       <div class="header">
         <h1>ستوديو القرآن</h1>
-        <span>Studio Coran</span>
+        <div class="header-right">
+          <span>Studio Coran</span>
+          <button id="qrShareBtn" type="button" title="Partager l'application" aria-label="Partager">📱</button>
+        </div>
       </div>
       <div class="page-controls">
         <button onclick="LoadPageBefore()">Avant</button>
@@ -445,6 +579,25 @@
     <button class="ctxItem" data-action="play-word">▶ Écouter le mot</button>
     <button class="ctxItem" data-action="neighbors">📋 Règles voisines</button>
     -->
+  </div>
+
+  <!-- Modal de partage : QR code + lien copiable + partage natif -->
+  <div id="shareModal" class="share-modal" hidden>
+    <div class="share-modal-backdrop"></div>
+    <div class="share-modal-content" role="dialog" aria-labelledby="shareModalTitle" aria-modal="true">
+      <button class="share-modal-close" type="button" aria-label="Fermer">✕</button>
+      <h2 id="shareModalTitle">Partager StudioCoran</h2>
+      <img id="shareModalQr"
+           src="https://api.qrserver.com/v1/create-qr-code/?data=https%3A%2F%2Fstudiocoran.alwaysdata.net%2F&size=260x260&margin=10"
+           alt="QR code vers studiocoran.alwaysdata.net"
+           width="260" height="260">
+      <div class="share-modal-url" id="shareModalUrl">https://studiocoran.alwaysdata.net/</div>
+      <div class="share-modal-actions">
+        <button type="button" id="shareCopyBtn" class="share-btn">📋 Copier le lien</button>
+        <button type="button" id="shareNativeBtn" class="share-btn share-btn-primary">📤 Partager</button>
+      </div>
+      <p class="share-modal-tagline">Une aide visuelle pour étudier le tajwid</p>
+    </div>
   </div>
 
   <script src="utilitaires.js"></script>

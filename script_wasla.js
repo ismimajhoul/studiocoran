@@ -3187,7 +3187,72 @@ document.addEventListener('DOMContentLoaded', () => {
   if (detectionBtn) {
     detectionBtn.addEventListener('click', () => setDetectionMode(!detectionMode));
   }
+
+  // Bouton QR / Partage : ouvre un modal avec le QR code, le lien copiable
+  // et le bouton de partage natif (navigator.share). Le bouton "Partager"
+  // n'est affiché que si l'API est disponible (typiquement sur mobile).
+  setupShareModal();
 });
+
+function setupShareModal() {
+  const openBtn   = document.getElementById('qrShareBtn');
+  const modal     = document.getElementById('shareModal');
+  const closeBtn  = modal && modal.querySelector('.share-modal-close');
+  const backdrop  = modal && modal.querySelector('.share-modal-backdrop');
+  const copyBtn   = document.getElementById('shareCopyBtn');
+  const nativeBtn = document.getElementById('shareNativeBtn');
+  const urlBox    = document.getElementById('shareModalUrl');
+  if (!openBtn || !modal) return;
+
+  const shareUrl   = (urlBox && urlBox.textContent.trim()) || location.origin + '/';
+  const shareTitle = 'StudioCoran';
+  const shareText  = 'Une aide visuelle pour étudier le tajwid';
+
+  const open  = () => { modal.hidden = false; };
+  const close = () => { modal.hidden = true;  };
+
+  openBtn.addEventListener('click', open);
+  if (closeBtn) closeBtn.addEventListener('click', close);
+  if (backdrop) backdrop.addEventListener('click', close);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !modal.hidden) close();
+  });
+
+  if (copyBtn) {
+    copyBtn.addEventListener('click', async () => {
+      const original = copyBtn.textContent;
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        copyBtn.textContent = '✓ Lien copié';
+      } catch {
+        // Fallback : sélection + execCommand pour les très vieux navigateurs.
+        const ta = document.createElement('textarea');
+        ta.value = shareUrl;
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); copyBtn.textContent = '✓ Lien copié'; }
+        catch { copyBtn.textContent = '⚠ Échec de la copie'; }
+        document.body.removeChild(ta);
+      }
+      setTimeout(() => { copyBtn.textContent = original; }, 1800);
+    });
+  }
+
+  if (nativeBtn) {
+    if (navigator.share) {
+      nativeBtn.addEventListener('click', async () => {
+        try {
+          await navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+        } catch { /* utilisateur a annulé : pas un échec */ }
+      });
+    } else {
+      // Pas de partage natif (desktop sans Web Share API) → on masque le
+      // bouton, le bouton "Copier" suffit pour partager.
+      nativeBtn.hidden = true;
+    }
+  }
+}
 
 function LoadPageBefore() {
   const input = document.getElementById('pageNumberInput');

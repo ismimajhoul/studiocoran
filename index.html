@@ -404,6 +404,27 @@
       background: #2e7d32;
       color: #fff;
     }
+    /* 2e bouton : copy de l'info COMPLÈTE multi-ligne (pour notes/IDE).
+       Placé en haut de la colonne gauche (à côté de ✕ si visible). */
+    #copyAnalysisFullBtn {
+      position: absolute;
+      left: 0.6rem;
+      top: 0.55rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: none;
+      background: #f1e8c8;
+      color: #777;
+      font-size: 0.85rem;
+      line-height: 1;
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: inset 2px 2px 4px #c9bf9e, inset -2px -2px 4px #fffbe6;
+      transition: background .15s ease, color .15s ease;
+    }
+    #copyAnalysisFullBtn:hover { background: #fff; color: #2e7d32; }
+    #copyAnalysisFullBtn.copied { background: #2e7d32; color: #fff; }
     .analysis-toggles {
       position: absolute;
       left: 3rem;
@@ -618,7 +639,8 @@
       <div id="quranContent"></div>
       <div id="analysisPanel">
         <button id="clearAnalysisBtn" type="button" title="Effacer la règle détectée">✕</button>
-        <button id="copyAnalysisBtn" type="button" title="Copier le contenu du panneau">📋</button>
+        <button id="copyAnalysisBtn" type="button" title="Copier le verbe au passé (pour Almaany/Google)">📋</button>
+        <button id="copyAnalysisFullBtn" type="button" title="Copier toutes les infos (pour notes)">📄</button>
         <div class="analysis-toggles">
           <button id="detectionToggleBtn" type="button" role="switch" aria-pressed="false"
                   title="Activer la détection au clic">

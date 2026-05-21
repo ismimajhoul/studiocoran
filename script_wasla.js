@@ -988,14 +988,20 @@ function computeWaznPresent(formNum, rootAr, presentForm) {
 
   if (formNum === 1) {
     if (r2 === r3)          return 'يَفُلُّ';                      // géminé
-    if (r2_weak && r3_weak) return r3 === 'ي' ? 'يَفْعِي' : 'يَفْعُو';
-    if (r3 === 'ي')         return 'يَفْعِي';                       // défectueux ي
-    if (r3 === 'و')         return 'يَفْعُو';                       // défectueux و
-    // Sain et creux : on détecte la voyelle opérative depuis la forme
-    // surface (Qutrub). Pour creux, c'est la voyelle qui suit R1 ; pour
-    // sain, c'est celle qui suit R2.
+    if (r2_weak && r3_weak) return r3 === 'ي' ? 'يَفْعِي' : 'يَفْعُو'; // Lafif
+    // Sain, creux, défectueux : détection commune de la voyelle opérative
+    // depuis la forme surface. On retourne TOUJOURS le wazn abstrait
+    // (يَفْعُلُ/يَفْعِلُ/يَفْعَلُ avec ل visible), pas une variante surface.
     if (presentForm) {
-      const idx = presentForm.indexOf(r1, 1);
+      // R1 peut apparaître sous variantes hamza (ا/أ/إ/آ) dans la forme
+      // surface alors que la racine du corpus a la version "abstraite"
+      // (souvent ا). On normalise pour la recherche.
+      const hamzas = new Set(['ا', 'أ', 'إ', 'آ']);
+      const sameLetter = (a, b) => a === b || (hamzas.has(a) && hamzas.has(b));
+      let idx = -1;
+      for (let i = 1; i < presentForm.length; i++) {
+        if (sameLetter(presentForm[i], r1)) { idx = i; break; }
+      }
       if (idx >= 0) {
         for (let i = idx + 1; i < presentForm.length; i++) {
           const c = presentForm[i];
@@ -1074,11 +1080,27 @@ function formatFeaturesAr(features) {
   return parts.join(' · ');
 }
 
-// "ع ب د" → "جذر الفعل: عين باء دال"
-function buildRootSpeech(rootAr) {
+// Construit la phrase TTS : racine (lettre par lettre) → wazns abstraits
+// → conjugaisons réelles. Donne l'identité morphologique complète du verbe.
+// Ex : "جذر الفعل: ألف تاء ياء. وزن الماضي: فَعَلَ. وزن المضارع: يَفْعِلُ.
+//       الماضي: أَتَى. المضارع: يَأْتِي. الأمر: اِئْتِ. المصدر: إِتْيَان."
+function buildRootSpeech(rootAr, data, waznPast, waznPres) {
   const letters = rootAr.split(/\s+/).filter(Boolean);
   const names = letters.map(l => (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[l]) || l);
-  return `جذر الفعل: ${names.join(' ')}`;
+  let phrase = `جذر الفعل: ${names.join(' ')}`;
+  if (waznPast) phrase += `. وزن الماضي: ${waznPast}`;
+  if (waznPres) phrase += `. وزن المضارع: ${waznPres}`;
+  if (data) {
+    const past   = data.past_3ms       || data.lemma_ar || null;
+    const pres   = data.present_3ms    || null;
+    const impv   = data.imperative_2ms || null;
+    const masdar = data.masdar         || null;
+    if (past)   phrase += `. الماضي: ${past}`;
+    if (pres)   phrase += `. المضارع: ${pres}`;
+    if (impv)   phrase += `. الأمر: ${impv}`;
+    if (masdar) phrase += `. المصدر: ${masdar}`;
+  }
+  return phrase;
 }
 
 function showEtymologyAnalysis(data) {
@@ -1108,9 +1130,16 @@ function showEtymologyAnalysis(data) {
   const pastForm   = data.past_3ms          || data.lemma_ar || null;
   const presForm   = data.present_3ms       || null;
   const imperForm  = data.imperative_2ms    || null;
-  // Masdar et participes : convention dictionnaire — on ajoute le tanwin
-  // damma ٌ pour marquer l'indéfini nominatif (forme citationnelle des noms).
-  const withTanwin = (s) => s ? s + 'ٌ' : null;
+  // Masdar et participes : convention dictionnaire — tanwin damma ٌ pour
+  // marquer l'indéfini nominatif. Mais on N'ajoute PAS de tanwin si la
+  // forme est défectueuse (déjà se termine en ٍ/ً/ى — convention spécifique
+  // aux noms défectueux comme مُنَادٍ, مُنَادًى).
+  const withTanwin = (s) => {
+    if (!s) return null;
+    if (/[ًٌٍ]$/.test(s)) return s;   // déjà tanwiné
+    if (s.endsWith('ى')) return s;    // alif maksura final (forme défective)
+    return s + 'ٌ';
+  };
   const masdar     = withTanwin(data.masdar);
   const actPart    = withTanwin(data.active_participle);
   const passPart   = withTanwin(data.passive_participle);
@@ -1147,7 +1176,7 @@ function showEtymologyAnalysis(data) {
   updateClearAnalysisBtnVisibility();
 
   // TTS arabe des lettres de la racine (à affiner avec l'aide d'arabophone)
-  speakText(buildRootSpeech(data.root_ar));
+  speakText(buildRootSpeech(data.root_ar, data, waznPast, waznPres));
 }
 
 /**
@@ -3465,31 +3494,78 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clearBtn) clearBtn.addEventListener('click', clearAnalysisAndHighlights);
   updateClearAnalysisBtnVisibility();
 
-  // Bouton 📋 : copie le contenu du panneau d'analyse (règle + description).
-  // Le panneau a pointer-events: none → la sélection texte n'est pas possible,
-  // d'où la nécessité d'un bouton dédié.
-  const copyBtn = document.getElementById('copyAnalysisBtn');
-  if (copyBtn) copyBtn.addEventListener('click', async () => {
+  // Helpers internes pour extraire le contenu structuré du panneau
+  const extractPanelLines = () => {
     const ruleDiv = document.getElementById('analysisRule');
     const txtDiv  = document.getElementById('analysisText');
     const lines = [];
-    if (ruleDiv && ruleDiv.textContent.trim()) lines.push(ruleDiv.textContent.trim());
-    if (txtDiv  && txtDiv.textContent.trim())  lines.push(txtDiv.textContent.trim());
-    const text = lines.join('\n');
+    if (ruleDiv) {
+      const root = Array.from(ruleDiv.childNodes)
+        .filter(n => n.nodeType === Node.TEXT_NODE)
+        .map(n => n.textContent.trim())
+        .filter(Boolean).join(' ');
+      if (root) lines.push(root);
+      ruleDiv.querySelectorAll('.ety-morph-line').forEach(span => {
+        const t = span.textContent.trim();
+        if (t) lines.push(t);
+      });
+    }
+    if (txtDiv) {
+      const ar = Array.from(txtDiv.childNodes)
+        .filter(n => n.nodeType === Node.TEXT_NODE)
+        .map(n => n.textContent.trim())
+        .filter(Boolean).join(' ');
+      if (ar) lines.push(ar);
+      const frSpan = txtDiv.querySelector('.ety-fr-line');
+      if (frSpan) {
+        const f = frSpan.textContent.trim();
+        if (f) lines.push(f);
+      }
+    }
+    return lines;
+  };
+  // Extrait le 1er verbe (passé 3MS) de la ligne "الماضي: X · المضارع: ..."
+  const extractPastForm = () => {
+    const lines = extractPanelLines();
+    for (const l of lines) {
+      // Cherche "الماضي:" ou "الماضي :" suivi d'un mot
+      const m = l.match(/الماضي\s*[:：]\s*([^·]+)/);
+      if (m) return m[1].trim().replace(/[ٌٍ]$/, ''); // strip tanwin final
+    }
+    return null;
+  };
+  // Fonction de copie commune (factorisée pour les 2 boutons)
+  const copyToClipboard = async (text, btn) => {
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
     } catch {
-      // Fallback pour vieux navigateurs
       const ta = document.createElement('textarea');
       ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
       try { document.execCommand('copy'); } catch {}
       document.body.removeChild(ta);
     }
-    // Feedback visuel : le bouton vert pendant 1.2s
-    copyBtn.classList.add('copied');
-    setTimeout(() => copyBtn.classList.remove('copied'), 1200);
+    btn.classList.add('copied');
+    setTimeout(() => btn.classList.remove('copied'), 1200);
+  };
+
+  // 📋 Bouton "copy verbe au passé" — pour paste dans Almaany, Google, etc.
+  // Copie uniquement la forme citationnelle (passé 3MS sans tanwin) pour
+  // que le paste dans un moteur de recherche / dico marche directement.
+  const copyBtn = document.getElementById('copyAnalysisBtn');
+  if (copyBtn) copyBtn.addEventListener('click', async () => {
+    const past = extractPastForm();
+    if (past) await copyToClipboard(past, copyBtn);
+  });
+
+  // 📄 Bouton "copy info complète" — pour paste dans VS Code / Notion / notes.
+  // Format multi-ligne avec toutes les sections.
+  const copyFullBtn = document.getElementById('copyAnalysisFullBtn');
+  if (copyFullBtn) copyFullBtn.addEventListener('click', async () => {
+    const lines = extractPanelLines();
+    const text = lines.join('\n');
+    if (text) await copyToClipboard(text, copyFullBtn);
   });
 
   // Toggle "Détection" : active/désactive le mode où un clic gauche sur une

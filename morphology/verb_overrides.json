@@ -1,0 +1,59 @@
+{
+  "_comment": "Surcharges manuelles pour les annotations du Quranic Arabic Corpus. Format clé: 'sura:aya:word_position'. Valeurs prennent priorité sur les features du corpus lors de l'enrich.",
+
+  "_examples": {
+    "79:20:1": {
+      "verb_form": 4,
+      "lemma_buck": ">arayo",
+      "comment": "أَرَى Form IV (montrer), pas Form I (voir). Contexte: 'Il lui montra le grand signe'"
+    },
+    "8:43:8": {
+      "verb_form": 4,
+      "lemma_buck": ">arayo",
+      "comment": "Form IV (Allah te montra) plutôt que Form I (Allah te vit)"
+    }
+  },
+
+  "79:20:1": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo",
+    "comment": "Form IV : فَأَرَىٰهُ ٱلْءَايَةَ ٱلْكُبْرَىٰ — 'il lui montra le grand signe'"
+  },
+  "8:43:8": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo",
+    "comment": "Form IV : ٱللَّهُ فِى مَنَامِكَ — 'Allah te les a montrés en songe'"
+  },
+  "11:84:19": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  },
+  "12:36:8": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  },
+  "12:36:14": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  },
+  "12:43:4": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  },
+  "27:20:7": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  },
+  "37:102:8": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  },
+  "40:29:21": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  },
+  "46:23:11": {
+    "verb_form": 4,
+    "lemma_buck": ">arayo"
+  }
+}

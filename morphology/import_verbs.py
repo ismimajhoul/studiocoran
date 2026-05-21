@@ -16,11 +16,23 @@ Usage :
     → produit quran_morphology_verbs.sql à côté
 """
 
+import json
 import os
 import re
 
 INPUT_FILE  = os.path.join(os.path.dirname(__file__), 'quranic-corpus-morphology-0.4.txt')
+OVERRIDES_FILE = os.path.join(os.path.dirname(__file__), 'verb_overrides.json')
 OUTPUT_FILE = os.path.join(os.path.dirname(__file__), 'quran_morphology_verbs.sql')
+
+def load_overrides():
+    """Lit verb_overrides.json : surcharges manuelles des annotations du corpus
+    pour des versets spécifiques. Format clé: 'sura:aya:word_position'.
+    On ignore les clés commençant par '_' (commentaires/exemples)."""
+    if not os.path.exists(OVERRIDES_FILE):
+        return {}
+    with open(OVERRIDES_FILE, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return {k: v for k, v in data.items() if not k.startswith('_')}
 
 # ─────────────────────────────────────────────────────────────────────────
 # Buckwalter → Unicode arabe
@@ -94,6 +106,10 @@ def root_to_spaced(buck_root):
     return ' '.join(buck_to_ar(c) for c in buck_root)
 
 def main():
+    overrides = load_overrides()
+    print(f'Overrides manuels chargés : {len(overrides)}')
+    overrides_applied = 0
+
     rows = []
     skipped_no_root = 0
     with open(INPUT_FILE, 'r', encoding='utf-8') as f:
@@ -114,19 +130,33 @@ def main():
             if not f_info['root']:
                 skipped_no_root += 1
                 continue
+
+            # Application des overrides manuels (clé sura:aya:word, sans segment)
+            ov_key = f'{sura}:{aya}:{word}'
+            verb_form = f_info['form_num']
+            lemma_buck = f_info['lemma']
+            if ov_key in overrides:
+                ov = overrides[ov_key]
+                if 'verb_form' in ov:
+                    verb_form = ov['verb_form']
+                if 'lemma_buck' in ov:
+                    lemma_buck = ov['lemma_buck']
+                overrides_applied += 1
+
             rows.append({
                 'sura': sura, 'aya': aya, 'word': word, 'seg': seg,
                 'form_buck': form_buck,
                 'form_ar':   buck_to_ar(form_buck),
                 'root_buck': f_info['root'],
                 'root_ar':   root_to_spaced(f_info['root']),
-                'verb_form': f_info['form_num'],   # NULL si Form I (implicite)
-                'lemma_buck': f_info['lemma'],
-                'lemma_ar':   buck_to_ar(f_info['lemma']) if f_info['lemma'] else None,
+                'verb_form': verb_form,            # NULL si Form I (implicite)
+                'lemma_buck': lemma_buck,
+                'lemma_ar':   buck_to_ar(lemma_buck) if lemma_buck else None,
                 'features':   '|'.join(f_info['tags']) if f_info['tags'] else None,
             })
 
     print(f'Verbes parsés : {len(rows)}  (sans racine: {skipped_no_root})')
+    print(f'Overrides appliqués : {overrides_applied}')
 
     # Statistiques rapides
     forms_count = {}

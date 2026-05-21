@@ -93,10 +93,79 @@ def extract_unique_verbs(path):
     return seen
 
 # ─────────────────────────────────────────────────────────────────────
-# Heuristique future_type pour Form I
+# Détection future_type — basée sur les données réelles du corpus.
+#
+# Pour Form I sain (ex: فعل, كتب, ضرب), la voyelle de R2 au présent
+# (qui détermine le wazn يَفْعُلُ / يَفْعِلُ / يَفْعَلُ) est LEXICALE — pas
+# de règle générale. Plutôt que de deviner, on l'EXTRAIT directement
+# d'une occurrence IMPF du verbe dans le Coran.
+#
+# Si la racine n'apparaît jamais au présent dans le Coran → on retombe
+# sur l'heuristique (damma par défaut).
 # ─────────────────────────────────────────────────────────────────────
-def guess_future_type(root_letters):
-    """Choix de la haraka du ع du مضارع pour Form I (lexical)."""
+HARAKA_BY_VOWEL = {'a': FATHA, 'u': DAMMA, 'i': KASRA}
+
+def build_root_vowel_map(corpus_path):
+    """Pour chaque racine Form I, détecte la voyelle de R2 au présent à
+    partir d'une occurrence IMPF dans le corpus. Renvoie {root_ar: 'a'|'u'|'i'}.
+    Ignore les racines creuses (R2 faible) où la détection ne s'applique pas."""
+    vowel_map = {}
+    with open(corpus_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            if line.startswith('#') or line.startswith('LOCATION') or not line.strip():
+                continue
+            parts = line.rstrip('\n').split('\t')
+            if len(parts) != 4 or parts[2] != 'V':
+                continue
+            _loc, form_buck, _tag, features = parts
+            tags = features.split('|')
+            if 'IMPF' not in tags: continue
+            # Ignore les formes passives : R2 porte systématiquement fatha au passif
+            # (يُؤْخَذُ → 'a'), ce qui fausse la détection pour des racines comme أخذ
+            # dont la 1re occurrence IMPF dans le corpus est passive.
+            if 'PASS' in tags: continue
+            # Form I uniquement (pas de (II), (III), etc.)
+            form_num = 1
+            for t in tags:
+                m = FORM_RX.match(t)
+                if m: form_num = ROMAN_TO_INT[m.group(1)]; break
+            if form_num != 1: continue
+            # Récupère ROOT
+            root_buck = None
+            for t in tags:
+                if t.startswith('ROOT:'): root_buck = t[5:]; break
+            if not root_buck or len(root_buck) < 3: continue
+            # Racines avec R2 faible (w/y/A) : pas concernées par cette détection
+            r2_buck = root_buck[1]
+            if r2_buck in 'wyA': continue
+            # Détection : trouver R2 dans la forme, voyelle juste après
+            idx = form_buck.find(r2_buck, 1)
+            if idx < 0 or idx + 1 >= len(form_buck): continue
+            next_c = form_buck[idx + 1]
+            if next_c not in 'aui': continue
+            root_ar = root_to_spaced(root_buck)
+            # Ne pas écraser une détection précédente (1re occurrence gagne)
+            if root_ar not in vowel_map:
+                vowel_map[root_ar] = next_c
+    return vowel_map
+
+# Map construite au premier appel (ne dépend que du corpus)
+_ROOT_VOWEL_MAP = None
+def _get_vowel_map():
+    global _ROOT_VOWEL_MAP
+    if _ROOT_VOWEL_MAP is None:
+        _ROOT_VOWEL_MAP = build_root_vowel_map(INPUT_CORPUS)
+    return _ROOT_VOWEL_MAP
+
+def guess_future_type(root_letters, root_ar=None):
+    """Choix de la haraka du ع du مضارع pour Form I.
+    Priorité : (1) donnée corpus si disponible, (2) heuristique sur weak letters."""
+    # 1. Donnée corpus — pour Form I sain principalement
+    if root_ar:
+        vm = _get_vowel_map()
+        if root_ar in vm:
+            return HARAKA_BY_VOWEL[vm[root_ar]]
+    # 2. Heuristique pour creux/défectueux (R2 ou R3 faible)
     if len(root_letters) >= 2:
         r2 = root_letters[1]
         if r2 == 'و': return DAMMA   # creux و → يَفُولُ
@@ -322,22 +391,47 @@ MASDAR_TEMPLATE_HOLLOW = {
     10: 'اِسْتِ{R1}َا{R3}َة',           # اِسْتِقَامَة, اِسْتِعَانَة
     # Form 7 hollow : اِنْقِيَاد (ي surgit), 8 hollow : اِخْتِيَار — moins fréquents
 }
-def compute_masdar(root_letters, verb_form):
+# Lexique des masdars Form I sain (constuit par build_form1_masdars.py
+# à partir d'Arramooz + fallback corpus). Chargé au démarrage du script.
+import json as _json
+_FORM1_MASDAR_LEXICON = None
+def _get_form1_lexicon():
+    global _FORM1_MASDAR_LEXICON
+    if _FORM1_MASDAR_LEXICON is None:
+        lex_path = os.path.join(HERE, 'form1_sain_masdars.json')
+        if os.path.exists(lex_path):
+            with open(lex_path, 'r', encoding='utf-8') as f:
+                _FORM1_MASDAR_LEXICON = _json.load(f)
+        else:
+            _FORM1_MASDAR_LEXICON = {}
+    return _FORM1_MASDAR_LEXICON
+
+def compute_masdar(root_letters, verb_form, root_ar=None):
     if len(root_letters) < 3: return None
     rl = normalize_root_for_qutrub(root_letters)
     r1, r2, r3 = rl[:3]
     is_hollow = r2 in ('و', 'ي')
-    # Form I creux : patron فَعْل très majoritaire (كَيْد, قَوْل, بَيْع, مَوْت)
-    # Pour les autres Form I (sain, défectueux), le masdar est lexical
-    # (différent pour chaque verbe) → laissé NULL.
-    if verb_form == 1 and is_hollow:
+    is_defective = r3 in ('و', 'ي')
+    # Form I :
+    #   - Sain      : lexique Arramooz/corpus (form1_sain_masdars.json) en
+    #                 priorité ; sinon NULL (irrégulier sans dictionnaire).
+    #   - Creux     : template فَعْل (كَيْد, قَوْل, بَيْع)
+    #   - Défectueux: template فَعْل approximatif (رَمْي, جَرْي, دَعْو)
+    if verb_form == 1:
+        if not is_hollow and not is_defective:
+            # Form I sain — chercher dans le lexique
+            lex = _get_form1_lexicon()
+            if root_ar and root_ar in lex:
+                return lex[root_ar]
+            return None
+        # Creux ou défectueux : template
         return f'{r1}َ{r2}ْ{r3}'
     if is_hollow and verb_form in MASDAR_TEMPLATE_HOLLOW:
         tpl = MASDAR_TEMPLATE_HOLLOW[verb_form]
     else:
         tpl = MASDAR_TEMPLATE_SAIN.get(verb_form)
     if not tpl: return None
-    return _apply(tpl, r1, r2, r3)
+    return _fix_defective_nominal(_apply(tpl, r1, r2, r3), r3, 'masdar')
 
 # ─────────────────────────────────────────────────────────────────────
 # Participes — اسم الفاعل (actif) et اسم المفعول (passif)
@@ -379,6 +473,35 @@ PASSIVE_PARTICIPLE_TEMPLATE_HOLLOW = {
     4:  'مُ{R1}َا{R3}',              # مُقَام
     10: 'مُسْتَ{R1}َا{R3}',          # مُسْتَعَان
 }
+# Corrections morphologiques pour les noms (masdar + participes) avec R3
+# faible (و/ي). Les templates produisent une substitution littérale qu'il
+# faut ajuster :
+#   • Masdar avec taa marbuta : ...وَة / ...يَة → ...اة
+#     (Form III : مُنَادَوَة → مُنَادَاة ; Form X : اِسْتِدْعَوَة → اِسْتِدْعَاء/اِسْتِدْعَة)
+#   • Participe actif : ...ِو / ...ِي en fin → ...ٍ  (tanwin kasra, R3 absorbé)
+#     (مُنَادِو → مُنَادٍ ; هَادِي → هَادٍ)
+#   • Participe passif : ...َو / ...َي en fin → ...ًى (tanwin fatha + alif maksura)
+#     (مُنَادَو → مُنَادًى ; مَهْدِي → مَهْدِيّ — Form I a sa propre règle)
+def _fix_defective_nominal(form, r3, kind):
+    """kind ∈ {'masdar', 'active', 'passive'}"""
+    if not form or r3 not in ('و', 'ي'):
+        return form
+    if kind == 'masdar':
+        # Form III : ...وَة / ...يَة → ...اة (مُنَادَاة, مُلَاقَاة)
+        if form.endswith('وَة'): return form[:-3] + 'اة'
+        if form.endswith('يَة'): return form[:-3] + 'اة'
+        # Forms IV/VII/VIII/X défectueux : weak letter après long alif → hamza
+        # ...او / ...اي → ...اء (إِعْطَاء, اِسْتِعْفَاء, اِنْحِنَاء)
+        if form.endswith('او'): return form[:-1] + 'ء'
+        if form.endswith('اي'): return form[:-1] + 'ء'
+    elif kind == 'active':
+        if form.endswith('ِو'): return form[:-2] + 'ٍ'
+        if form.endswith('ِي'): return form[:-2] + 'ٍ'
+    elif kind == 'passive':
+        if form.endswith('َو'): return form[:-2] + 'ًى'
+        if form.endswith('َي'): return form[:-2] + 'ًى'
+    return form
+
 def compute_active_participle(root_letters, verb_form):
     if len(root_letters) < 3: return None
     rl = normalize_root_for_qutrub(root_letters)
@@ -386,10 +509,11 @@ def compute_active_participle(root_letters, verb_form):
     is_hollow = r2 in ('و', 'ي')
     if is_hollow and verb_form in ACTIVE_PARTICIPLE_TEMPLATE_HOLLOW:
         tpl = ACTIVE_PARTICIPLE_TEMPLATE_HOLLOW[verb_form]
-        return _apply(tpl, r1, r2, r3)
+        return _fix_defective_nominal(_apply(tpl, r1, r2, r3), r3, 'active')
     tpl = ACTIVE_PARTICIPLE_TEMPLATE.get(verb_form)
     if not tpl: return None
-    return _apply(tpl, r1, r2, r3)
+    return _fix_defective_nominal(_apply(tpl, r1, r2, r3), r3, 'active')
+
 def compute_passive_participle(root_letters, verb_form):
     if len(root_letters) < 3: return None
     rl = normalize_root_for_qutrub(root_letters)
@@ -399,12 +523,18 @@ def compute_passive_participle(root_letters, verb_form):
     if verb_form == 1 and is_hollow:
         if r2 == 'و': return f'مَ{r1}ُو{r3}'
         if r2 == 'ي': return f'مَ{r1}ِي{r3}'
+    # Form I défectueux : R3=و → مَفْعُوّ (مَدْعُوّ) ; R3=ي → مَفْعِيّ (مَرْمِيّ)
+    # Règle du "double weak" : le ُو de la voix passive se contracte avec
+    # le R3 faible, et on ajoute une shadda.
+    if verb_form == 1 and r3 in ('و', 'ي'):
+        if r3 == 'و': return f'مَ{r1}ْ{r2}ُوّ'
+        if r3 == 'ي': return f'مَ{r1}ْ{r2}ِيّ'
     if is_hollow and verb_form in PASSIVE_PARTICIPLE_TEMPLATE_HOLLOW:
         tpl = PASSIVE_PARTICIPLE_TEMPLATE_HOLLOW[verb_form]
-        if tpl: return _apply(tpl, r1, r2, r3)
+        if tpl: return _fix_defective_nominal(_apply(tpl, r1, r2, r3), r3, 'passive')
     tpl = PASSIVE_PARTICIPLE_TEMPLATE.get(verb_form)
     if not tpl: return None
-    return _apply(tpl, r1, r2, r3)
+    return _fix_defective_nominal(_apply(tpl, r1, r2, r3), r3, 'passive')
 
 # ─────────────────────────────────────────────────────────────────────
 # Handler spécial : Form IV avec hamza initiale (R1=أ/ا)
@@ -446,6 +576,39 @@ def compute_form4_hamza_initial(root_letters, voice):
     }
 
 # ─────────────────────────────────────────────────────────────────────
+# Handler spécial : Form IV avec R2=ء (hamza médiane) ET R3 faible.
+# Cas spécifique : root ر-ء-ي (codé "rAy" dans le corpus). La hamza R2 est
+# absorbée dans la fatha de R1 (الإبدال), et R3 défectueux suit les règles
+# normales. Le résultat ressemble fortement à un Form I mais c'est bien IV.
+#   أَرَى ("il a montré"), يُرِي ("il montre"), أَرِ ("montre !")
+#   إِرَاءَة (masdar), مُرٍ (actif), مُرًى (passif)
+# ─────────────────────────────────────────────────────────────────────
+def compute_form4_r2hamza_r3weak(root_letters, voice):
+    if len(root_letters) < 3: return None
+    rl = normalize_root_for_qutrub(root_letters)
+    r1, r2, r3 = rl[:3]
+    if r2 != 'ء': return None             # R2 doit être hamza
+    if r3 not in ('و', 'ي'): return None  # R3 doit être faible
+    if voice == 'active':
+        if r3 == 'ي':
+            past, pres, impv = f'أَ{r1}َى', f'يُ{r1}ِي', f'أَ{r1}ِ'
+        else:  # و
+            past, pres, impv = f'أَ{r1}َا', f'يُ{r1}ُو', f'أَ{r1}ُ'
+        masdar    = f'إِ{r1}َاءَة'           # إِرَاءَة
+        act_part  = f'مُ{r1}ٍ'              # مُرٍ
+        pass_part = f'مُ{r1}ًى'             # مُرًى
+    else:  # passive
+        past, pres = f'أُ{r1}ِيَ', f'يُ{r1}َى'
+        impv, masdar = None, f'إِ{r1}َاءَة'
+        act_part = pass_part = None
+    return {
+        'past_3ms': past, 'present_3ms': pres,
+        'imperative_2ms': impv, 'masdar': masdar,
+        'active_participle':  act_part  if voice == 'active' else None,
+        'passive_participle': pass_part if voice == 'active' else None,
+    }
+
+# ─────────────────────────────────────────────────────────────────────
 # Conjugaison via Qutrub
 # ─────────────────────────────────────────────────────────────────────
 def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
@@ -468,6 +631,11 @@ def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
         special = compute_form4_hamza_initial(root_letters, voice)
         if special:
             return {**out, **special, '_error': None}
+    # Form IV avec R2=ء (hamza médiane) ET R3 faible (root ر-ء-ي etc.)
+    if verb_form == 4 and len(rl_norm) >= 3 and rl_norm[1] == 'ء' and rl_norm[2] in ('و', 'ي'):
+        special = compute_form4_r2hamza_r3weak(root_letters, voice)
+        if special:
+            return {**out, **special, '_error': None}
 
     # Verbe à passer à Qutrub.
     if verb_form == 1:
@@ -482,7 +650,7 @@ def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
     # Correction orthographique de la hamza médiane (ء → أ entre fathas)
     verb_in = fix_hamza_orthography(verb_in)
 
-    future_type = guess_future_type(root_letters)
+    future_type = guess_future_type(root_letters, root_ar)
 
     def try_qutrub(v):
         if not v or '#' in v or '_' in v: return None
@@ -518,7 +686,7 @@ def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
         out['present_3ms']    = r.get(KEY_PRES_PASSIVE, {}).get(PRON_3MS)
         # Pas d'impératif pour le passif (linguistiquement)
 
-    out['masdar']             = compute_masdar(root_letters, verb_form)
+    out['masdar']             = compute_masdar(root_letters, verb_form, root_ar)
     # Participes : calculés via templates (active/passive). Indépendants de
     # la voix du verbe — les deux participes existent pour tout verbe actif.
     if voice == 'active':

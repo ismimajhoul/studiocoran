@@ -114,21 +114,46 @@ def guess_future_type(root_letters):
 # ─────────────────────────────────────────────────────────────────────
 def normalize_root_for_qutrub(root_letters):
     fixed = list(root_letters)
+    # R1=ا → أ : hamza initiale (ر-أ-ي codé "ا ر ي")
     if len(fixed) >= 1 and fixed[0] == 'ا': fixed[0] = 'أ'
+    # R2=ا → ء : hamza médiane (ر-ء-ي codé "ر ا ي", س-ء-ل codé "س ا ل")
+    if len(fixed) >= 2 and fixed[1] == 'ا': fixed[1] = 'ء'
+    # R3=ا → أ : hamza finale (rare)
     if len(fixed) >= 3 and fixed[2] == 'ا': fixed[2] = 'أ'
     return fixed
 
 # ─────────────────────────────────────────────────────────────────────
 # Construction de la forme passée pour Form I (input à Qutrub)
+# Ordre des cas (du plus spécifique au plus général) :
+#   1. Géminé (R2=R3) : دَلَّ, شَدَّ, حَيَّ → shadda sur R2
+#   2. Lafif (R2 ET R3 faibles) : شَوَى, نَوَى → R2 reste, R3 → ا/ى
+#   3. Creux (R2 faible) : قَالَ, كَادَ → R2 disparaît, remplacé par ا
+#   4. Défectueux (R3 faible) : بَلَا, رَمَى → R3 → ا/ى
+#   5. Sain : كَتَبَ → pattern standard
 # ─────────────────────────────────────────────────────────────────────
 def build_form1_past(root_letters):
     if len(root_letters) < 3: return None
     rl = normalize_root_for_qutrub(root_letters)
     r1, r2, r3 = rl[:3]
-    if r2 in ('و', 'ي'): return f'{r1}َا{r3}َ'      # creux
-    if r3 == 'و':        return f'{r1}َ{r2}َا'      # défectueux و
-    if r3 == 'ي':        return f'{r1}َ{r2}َى'      # défectueux ي
-    return f'{r1}َ{r2}َ{r3}َ'                       # sain
+    r2_weak = r2 in ('و', 'ي')
+    r3_weak = r3 in ('و', 'ي')
+    # 1. Géminé : R2 = R3 → shadda
+    if r2 == r3:
+        return f'{r1}َ{r2}َّ'                          # دَلَّ, حَيَّ
+    # 2. Lafif : R2 et R3 tous deux faibles, R2 reste comme voyelle longue
+    if r2_weak and r3_weak:
+        last = 'ى' if r3 == 'ي' else 'ا'
+        return f'{r1}َ{r2}َ{last}'                     # شَوَى, نَوَى, رَوَى
+    # 3. Creux : R2 disparaît, remplacé par ا
+    if r2_weak:
+        return f'{r1}َا{r3}َ'                          # قَالَ, كَادَ
+    # 4. Défectueux : R3 final transformé
+    if r3 == 'و':
+        return f'{r1}َ{r2}َا'                          # بَلَا
+    if r3 == 'ي':
+        return f'{r1}َ{r2}َى'                          # رَمَى, نَأَى
+    # 5. Sain
+    return f'{r1}َ{r2}َ{r3}َ'                          # كَتَبَ
 
 # ─────────────────────────────────────────────────────────────────────
 # Normalisation du lemme pour Qutrub (Forms II-X)
@@ -177,30 +202,104 @@ def _apply(tpl, r1, r2, r3):
     return tpl.replace('{R1}', r1).replace('{R2}', r2).replace('{R3}', r3)
 
 def _fix_defective_last(past_form, r3):
-    """R3=و ou ي avec fatha finale → ا ou ى (défectueux)."""
+    """R3=و/ي avec fatha/sukun finale → ى pour les Forms II-X.
+    Note: utilisé seulement pour Forms II-X. Form I est gérée directement
+    dans build_form1_past avec la règle و→ا, ي→ى (différente).
+    Pour Forms II-X la convention orthographique est: toujours ى final
+    quelle que soit la radicale faible (نَادَى de ن-د-و, لَاقَى de ل-ق-ي)."""
     if r3 == 'و':
-        if past_form.endswith('وَ'): return past_form[:-2] + 'ا'
-        if past_form.endswith('وْ'): return past_form[:-2] + 'ا'
+        if past_form.endswith('وَ'): return past_form[:-2] + 'ى'
+        if past_form.endswith('وْ'): return past_form[:-2] + 'ى'
     if r3 == 'ي':
         if past_form.endswith('يَ'): return past_form[:-2] + 'ى'
         if past_form.endswith('يْ'): return past_form[:-2] + 'ى'
     return past_form
 
+# ─────────────────────────────────────────────────────────────────────
+# Form VIII (اِفْتَعَلَ) — assimilation phonétique du ت du pattern selon R1
+#   R1 ∈ {د, ذ}    : ت → د avec shadda          → اِدَّكَرَ (root ذكر)
+#   R1 = ز          : ت → د                      → اِزْدَجَرَ
+#   R1 ∈ {ص, ض}    : ت → ط emphatique           → اِصْطَبَرَ, اِضْطَرَّ
+#   R1 = ط          : ت → ط avec shadda         → اِطَّلَعَ
+#   R1 = ظ          : ت → ط                      → اِظْطَ-
+#   R1 ∈ {ت, و, ي}  : ت → ت avec shadda         → اِتَّبَعَ, اِتَّقَى
+#   autres          : pattern standard اِ{R1}ْتَ
+# ─────────────────────────────────────────────────────────────────────
+def _form8_prefix(r1):
+    if r1 in ('د', 'ذ'):     return 'اِدَّ'
+    if r1 == 'ز':             return 'اِزْدَ'
+    if r1 in ('ص', 'ض'):     return f'اِ{r1}ْطَ'
+    if r1 == 'ط':             return 'اِطَّ'
+    if r1 == 'ظ':             return 'اِظْطَ'
+    if r1 in ('ت', 'و', 'ي'): return 'اِتَّ'
+    return f'اِ{r1}ْتَ'
+
+def build_form8_past(r1, r2, r3):
+    prefix = _form8_prefix(r1)
+    r2_weak    = r2 in ('و', 'ي')
+    r3_weak    = r3 in ('و', 'ي')
+    is_geminate = (r2 == r3)
+    is_lafif    = r2_weak and r3_weak
+    # Géminé prioritaire : اِضْطَرَّ
+    if is_geminate:
+        past = f'{prefix}{r2}َّ'
+    # Lafif : R2 reste comme voyelle longue, R3 → ى
+    elif is_lafif:
+        past = f'{prefix}{r2}َى'      # اِسْتَوَى (mais Form X — adapter pour F8)
+        # Pour F8 Lafif comme س-و-ي : اِسْتَوَى — déjà bon
+    # Creux : R2 disparaît → ا
+    elif r2_weak:
+        past = f'{prefix}ا{r3}َ'      # اِصْطَادَ
+    else:
+        past = f'{prefix}{r2}َ{r3}َ'  # اِصْطَنَعَ, اِدَّكَرَ
+    return _fix_defective_last(past, r3) if not is_geminate else past
+
 def build_form_n_past(verb_form, root_letters):
     if len(root_letters) < 3: return None
     rl = normalize_root_for_qutrub(root_letters)
     r1, r2, r3 = rl[:3]
-    is_hollow = r2 in ('و', 'ي')
+    r2_weak    = r2 in ('و', 'ي')
+    r3_weak    = r3 in ('و', 'ي')
+    is_hollow  = r2_weak
+    is_lafif   = r2_weak and r3_weak
+    is_geminate = (r2 == r3)
 
+    # Form VIII : assimilation phonétique → handler dédié
+    if verb_form == 8:
+        return build_form8_past(r1, r2, r3)
+
+    # 1. Lafif (R2 et R3 faibles) AVANT géminé : pour Forms II-X, la règle
+    # Lafif prime même si R2=R3. Ex: ح-ي-ي F10 → اِسْتَحْيَى (pas اِسْتَحَيَّ).
+    if is_lafif:
+        tpl = FORM_PAST_TEMPLATE_SAIN.get(verb_form)
+        if not tpl: return None
+        past = _apply(tpl, r1, r2, r3)
+        return _fix_defective_last(past, r3)
+
+    # 2. Géminé (R2=R3 consonnes fortes) pour Forms IV, VII, X
+    if is_geminate and verb_form in (4, 7, 10):
+        prefix_map = {4: f'أَ{r1}َ', 7: f'اِنْ{r1}َ', 10: f'اِسْتَ{r1}َ'}
+        return f'{prefix_map[verb_form]}{r2}َّ'        # أَشَدَّ, اِسْتَدَلَّ
+
+    # 3. Creux (R2 faible uniquement)
     if is_hollow and verb_form in FORM_PAST_TEMPLATE_HOLLOW:
         past = _apply(FORM_PAST_TEMPLATE_HOLLOW[verb_form], r1, r2, r3)
     else:
         tpl = FORM_PAST_TEMPLATE_SAIN.get(verb_form)
         if not tpl: return None
         past = _apply(tpl, r1, r2, r3)
-    # Correction défectueux final (qui s'applique aussi aux hollow ci-dessus
-    # si la 3e radicale est faible — cas combiné rare mais existant)
     return _fix_defective_last(past, r3)
+
+# ─────────────────────────────────────────────────────────────────────
+# Correction orthographique : hamza médiane (ء) entre deux fathas s'écrit
+# sur alif → أ. Ex: نَءَى (généré) → نَأَى (correct).
+# Appliqué après construction du verbe avant de passer à Qutrub.
+# ─────────────────────────────────────────────────────────────────────
+import re
+_HAMZA_FATHA_RX = re.compile(r'(.)َء(.)')
+def fix_hamza_orthography(s):
+    if not s: return s
+    return _HAMZA_FATHA_RX.sub(r'\1َأ\2', s)
 
 # ─────────────────────────────────────────────────────────────────────
 # Templates masdar pour Forms II-X — variantes sain / creux
@@ -228,10 +327,82 @@ def compute_masdar(root_letters, verb_form):
     rl = normalize_root_for_qutrub(root_letters)
     r1, r2, r3 = rl[:3]
     is_hollow = r2 in ('و', 'ي')
+    # Form I creux : patron فَعْل très majoritaire (كَيْد, قَوْل, بَيْع, مَوْت)
+    # Pour les autres Form I (sain, défectueux), le masdar est lexical
+    # (différent pour chaque verbe) → laissé NULL.
+    if verb_form == 1 and is_hollow:
+        return f'{r1}َ{r2}ْ{r3}'
     if is_hollow and verb_form in MASDAR_TEMPLATE_HOLLOW:
         tpl = MASDAR_TEMPLATE_HOLLOW[verb_form]
     else:
         tpl = MASDAR_TEMPLATE_SAIN.get(verb_form)
+    if not tpl: return None
+    return _apply(tpl, r1, r2, r3)
+
+# ─────────────────────────────────────────────────────────────────────
+# Participes — اسم الفاعل (actif) et اسم المفعول (passif)
+# Templates standards (sain). Pour les racines weak, on accepte une
+# légère imperfection en V1.
+# ─────────────────────────────────────────────────────────────────────
+ACTIVE_PARTICIPLE_TEMPLATE = {
+    1:  '{R1}َا{R2}ِ{R3}',         # كَاتِب
+    2:  'مُ{R1}َ{R2}ِّ{R3}',        # مُعَلِّم
+    3:  'مُ{R1}َا{R2}ِ{R3}',        # مُجَاهِد
+    4:  'مُ{R1}ْ{R2}ِ{R3}',         # مُسْلِم
+    5:  'مُتَ{R1}َ{R2}ِّ{R3}',      # مُتَعَلِّم
+    6:  'مُتَ{R1}َا{R2}ِ{R3}',      # مُتَعَاوِن
+    7:  'مُنْ{R1}َ{R2}ِ{R3}',       # مُنْكَسِر
+    8:  'مُ{R1}ْتَ{R2}ِ{R3}',       # مُجْتَهِد
+    9:  'مُ{R1}ْ{R2}َ{R3}ّ',        # مُحْمَرّ
+    10: 'مُسْتَ{R1}ْ{R2}ِ{R3}',     # مُسْتَخْرِج
+}
+PASSIVE_PARTICIPLE_TEMPLATE = {
+    1:  'مَ{R1}ْ{R2}ُو{R3}',        # مَكْتُوب
+    2:  'مُ{R1}َ{R2}َّ{R3}',         # مُعَلَّم
+    3:  'مُ{R1}َا{R2}َ{R3}',         # مُجَاهَد
+    4:  'مُ{R1}ْ{R2}َ{R3}',          # مُسْلَم
+    5:  'مُتَ{R1}َ{R2}َّ{R3}',       # مُتَعَلَّم
+    6:  'مُتَ{R1}َا{R2}َ{R3}',       # مُتَعَاوَن
+    7:  'مُنْ{R1}َ{R2}َ{R3}',        # مُنْكَسَر
+    8:  'مُ{R1}ْتَ{R2}َ{R3}',        # مُجْتَهَد
+    9:  None,                        # rare
+    10: 'مُسْتَ{R1}ْ{R2}َ{R3}',      # مُسْتَخْرَج
+}
+# Variantes pour racines CREUSES (R2 = و/ي)
+ACTIVE_PARTICIPLE_TEMPLATE_HOLLOW = {
+    1:  '{R1}َائِ{R3}',              # قَائِل (R2=و), كَائِد (R2=ي)
+    4:  'مُ{R1}ِي{R3}',              # مُقِيم (root q-w-m F4)
+    10: 'مُسْتَ{R1}ِي{R3}',          # مُسْتَعِين
+}
+PASSIVE_PARTICIPLE_TEMPLATE_HOLLOW = {
+    # Form I hollow : dépend de R2, géré séparément ci-dessous
+    4:  'مُ{R1}َا{R3}',              # مُقَام
+    10: 'مُسْتَ{R1}َا{R3}',          # مُسْتَعَان
+}
+def compute_active_participle(root_letters, verb_form):
+    if len(root_letters) < 3: return None
+    rl = normalize_root_for_qutrub(root_letters)
+    r1, r2, r3 = rl[:3]
+    is_hollow = r2 in ('و', 'ي')
+    if is_hollow and verb_form in ACTIVE_PARTICIPLE_TEMPLATE_HOLLOW:
+        tpl = ACTIVE_PARTICIPLE_TEMPLATE_HOLLOW[verb_form]
+        return _apply(tpl, r1, r2, r3)
+    tpl = ACTIVE_PARTICIPLE_TEMPLATE.get(verb_form)
+    if not tpl: return None
+    return _apply(tpl, r1, r2, r3)
+def compute_passive_participle(root_letters, verb_form):
+    if len(root_letters) < 3: return None
+    rl = normalize_root_for_qutrub(root_letters)
+    r1, r2, r3 = rl[:3]
+    is_hollow = r2 in ('و', 'ي')
+    # Form I creux : R2=و → مَ{R1}ُو{R3} (مَقُول) ; R2=ي → مَ{R1}ِي{R3} (مَبِيع)
+    if verb_form == 1 and is_hollow:
+        if r2 == 'و': return f'مَ{r1}ُو{r3}'
+        if r2 == 'ي': return f'مَ{r1}ِي{r3}'
+    if is_hollow and verb_form in PASSIVE_PARTICIPLE_TEMPLATE_HOLLOW:
+        tpl = PASSIVE_PARTICIPLE_TEMPLATE_HOLLOW[verb_form]
+        if tpl: return _apply(tpl, r1, r2, r3)
+    tpl = PASSIVE_PARTICIPLE_TEMPLATE.get(verb_form)
     if not tpl: return None
     return _apply(tpl, r1, r2, r3)
 
@@ -259,10 +430,19 @@ def compute_form4_hamza_initial(root_letters, voice):
         else:
             past, pres = f'أُو{r2}ِ{r3}َ', f'يُؤْ{r2}َ{r3}ُ'
         impv, masdar = None, None
+    # Participes Form IV (hamza initiale) : مُؤْتٍ, مُؤْذٍ pour défectueux,
+    # مُؤْثِر pour sain ; passifs : مُؤْتَى, مُؤْذَى, مُؤْثَر
+    if r3 in ('ي', 'و'):
+        act_part  = f'مُؤْ{r2}ٍ'      # مُؤْتٍ
+        pass_part = f'مُؤْ{r2}َى'     # مُؤْتَى
+    else:
+        act_part  = f'مُؤْ{r2}ِ{r3}'  # مُؤْثِر
+        pass_part = f'مُؤْ{r2}َ{r3}'  # مُؤْثَر
     return {
         'past_3ms': past, 'present_3ms': pres,
         'imperative_2ms': impv, 'masdar': masdar,
-        'active_participle': None, 'passive_participle': None,
+        'active_participle':  act_part  if voice == 'active' else None,
+        'passive_participle': pass_part if voice == 'active' else None,
     }
 
 # ─────────────────────────────────────────────────────────────────────
@@ -290,21 +470,17 @@ def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
             return {**out, **special, '_error': None}
 
     # Verbe à passer à Qutrub.
-    # Form I : on construit depuis la racine (gère sain/creux/défectueux).
-    # Forms II-X : on PRÉFÈRE le template (qui gère hollow/défectueux
-    # proprement) au LEM du corpus — le LEM est parfois en présent ou
-    # mal vocalisé pour les verbes faibles. Le LEM sert seulement en
-    # fallback final si tout échoue.
     if verb_form == 1:
         verb_in = build_form1_past(root_letters)
     else:
         verb_in = build_form_n_past(verb_form, root_letters)
     if not verb_in:
-        # Fallback ultime : tenter le LEM du corpus tel quel
         verb_in = normalize_lemma_for_qutrub(buck_to_ar(lemma_buck))
     if not verb_in:
         out['_error'] = 'impossible de construire le verbe'
         return out
+    # Correction orthographique de la hamza médiane (ء → أ entre fathas)
+    verb_in = fix_hamza_orthography(verb_in)
 
     future_type = guess_future_type(root_letters)
 
@@ -342,7 +518,12 @@ def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
         out['present_3ms']    = r.get(KEY_PRES_PASSIVE, {}).get(PRON_3MS)
         # Pas d'impératif pour le passif (linguistiquement)
 
-    out['masdar'] = compute_masdar(root_letters, verb_form)
+    out['masdar']             = compute_masdar(root_letters, verb_form)
+    # Participes : calculés via templates (active/passive). Indépendants de
+    # la voix du verbe — les deux participes existent pour tout verbe actif.
+    if voice == 'active':
+        out['active_participle']  = compute_active_participle(root_letters, verb_form)
+        out['passive_participle'] = compute_passive_participle(root_letters, verb_form)
     return out
 
 # ─────────────────────────────────────────────────────────────────────
@@ -373,6 +554,13 @@ def main():
         if (i + 1) % 200 == 0:
             print(f"      {i+1}/{len(seen)}...")
     print(f"      → {ok} OK, {ko} erreurs")
+    # Dump COMPLET des erreurs dans un fichier pour analyse
+    err_file = os.path.join(HERE, 'enrich_errors.txt')
+    with open(err_file, 'w', encoding='utf-8') as f:
+        for r in rows:
+            if r.get('_error'):
+                f.write(f"{r['root_ar']:10s}  F{r['verb_form']:<2}  {r['voice']:<7}  → {r['_error']}\n")
+    print(f"      Liste complète des erreurs : {err_file}")
     for re_ in sample_errors:
         print(f"      ⚠ {re_[0]} F{re_[1]} {re_[2]} : {re_[3]}")
 

@@ -351,12 +351,12 @@
       position: fixed;
       bottom: 1rem;
       z-index: 800;
-      padding: 0.9rem 1.4rem 0.9rem 11rem; /* +place à gauche pour ✕ et le toggle Détection */
+      padding: 0.9rem 1.4rem 0.9rem 11.5rem; /* +place à gauche pour ✕ et les toggles Détection / Étymologie */
       background: rgba(255, 251, 230, 0.97);
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
       border-radius: 1rem;
-      min-height: 3.5rem;
+      min-height: 5rem; /* hauteur suffisante pour empiler les 2 toggles bilingues */
       direction: rtl;
       text-align: right;
       color: #333;
@@ -382,35 +382,78 @@
       display: none; /* masqué tant qu'il n'y a rien à effacer */
     }
     #clearAnalysisBtn:hover { color: #c0392b; background: #fff; }
-    #detectionToggleBtn {
+    #copyAnalysisBtn {
+      position: absolute;
+      left: 0.6rem;
+      bottom: 0.55rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: none;
+      background: #f1e8c8;
+      color: #777;
+      font-size: 0.95rem;
+      line-height: 1;
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: inset 2px 2px 4px #c9bf9e, inset -2px -2px 4px #fffbe6;
+      transition: background .15s ease, color .15s ease;
+    }
+    #copyAnalysisBtn:hover { background: #fff; color: #2e7d32; }
+    #copyAnalysisBtn.copied {
+      background: #2e7d32;
+      color: #fff;
+    }
+    .analysis-toggles {
       position: absolute;
       left: 3rem;
       top: 50%;
       transform: translateY(-50%);
-      min-width: 6.5rem;
-      min-height: 2.6rem;
-      padding: 0 0.9rem;
-      border-radius: 1.3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      pointer-events: auto;
+    }
+    .analysis-toggles button {
+      min-width: 7.5rem;
+      min-height: 1.9rem;
+      padding: 0.15rem 0.7rem;
+      border-radius: 1rem;
       border: 2px solid #b0a888;
       background: #f5efd9;
       color: #666;
       font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 0.9rem;
+      font-weight: 700;
       cursor: pointer;
-      pointer-events: auto;
-      direction: ltr;
+      direction: rtl;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
       box-shadow: inset 1px 1px 3px #c9bf9e, inset -1px -1px 3px #fffbe6;
       transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
     }
-    #detectionToggleBtn:hover { background: #ebe3c2; }
-    #detectionToggleBtn[aria-pressed="true"] {
+    .analysis-toggles button span {
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: #888;
+      direction: ltr;
+    }
+    .analysis-toggles button:hover { background: #ebe3c2; }
+    .analysis-toggles button[aria-pressed="true"] {
       background: #c0392b;
       color: #fff;
       border-color: #8c2a20;
       box-shadow: 0 0 0 3px rgba(192,57,43,0.18), inset 0 -2px 4px rgba(0,0,0,0.18);
     }
-    #detectionToggleBtn[aria-pressed="true"]:hover { background: #b03325; }
+    .analysis-toggles button[aria-pressed="true"] span {
+      color: #fff;
+      opacity: 0.92;
+    }
+    .analysis-toggles button[aria-pressed="true"]:hover { background: #b03325; }
     #analysisRule {
       font-family: 'Scheherazade', serif;
       font-size: 2.2rem;
@@ -420,15 +463,31 @@
       margin-bottom: 0.4rem;
     }
     #analysisRule:empty { display: none; }
+    #analysisRule .ety-morph-line {
+      display: block;
+      font-size: 0.85em;          /* ≈ 1.87rem, proche de la taille des versets */
+      color: #844;
+      font-weight: 500;
+      margin-top: 0.35rem;
+      line-height: 1.4;
+    }
     #analysisText {
       font-family: 'Scheherazade', serif;
-      font-size: 1.4rem;
+      font-size: 1.9rem;          /* aligné sur la taille des versets (2.4rem) */
       color: #444;
+      line-height: 1.4;
     }
     #analysisText:empty::before {
       content: '— كشف حكم التجويد —';
       color: #aaa;
       font-size: 1rem;
+    }
+    #analysisText .ety-fr-line {
+      display: block;
+      font-size: 0.6em;           /* ≈ 1.14rem — secondaire mais lisible */
+      color: #888;
+      margin-top: 0.25rem;
+      font-style: italic;
     }
 
     /* DESIGNATED LETTER MARKER — souligne la lettre choisie au clic gauche */
@@ -559,8 +618,17 @@
       <div id="quranContent"></div>
       <div id="analysisPanel">
         <button id="clearAnalysisBtn" type="button" title="Effacer la règle détectée">✕</button>
-        <button id="detectionToggleBtn" type="button" role="switch" aria-pressed="false"
-                title="Activer la détection au clic">🎯 Détection</button>
+        <button id="copyAnalysisBtn" type="button" title="Copier le contenu du panneau">📋</button>
+        <div class="analysis-toggles">
+          <button id="detectionToggleBtn" type="button" role="switch" aria-pressed="false"
+                  title="Activer la détection au clic">
+            🎯 كشف <span>Détection</span>
+          </button>
+          <button id="etymologyToggleBtn" type="button" role="switch" aria-pressed="false"
+                  title="Activer la recherche de racine au clic">
+            🌳 جذر <span>Étymologie</span>
+          </button>
+        </div>
         <div id="analysisRule"></div>
         <div id="analysisText"></div>
       </div>

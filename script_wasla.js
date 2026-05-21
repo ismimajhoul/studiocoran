@@ -1,13 +1,29 @@
 let shouldSpeakCount = false;
 
-// Mode détection : quand actif, un clic gauche sur une lettre lance directement
-// l'analyse de règle (équivalent au clic droit → "Identifier" sur desktop).
-// Reset à chaque chargement de page (loadPage) — pas de persistance.
+// Mode détection : quand actif, un clic gauche sur une lettre lance
+// directement l'analyse de règle de tajwid (équivalent au clic droit →
+// "Identifier" sur desktop).
+// Mode étymologie : quand actif, un clic gauche sur un mot affichera sa
+// racine + forme verbale + lemme (V1 : verbes uniquement).
+// Les deux modes sont MUTUELLEMENT EXCLUSIFS : activer l'un désactive
+// l'autre. Reset à false à chaque loadPage — pas de persistance.
 let detectionMode = false;
+let etymologyMode = false;
 function setDetectionMode(on) {
   detectionMode = !!on;
-  const btn = document.getElementById('detectionToggleBtn');
-  if (btn) btn.setAttribute('aria-pressed', detectionMode ? 'true' : 'false');
+  if (detectionMode) etymologyMode = false; // exclusion mutuelle
+  syncToggleButtons();
+}
+function setEtymologyMode(on) {
+  etymologyMode = !!on;
+  if (etymologyMode) detectionMode = false; // exclusion mutuelle
+  syncToggleButtons();
+}
+function syncToggleButtons() {
+  const d = document.getElementById('detectionToggleBtn');
+  const e = document.getElementById('etymologyToggleBtn');
+  if (d) d.setAttribute('aria-pressed', detectionMode ? 'true' : 'false');
+  if (e) e.setAttribute('aria-pressed', etymologyMode ? 'true' : 'false');
 }
 
 // 1) Chargement unique des données d'alignement
@@ -894,6 +910,191 @@ function updateClearAnalysisBtnVisibility() {
   btn.style.display = (hasText || hasColor) ? 'block' : 'none';
 }
 
+// ─────────────────────────────────────────────────────────────────────────
+// ÉTYMOLOGIE — V1 : verbes uniquement
+//
+// Quand le mode étymologie est ON et qu'on clique sur un mot, on identifie
+// le numéro de mot dans le verset (1-indexé, convention Quranic Arabic
+// Corpus), on interroge morphology.php, et on affiche racine + forme + lemme
+// dans le panneau, plus une lecture TTS des lettres de la racine.
+// ─────────────────────────────────────────────────────────────────────────
+
+// Renvoie { wordPos, wordStart, wordLength } pour la position cliquée dans
+// le texte du verset. wordPos est 1-indexé (1er mot = 1).
+function wordPositionFromIndex(verseText, clickIndex) {
+  const offsets = computeOffsets(verseText);
+  for (let i = 0; i < offsets.length; i++) {
+    const { start, length } = offsets[i];
+    if (clickIndex >= start && clickIndex < start + length) {
+      return { wordPos: i + 1, wordStart: start, wordLength: length };
+    }
+  }
+  return null;
+}
+
+async function fetchEtymology(sura, aya, wordPos) {
+  try {
+    const res = await fetch(`morphology.php?sura=${sura}&aya=${aya}&word=${wordPos}`);
+    if (res.status === 404) return { notVerb: true };
+    if (!res.ok) return { error: `HTTP ${res.status}` };
+    return await res.json();
+  } catch (e) {
+    return { error: e.message || 'fetch failed' };
+  }
+}
+
+// I-X en chiffres romains. NULL en base = Form I implicite.
+function verbFormRoman(num) {
+  const map = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  return num ? map[num - 1] : 'I';
+}
+
+// Wazn (وزن) du passé (الماضي) et du présent (المضارع) pour chaque forme
+// verbale — affichés ensemble pour permettre à l'utilisateur de reconnaître
+// la forme du verbe du verset (qui peut être au passé OU au présent).
+// Référence : la table classique de dérivation trilitère (الفعل المجرد ومزيداته).
+// Pour la Forme I, le présent a 3 variantes (يَفْعُلُ, يَفْعِلُ, يَفْعَلُ) selon
+// le verbe — on affiche la plus commune (يَفْعُلُ) par défaut, peut être faux.
+const WAZN_PAST_ABSTRACT = {
+  1:  'فَعَلَ',          2:  'فَعَّلَ',         3:  'فَاعَلَ',
+  4:  'أَفْعَلَ',         5:  'تَفَعَّلَ',        6:  'تَفَاعَلَ',
+  7:  'اِنْفَعَلَ',        8:  'اِفْتَعَلَ',       9:  'اِفْعَلَّ',
+  10: 'اِسْتَفْعَلَ',
+};
+const WAZN_PRESENT_ABSTRACT = {
+  1:  'يَفْعُلُ',         2:  'يُفَعِّلُ',         3:  'يُفَاعِلُ',
+  4:  'يُفْعِلُ',          5:  'يَتَفَعَّلُ',        6:  'يَتَفَاعَلُ',
+  7:  'يَنْفَعِلُ',         8:  'يَفْتَعِلُ',         9:  'يَفْعَلُّ',
+  10: 'يَسْتَفْعِلُ',
+};
+
+// V2 : les conjugaisons (passé, présent, impératif, masdar) sont désormais
+// pré-calculées par Qutrub dans la table quran_verb_canonical (voir
+// morphology/enrich_with_qutrub.py). Le JS lit simplement data.past_3ms,
+// data.present_3ms, data.imperative_2ms, data.masdar depuis la réponse JSON
+// de morphology.php (qui fait un LEFT JOIN avec quran_verb_canonical).
+
+const ETY_FEATURE_FR = {
+  PERF: 'accompli', IMPF: 'inaccompli', IMPV: 'impératif',
+  PASS: 'passif',  ACT:  'actif',
+  '1S':  '1re pers. sing.',  '1P':  '1re pers. plur.',
+  '2MS': '2e pers. m. sing.', '2MP': '2e pers. m. plur.',
+  '2FS': '2e pers. f. sing.', '2FP': '2e pers. f. plur.',
+  '3MS': '3e pers. m. sing.', '3MP': '3e pers. m. plur.',
+  '3FS': '3e pers. f. sing.', '3FP': '3e pers. f. plur.',
+  '2D':  '2e pers. duel', '3D': '3e pers. duel',
+  'MOOD:IND': 'indicatif', 'MOOD:SUBJ': 'subjonctif', 'MOOD:JUS': 'jussif',
+};
+function formatFeaturesFr(features) {
+  if (!features) return '';
+  return features.split('|').map(t => ETY_FEATURE_FR[t] || t).join(', ');
+}
+
+// Version arabe des features — beaucoup plus parlante en contexte
+// d'apprentissage de l'arabe coranique. Affichée en priorité, avec la
+// version française gardée en sous-ligne plus petite.
+const ETY_TENSE_AR = {
+  PERF: 'ماضي',
+  IMPF: 'مضارع',
+  IMPV: 'أمر',
+};
+const PRONOUN_AR = {
+  '1S':  'أنا',   '1P':  'نحن',
+  '2MS': 'أنتَ',   '2MP': 'أنتم',
+  '2FS': 'أنتِ',   '2FP': 'أنتنّ',
+  '3MS': 'هو',    '3MP': 'هم',
+  '3FS': 'هي',    '3FP': 'هنّ',
+  '2D':  'أنتما', '3D':  'هما',
+};
+function formatFeaturesAr(features) {
+  if (!features) return '';
+  const tags = features.split('|');
+  const parts = [];
+  // Temps : ماضي / مضارع / أمر
+  for (const t of tags) {
+    if (ETY_TENSE_AR[t]) { parts.push(ETY_TENSE_AR[t]); break; }
+  }
+  // Voix : on n'affiche que مبني للمجهول (le مبني للمعلوم est le défaut, implicite)
+  if (tags.includes('PASS')) parts.push('مبني للمجهول');
+  // Pronom + rôle approprié : الفاعل (actif), نائب الفاعل (passif), المخاطب (impératif)
+  for (const t of tags) {
+    if (PRONOUN_AR[t]) {
+      let label;
+      if (tags.includes('IMPV'))      label = 'المخاطب';
+      else if (tags.includes('PASS')) label = 'نائب الفاعل';
+      else                            label = 'الفاعل';
+      parts.push(`${label}: ${PRONOUN_AR[t]}`);
+      break;
+    }
+  }
+  return parts.join(' · ');
+}
+
+// "ع ب د" → "جذر الفعل: عين باء دال"
+function buildRootSpeech(rootAr) {
+  const letters = rootAr.split(/\s+/).filter(Boolean);
+  const names = letters.map(l => (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[l]) || l);
+  return `جذر الفعل: ${names.join(' ')}`;
+}
+
+function showEtymologyAnalysis(data) {
+  const ruleDiv = document.getElementById('analysisRule');
+  const txtDiv  = document.getElementById('analysisText');
+  if (!ruleDiv || !txtDiv) return;
+
+  if (!data || data.error || data.notVerb) {
+    ruleDiv.textContent = '';
+    txtDiv.textContent  = data && data.notVerb
+      ? 'Ce mot n’est pas un verbe (V1 — verbes uniquement).'
+      : 'Étymologie indisponible.';
+    updateClearAnalysisBtnVisibility();
+    return;
+  }
+
+  const formNum    = data.verb_form || 1;        // NULL en base = Form I
+  const waznPast   = WAZN_PAST_ABSTRACT[formNum];
+  const waznPres   = WAZN_PRESENT_ABSTRACT[formNum];
+  const featuresAr = formatFeaturesAr(data.features);
+  const featuresFr = formatFeaturesFr(data.features);
+
+  // Conjugaisons canoniques : viennent directement de la table
+  // quran_verb_canonical (peuplée par Qutrub). On retombe sur le LEM du
+  // corpus si le canonique est NULL (cas des ~28 Form IV avec hamza initiale
+  // que Qutrub ne sait pas conjuguer).
+  const pastForm = data.past_3ms       || data.lemma_ar || null;
+  const presForm = data.present_3ms    || null;
+  const imperForm = data.imperative_2ms || null;
+  const masdar   = data.masdar         || null;
+
+  // Affichage sur 2 lignes sous la racine :
+  //   ligne 1 (wazn abstrait) : فَعَلَ — يَفْعُلُ
+  //   ligne 2 (réel)          : الماضي: كَادَ · المضارع: يَكِيدُ · الأمر: كِدْ · المصدر: كَيْد
+  const wazns = [waznPast, waznPres].filter(Boolean).join(' — ');
+  const verbParts = [];
+  if (pastForm)  verbParts.push(`الماضي: ${pastForm}`);
+  if (presForm)  verbParts.push(`المضارع: ${presForm}`);
+  if (imperForm) verbParts.push(`الأمر: ${imperForm}`);
+  if (masdar)    verbParts.push(`المصدر: ${masdar}`);
+  const lines = [];
+  if (wazns)              lines.push(wazns);
+  if (verbParts.length)   lines.push(verbParts.join(' · '));
+  const morphHtml = lines
+    .map(l => `<span class="ety-morph-line">${l}</span>`)
+    .join('');
+  ruleDiv.innerHTML = `${data.root_ar}${morphHtml}`;
+
+  // analysisText : features morpho arabe + sous-ligne FR plus petite
+  let html = featuresAr || '';
+  if (featuresFr) {
+    html += `<span class="ety-fr-line">${featuresFr}</span>`;
+  }
+  txtDiv.innerHTML = html;
+  updateClearAnalysisBtnVisibility();
+
+  // TTS arabe des lettres de la racine (à affiner avec l'aide d'arabophone)
+  speakText(buildRootSpeech(data.root_ar));
+}
+
 /**
  * Pose les bindings :
  *  - clic droit dans une .verse → affiche le menu contextuel
@@ -950,6 +1151,33 @@ function bindContextDetection() {
       const refreshed = pickCharacterAt(e.clientX, e.clientY) || target;
       designated = refreshed;
       highlightDesignatedLetter(designated);
+      return;
+    }
+    if (etymologyMode && !onOverlay) {
+      // Identifier le mot cliqué (1-indexé), le colorier, et fetcher l'info
+      // morphologique. Le panneau est mis à jour quand la réponse arrive.
+      const wp = wordPositionFromIndex(target.verseText, target.index);
+      if (wp) {
+        // Style vert pour différencier visuellement étymologie (vert) du
+        // tajwid (rouge). wrapTajweedLetters exige obligatoirement hit.style.
+        const etymologyStyle = { color: '#2e7d32', weight: 'bold' };
+        applyHitToDesignatedVerse(target, {
+          index: wp.wordStart, length: wp.wordLength, style: etymologyStyle,
+        });
+        // Re-pique pour positionner le marqueur dans le DOM re-rendu
+        const refreshed = pickCharacterAt(e.clientX, e.clientY) || target;
+        designated = refreshed;
+        highlightDesignatedLetter(designated);
+        // Feedback panneau immédiat pendant le fetch
+        const ruleDiv = document.getElementById('analysisRule');
+        const txtDiv  = document.getElementById('analysisText');
+        if (ruleDiv) ruleDiv.textContent = '';
+        if (txtDiv)  txtDiv.textContent  = '… recherche de la racine …';
+        updateClearAnalysisBtnVisibility();
+        // Lookup asynchrone
+        fetchEtymology(target.sura, target.aya, wp.wordPos)
+          .then(showEtymologyAnalysis);
+      }
       return;
     }
     designated = target;
@@ -3121,8 +3349,9 @@ function loadPage() {
 
       lastLoadedPageNumber = pageNumber;
       updateClearAnalysisBtnVisibility();
-      // Reset du mode détection à chaque changement de page (pas de persistance).
+      // Reset des modes (détection / étymologie) à chaque changement de page.
       setDetectionMode(false);
+      setEtymologyMode(false);
     })
     .catch((error) => {
       console.error('Une erreur s\'est produite lors de la récupération des données:', error);
@@ -3181,11 +3410,47 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clearBtn) clearBtn.addEventListener('click', clearAnalysisAndHighlights);
   updateClearAnalysisBtnVisibility();
 
+  // Bouton 📋 : copie le contenu du panneau d'analyse (règle + description).
+  // Le panneau a pointer-events: none → la sélection texte n'est pas possible,
+  // d'où la nécessité d'un bouton dédié.
+  const copyBtn = document.getElementById('copyAnalysisBtn');
+  if (copyBtn) copyBtn.addEventListener('click', async () => {
+    const ruleDiv = document.getElementById('analysisRule');
+    const txtDiv  = document.getElementById('analysisText');
+    const lines = [];
+    if (ruleDiv && ruleDiv.textContent.trim()) lines.push(ruleDiv.textContent.trim());
+    if (txtDiv  && txtDiv.textContent.trim())  lines.push(txtDiv.textContent.trim());
+    const text = lines.join('\n');
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // Fallback pour vieux navigateurs
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch {}
+      document.body.removeChild(ta);
+    }
+    // Feedback visuel : le bouton vert pendant 1.2s
+    copyBtn.classList.add('copied');
+    setTimeout(() => copyBtn.classList.remove('copied'), 1200);
+  });
+
   // Toggle "Détection" : active/désactive le mode où un clic gauche sur une
-  // lettre lance directement l'analyse de règle.
+  // lettre lance directement l'analyse de règle de tajwid.
   const detectionBtn = document.getElementById('detectionToggleBtn');
   if (detectionBtn) {
     detectionBtn.addEventListener('click', () => setDetectionMode(!detectionMode));
+  }
+
+  // Toggle "Étymologie" : active/désactive le mode où un clic gauche sur un
+  // mot affiche sa racine et sa forme verbale. La logique de lookup est en
+  // étape 3 — pour l'instant le bouton ne fait qu'activer le mode et
+  // désactiver "Détection" (exclusion mutuelle).
+  const etymologyBtn = document.getElementById('etymologyToggleBtn');
+  if (etymologyBtn) {
+    etymologyBtn.addEventListener('click', () => setEtymologyMode(!etymologyMode));
   }
 
   // Bouton QR / Partage : ouvre un modal avec le QR code, le lien copiable

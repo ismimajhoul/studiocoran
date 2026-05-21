@@ -968,6 +968,50 @@ const WAZN_PRESENT_ABSTRACT = {
   10: 'يَسْتَفْعِلُ',
 };
 
+// Wazn présent — pour Form I, on retourne le wazn ABSTRAIT (avec ف/ع/ل
+// visibles) plutôt que la forme surface. La voyelle opérative (fatha/damma/
+// kasra) est détectée depuis la forme présente réelle de Qutrub :
+//   ك ي د → يَكِيدُ : kasra sur R1 → wazn يَفْعِلُ
+//   ق و ل → يَقُولُ : damma sur R1 → wazn يَفْعُلُ
+//   ك ت ب → يَكْتُبُ : damma sur R2 → wazn يَفْعُلُ
+//   ن ز ل → يَنْزِلُ : kasra sur R2 → wazn يَفْعِلُ
+//   ذ ه ب → يَذْهَبُ : fatha sur R2 → wazn يَفْعَلُ
+// Cas spéciaux : géminé (يَفُلُّ), défectueux (يَفْعِي/يَفْعُو), Lafif.
+function computeWaznPresent(formNum, rootAr, presentForm) {
+  const abstract = WAZN_PRESENT_ABSTRACT[formNum];
+  if (!rootAr) return abstract;
+  const L = rootAr.split(/\s+/).filter(Boolean);
+  if (L.length !== 3) return abstract;
+  const [r1, r2, r3] = L;
+  const r2_weak = r2 === 'و' || r2 === 'ي';
+  const r3_weak = r3 === 'و' || r3 === 'ي';
+
+  if (formNum === 1) {
+    if (r2 === r3)          return 'يَفُلُّ';                      // géminé
+    if (r2_weak && r3_weak) return r3 === 'ي' ? 'يَفْعِي' : 'يَفْعُو';
+    if (r3 === 'ي')         return 'يَفْعِي';                       // défectueux ي
+    if (r3 === 'و')         return 'يَفْعُو';                       // défectueux و
+    // Sain et creux : on détecte la voyelle opérative depuis la forme
+    // surface (Qutrub). Pour creux, c'est la voyelle qui suit R1 ; pour
+    // sain, c'est celle qui suit R2.
+    if (presentForm) {
+      const idx = presentForm.indexOf(r1, 1);
+      if (idx >= 0) {
+        for (let i = idx + 1; i < presentForm.length; i++) {
+          const c = presentForm[i];
+          if (c === 'َ') return 'يَفْعَلُ';
+          if (c === 'ُ') return 'يَفْعُلُ';
+          if (c === 'ِ') return 'يَفْعِلُ';
+          // sukoon, shadda, lettres : on continue
+        }
+      }
+    }
+    return abstract;
+  }
+  // Forms II-X : wazn abstrait suffit (la forme surface est très proche)
+  return abstract;
+}
+
 // V2 : les conjugaisons (passé, présent, impératif, masdar) sont désormais
 // pré-calculées par Qutrub dans la table quran_verb_canonical (voir
 // morphology/enrich_with_qutrub.py). Le JS lit simplement data.past_3ms,
@@ -1053,31 +1097,42 @@ function showEtymologyAnalysis(data) {
 
   const formNum    = data.verb_form || 1;        // NULL en base = Form I
   const waznPast   = WAZN_PAST_ABSTRACT[formNum];
-  const waznPres   = WAZN_PRESENT_ABSTRACT[formNum];
+  // Wazn présent : abstrait (avec ف/ع/ل), détecté depuis la forme surface
+  // pour Form I (variabilité de la voyelle opérative selon le verbe).
+  const waznPres   = computeWaznPresent(formNum, data.root_ar, data.present_3ms);
   const featuresAr = formatFeaturesAr(data.features);
   const featuresFr = formatFeaturesFr(data.features);
 
-  // Conjugaisons canoniques : viennent directement de la table
-  // quran_verb_canonical (peuplée par Qutrub). On retombe sur le LEM du
-  // corpus si le canonique est NULL (cas des ~28 Form IV avec hamza initiale
-  // que Qutrub ne sait pas conjuguer).
-  const pastForm = data.past_3ms       || data.lemma_ar || null;
-  const presForm = data.present_3ms    || null;
-  const imperForm = data.imperative_2ms || null;
-  const masdar   = data.masdar         || null;
+  // Conjugaisons + participes : viennent directement de la table
+  // quran_verb_canonical (peuplée par Qutrub + templates).
+  const pastForm   = data.past_3ms          || data.lemma_ar || null;
+  const presForm   = data.present_3ms       || null;
+  const imperForm  = data.imperative_2ms    || null;
+  // Masdar et participes : convention dictionnaire — on ajoute le tanwin
+  // damma ٌ pour marquer l'indéfini nominatif (forme citationnelle des noms).
+  const withTanwin = (s) => s ? s + 'ٌ' : null;
+  const masdar     = withTanwin(data.masdar);
+  const actPart    = withTanwin(data.active_participle);
+  const passPart   = withTanwin(data.passive_participle);
 
-  // Affichage sur 2 lignes sous la racine :
-  //   ligne 1 (wazn abstrait) : فَعَلَ — يَفْعُلُ
-  //   ligne 2 (réel)          : الماضي: كَادَ · المضارع: يَكِيدُ · الأمر: كِدْ · المصدر: كَيْد
+  // Affichage sur 3 lignes sous la racine :
+  //   ligne 1 (wazn abstrait)        : فَعَلَ — يَفْعِلُ
+  //   ligne 2 (conjugaisons réelles) : الماضي: كَادَ · المضارع: يَكِيدُ · الأمر: كِدْ · المصدر: كَيْدٌ
+  //   ligne 3 (participes)            : اسم الفاعل: كَائِدٌ · اسم المفعول: مَكِيدٌ
   const wazns = [waznPast, waznPres].filter(Boolean).join(' — ');
   const verbParts = [];
   if (pastForm)  verbParts.push(`الماضي: ${pastForm}`);
   if (presForm)  verbParts.push(`المضارع: ${presForm}`);
   if (imperForm) verbParts.push(`الأمر: ${imperForm}`);
   if (masdar)    verbParts.push(`المصدر: ${masdar}`);
+  const partParts = [];
+  if (actPart)   partParts.push(`اسم الفاعل: ${actPart}`);
+  if (passPart)  partParts.push(`اسم المفعول: ${passPart}`);
+
   const lines = [];
   if (wazns)              lines.push(wazns);
   if (verbParts.length)   lines.push(verbParts.join(' · '));
+  if (partParts.length)   lines.push(partParts.join(' · '));
   const morphHtml = lines
     .map(l => `<span class="ety-morph-line">${l}</span>`)
     .join('');

@@ -2,12 +2,23 @@
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 
-// Mêmes credentials qu'api.php : tout le dev se fait contre alwaysdata.
-// Pour tester en local sur MAMP, change temporairement ces valeurs.
-$servername = "mysql-studiocoran.alwaysdata.net";
-$username = "323869";
-$password = "Jesaispas94";
-$dbname = "studiocoran_3";
+// Auto-détection : sur localhost MAMP, on lit la base locale (qui contient
+// les overrides et Form I synthétiques pas encore pushés en prod). En prod
+// alwaysdata, on garde les credentials d'origine.
+$host = $_SERVER['HTTP_HOST'] ?? '';
+$is_local = ($host === 'localhost' || strpos($host, '127.0.0.1') === 0
+             || strpos($host, 'localhost:') === 0);
+if ($is_local) {
+  $servername = "localhost";
+  $username   = "root";
+  $password   = "root";
+  $dbname     = "quran_wasla";
+} else {
+  $servername = "mysql-studiocoran.alwaysdata.net";
+  $username   = "323869";
+  $password   = "Jesaispas94";
+  $dbname     = "studiocoran_3";
+}
 
 // Toute exception mysqli (ex: table absente) est rattrapée et renvoyée en
 // JSON, plutôt que d'afficher la stacktrace PHP au navigateur.

@@ -1024,64 +1024,52 @@ function computeWaznPresent(formNum, rootAr, presentForm) {
 // data.present_3ms, data.imperative_2ms, data.masdar depuis la réponse JSON
 // de morphology.php (qui fait un LEFT JOIN avec quran_verb_canonical).
 
-// Classification du verbe trilitère par type morphologique de la racine.
-// Détecte (par ordre de priorité) :
-//   - مضاعف (mudaaf, géminé)         : R2 == R3 (non-faibles)
-//   - لفيف (lafif, deux faibles)      : ≥ 2 lettres faibles (و/ي/ا)
-//   - مثال (mithal, assimilé)         : R1 = و ou ي
-//   - أجوف (ajwaf, creux)             : R2 = و, ي ou ا
-//   - ناقص (naqis, défectueux)        : R3 = و, ي ou ا
-//   - مهموز (mahmuz, hamzé)           : une lettre est ء/أ/إ/ؤ/ئ (ou ا hamza dans le corpus)
-//   - سالم (salim, sain)              : sinon
+// Classification du verbe trilitère selon la planche pédagogique classique :
+//
+//   فعل
+//   ├── صحيح (sain — pas de lettre faible و/ي en racine)
+//   │   ├── سالم    (rien d'autre)
+//   │   ├── مضاعف   (R2 == R3)
+//   │   └── مهموز   (overlay : possède une hamza, encodée ا/أ/إ/ؤ/ئ)
+//   └── معتل (au moins une lettre faible و/ي)
+//       ├── مثال   (R1 faible)
+//       ├── أجوف   (R2 faible)
+//       ├── ناقص   (R3 faible)
+//       └── لفيف   (≥ 2 lettres faibles)
+//
+// مهموز se cumule avec سالم/أجوف/ناقص etc. (un verbe peut être à la fois سالم
+// ET مهموز, ex: أَخَذَ ; ou أجوف ET مهموز, ex: جَاءَ).
+// Le corpus encode toute hamza-racine par 'ا' (jamais d'alif "vrai" en racine).
+//
+// Retourne { primary: {ar, fr}, hamza: {ar, fr} | null } — primary toujours
+// présent, hamza seulement si applicable.
 function classifyVerb(rootAr) {
   if (!rootAr) return null;
   const L = rootAr.split(/\s+/).filter(Boolean);
   if (L.length !== 3) return null;
   const [r1, r2, r3] = L;
-  const isWeakLetter = c => c === 'و' || c === 'ي' || c === 'ا';
-  const isHamza      = c => 'ءأإآؤئ'.includes(c);
-  const r1Weak = isWeakLetter(r1), r2Weak = isWeakLetter(r2), r3Weak = isWeakLetter(r3);
-  const anyHamza = isHamza(r1) || isHamza(r2) || isHamza(r3);
-  // Le corpus encode toute hamza-racine par ا (alif). On considère donc qu'un ا
-  // en position racine traduit un mahmuz si aucune autre faiblesse n'est présente.
-  // Cas particulier : si ا est en R2 ou R3, on traite d'abord comme creux/défectueux
-  // (priorité morphologique en grammaire arabe), mais la classification "mahmuz"
-  // est dominante pour les racines hamza R1 (أَخَذَ, أَكَلَ).
+  // و, ي = vraies lettres faibles. ا en position racine = encodage de hamza
+  // dans le corpus (jamais un alif "vrai" en racine). ء/أ/إ/ؤ/ئ idem.
+  const isWeak  = c => c === 'و' || c === 'ي';
+  const isHamza = c => c === 'ا' || 'ءأإآؤئ'.includes(c);
 
-  const weakCount = (r1Weak ? 1 : 0) + (r2Weak ? 1 : 0) + (r3Weak ? 1 : 0);
+  const r1W = isWeak(r1), r2W = isWeak(r2), r3W = isWeak(r3);
+  const weakCount = (r1W ? 1 : 0) + (r2W ? 1 : 0) + (r3W ? 1 : 0);
+  const hasHamza = isHamza(r1) || isHamza(r2) || isHamza(r3);
 
-  // مضاعف : R2 == R3 (mais pas si l'un est faible — ce serait ajwaf/naqis)
-  if (r2 === r3 && !r2Weak) {
-    return { ar: 'مضاعف', fr: 'mudaaf (géminé)' };
-  }
+  // Type primaire (mutuellement exclusif)
+  let primary;
+  if (weakCount >= 2)             primary = { ar: 'لفيف',  fr: 'lafif (deux faibles)' };
+  else if (r2 === r3 && !r2W)     primary = { ar: 'مضاعف', fr: 'mudaaf (géminé)' };
+  else if (r1W)                   primary = { ar: 'مثال',  fr: 'mithal (assimilé)' };
+  else if (r2W)                   primary = { ar: 'أجوف',  fr: 'ajwaf (creux)' };
+  else if (r3W)                   primary = { ar: 'ناقص',  fr: 'naqis (défectueux)' };
+  else                            primary = { ar: 'سالم',  fr: 'salim (sain)' };
 
-  // لفيف : 2 lettres faibles parmi R1/R2/R3
-  if (weakCount >= 2) {
-    return { ar: 'لفيف', fr: 'lafif (deux faibles)' };
-  }
+  // Overlay مهموز (cumulable)
+  const hamza = hasHamza ? { ar: 'مهموز', fr: 'mahmuz (hamzé)' } : null;
 
-  // مثال : R1 = و ou ي (pas ا car ا R1 = mahmuz)
-  if (r1 === 'و' || r1 === 'ي') {
-    return { ar: 'مثال', fr: 'mithal (assimilé)' };
-  }
-
-  // أجوف : R2 faible
-  if (r2Weak) {
-    return { ar: 'أجوف', fr: 'ajwaf (creux)' };
-  }
-
-  // ناقص : R3 faible
-  if (r3Weak) {
-    return { ar: 'ناقص', fr: 'naqis (défectueux)' };
-  }
-
-  // مهموز : hamza explicite OU ا en R1 (le corpus encode أ/إ/آ initial par ا)
-  if (anyHamza || r1 === 'ا') {
-    return { ar: 'مهموز', fr: 'mahmuz (hamzé)' };
-  }
-
-  // Sinon : سالم
-  return { ar: 'سالم', fr: 'salim (sain)' };
+  return { primary, hamza };
 }
 
 const ETY_FEATURE_FR = {
@@ -1217,6 +1205,16 @@ function showEtymologyAnalysis(data) {
   const waznPastF1 = WAZN_PAST_ABSTRACT[1];
   const waznPresF1 = computeWaznPresent(1, data.root_ar, base ? base.present_3ms : null);
 
+  // Helper de rendu de la classification : "سالم (salim)" ou "سالم مهموز (salim + mahmuz)"
+  const renderClass = (c) => {
+    if (!c) return '';
+    const labels = [c.primary];
+    if (c.hamza) labels.push(c.hamza);
+    const ar = labels.map(l => l.ar).join(' ');
+    const fr = labels.map(l => l.fr).join(' + ');
+    return `<span class="ety-class">${ar} <span class="ety-class-fr">${fr}</span></span>`;
+  };
+
   const line1Parts = [];
   // En-tête racine : "الجذر: ا خ ذ"
   line1Parts.push(`<span class="ety-root-label">الجذر:</span> <span class="ety-root">${data.root_ar}</span>`);
@@ -1224,46 +1222,49 @@ function showEtymologyAnalysis(data) {
     const triliterePieces = [base.past_3ms, base.present_3ms].filter(Boolean).join(' — ');
     line1Parts.push(`<span class="ety-trilitere">${triliterePieces}</span>`);
   }
-  if (cls) {
-    line1Parts.push(`<span class="ety-class">${cls.ar} <span class="ety-class-fr">${cls.fr}</span></span>`);
-  }
+  const classHtml = renderClass(cls);
+  if (classHtml) line1Parts.push(classHtml);
   const waznsF1 = [waznPastF1, waznPresF1].filter(Boolean).join(' — ');
   if (waznsF1) {
     line1Parts.push(`<span class="ety-wazn">${waznsF1}</span>`);
   }
   const line1Html = `<div class="ety-line ety-line-root">${line1Parts.join(' · ')}</div>`;
 
-  // ─── LIGNE 2 : le verbe coranique (uniquement si ≠ Form I active) ───
-  // Pour Form I active : ligne 1 = ligne 2, on n'affiche que ligne 1.
-  let line2Html = '';
+  // ─── LIGNE 2 : conjugaisons du verbe coranique (toujours affichée) ─────
+  // Pour Form I active : ligne 2 = conjugaisons + participes uniquement
+  //   (pas de wazn ni "مشتق من" — déjà sur ligne 1).
+  // Pour Forms II-X (et passifs) : conjugaisons + participes + wazn + "مشتق من".
+  const pastForm  = data.past_3ms          || data.lemma_ar || null;
+  const presForm  = data.present_3ms       || null;
+  const imperForm = data.imperative_2ms    || null;
+  const masdar    = withTanwin(data.masdar);
+  const actPart   = withTanwin(data.active_participle);
+  const passPart  = withTanwin(data.passive_participle);
+
+  const conjParts = [];
+  if (pastForm)  conjParts.push(`الماضي: ${pastForm}`);
+  if (presForm)  conjParts.push(`المضارع: ${presForm}`);
+  if (imperForm) conjParts.push(`الأمر: ${imperForm}`);
+  if (masdar)    conjParts.push(`المصدر: ${masdar}`);
+  const partParts = [];
+  if (actPart)   partParts.push(`اسم الفاعل: ${actPart}`);
+  if (passPart)  partParts.push(`اسم المفعول: ${passPart}`);
+
+  const subLines = [];
+  if (conjParts.length) subLines.push(conjParts.join(' · '));
+  if (partParts.length) subLines.push(partParts.join(' · '));
   if (!isFormIActive) {
-    const pastForm  = data.past_3ms          || data.lemma_ar || null;
-    const presForm  = data.present_3ms       || null;
-    const imperForm = data.imperative_2ms    || null;
-    const masdar    = withTanwin(data.masdar);
-    const actPart   = withTanwin(data.active_participle);
-    const passPart  = withTanwin(data.passive_participle);
-
-    const conjParts = [];
-    if (pastForm)  conjParts.push(`الماضي: ${pastForm}`);
-    if (presForm)  conjParts.push(`المضارع: ${presForm}`);
-    if (imperForm) conjParts.push(`الأمر: ${imperForm}`);
-    if (masdar)    conjParts.push(`المصدر: ${masdar}`);
-    const partParts = [];
-    if (actPart)   partParts.push(`اسم الفاعل: ${actPart}`);
-    if (passPart)  partParts.push(`اسم المفعول: ${passPart}`);
-
+    // Wazn spécifique à la forme dérivée (différent du wazn Form I)
     const wazns2 = [waznPast, waznPres].filter(Boolean).join(' — ');
-    const subLines = [];
-    if (conjParts.length) subLines.push(conjParts.join(' · '));
-    if (partParts.length) subLines.push(partParts.join(' · '));
-    if (wazns2)           subLines.push(`<span class="ety-wazn">${wazns2}</span>`);
-    // "مشتق من" — uniquement pour les Forms II–X ; on cite le passé de la Form I
-    if (formNum >= 2 && base && base.past_3ms) {
+    if (wazns2) subLines.push(`<span class="ety-wazn">${wazns2}</span>`);
+    // "مشتق من" — cite le passé de la Form I
+    if (base && base.past_3ms) {
       subLines.push(`<span class="ety-derived">مشتق من ${base.past_3ms}</span>`);
     }
-    line2Html = `<div class="ety-line ety-line-verb">${subLines.map(s => `<span class="ety-morph-line">${s}</span>`).join('')}</div>`;
   }
+  const line2Html = subLines.length
+    ? `<div class="ety-line ety-line-verb">${subLines.map(s => `<span class="ety-morph-line">${s}</span>`).join('')}</div>`
+    : '';
 
   ruleDiv.innerHTML = line1Html + line2Html;
 

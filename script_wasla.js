@@ -1039,9 +1039,9 @@ function computeWaznPresent(formNum, rootAr, presentForm) {
 //       └── لفيف   (≥ 2 lettres faibles)
 //
 // Le corpus encode toute hamza-racine par 'ا' (jamais d'alif "vrai" en racine).
-// Conséquence : أَخَذَ (ا خ ذ) → مهموز (et NON سالم + مهموز).
+// Conséquence : أَخَذَ (ا خ ذ) → فعل صحيح مهموز.
 //
-// Retourne { ar: '…' } ou null.
+// Retourne { branch: 'صحيح'|'معتل', sub: 'سالم'|... } ou null.
 function classifyVerb(rootAr) {
   if (!rootAr) return null;
   const L = rootAr.split(/\s+/).filter(Boolean);
@@ -1056,16 +1056,16 @@ function classifyVerb(rootAr) {
   const weakCount = (r1W ? 1 : 0) + (r2W ? 1 : 0) + (r3W ? 1 : 0);
 
   // ─── Branche معتل (au moins une lettre faible و/ي) ──────────────────
-  if (weakCount >= 2) return { ar: 'لفيف' };
+  if (weakCount >= 2) return { branch: 'معتل', sub: 'لفيف' };
   if (weakCount >= 1) {
-    if (r1W) return { ar: 'مثال' };
-    if (r2W) return { ar: 'أجوف' };
-    if (r3W) return { ar: 'ناقص' };
+    if (r1W) return { branch: 'معتل', sub: 'مثال' };
+    if (r2W) return { branch: 'معتل', sub: 'أجوف' };
+    if (r3W) return { branch: 'معتل', sub: 'ناقص' };
   }
   // ─── Branche صحيح (aucune lettre faible) ────────────────────────────
-  if (r2 === r3)                                       return { ar: 'مضعف' };
-  if (isHamza(r1) || isHamza(r2) || isHamza(r3))       return { ar: 'مهموز' };
-  return { ar: 'سالم' };
+  if (r2 === r3)                                       return { branch: 'صحيح', sub: 'مضعف' };
+  if (isHamza(r1) || isHamza(r2) || isHamza(r3))       return { branch: 'صحيح', sub: 'مهموز' };
+  return { branch: 'صحيح', sub: 'سالم' };
 }
 
 const ETY_FEATURE_FR = {
@@ -1124,25 +1124,43 @@ function formatFeaturesAr(features) {
   return parts.join(' · ');
 }
 
-// Construit la phrase TTS : racine (lettre par lettre) → wazns abstraits
-// → conjugaisons réelles. Donne l'identité morphologique complète du verbe.
-// Ex : "جذر الفعل: ألف تاء ياء. وزن الماضي: فَعَلَ. وزن المضارع: يَفْعِلُ.
-//       الماضي: أَتَى. المضارع: يَأْتِي. الأمر: اِئْتِ. المصدر: إِتْيَان."
-function buildRootSpeech(rootAr, data, waznPast, waznPres) {
+// Construit la phrase TTS : lit la LIGNE 1 (racine + trilitère + classification
+// + wazn Form I) puis la LIGNE 2 (wazn forme courante + conjugaisons + participes).
+// Ex pour أَخَذَ :
+//   "جذر : ألف خاء ذال. أَخَذَ — يَأْخُذُ. فعل صحيح مهموز.
+//    وزن الماضي فَعَلَ. وزن المضارع يَفْعُلُ.
+//    الماضي أَخَذَ. المضارع يَأْخُذُ. الأمر خُذْ. المصدر أَخْذ.
+//    اسم الفاعل آخِذ. اسم المفعول مَأْخُوذ."
+function buildRootSpeech(rootAr, data, waznPast, waznPres, base, cls) {
   const letters = rootAr.split(/\s+/).filter(Boolean);
   const names = letters.map(l => (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[l]) || l);
-  let phrase = `جذر الفعل: ${names.join(' ')}`;
-  if (waznPast) phrase += `. وزن الماضي: ${waznPast}`;
-  if (waznPres) phrase += `. وزن المضارع: ${waznPres}`;
+  // ─── LIGNE 1 ─────────────────────────────────────────────────────────
+  let phrase = `جذر: ${names.join(' ')}`;
+  // Verbe trilitère (Form I), si disponible
+  if (base && base.past_3ms) {
+    const tri = [base.past_3ms, base.present_3ms].filter(Boolean).join(' — ');
+    phrase += `. ${tri}`;
+  }
+  // Classification "فعل صحيح/معتل + sous-type"
+  if (cls && cls.branch && cls.sub) {
+    phrase += `. فعل ${cls.branch} ${cls.sub}`;
+  }
+  // ─── LIGNE 2 ─────────────────────────────────────────────────────────
+  if (waznPast) phrase += `. وزن الماضي ${waznPast}`;
+  if (waznPres) phrase += `. وزن المضارع ${waznPres}`;
   if (data) {
     const past   = data.past_3ms       || data.lemma_ar || null;
     const pres   = data.present_3ms    || null;
     const impv   = data.imperative_2ms || null;
     const masdar = data.masdar         || null;
-    if (past)   phrase += `. الماضي: ${past}`;
-    if (pres)   phrase += `. المضارع: ${pres}`;
-    if (impv)   phrase += `. الأمر: ${impv}`;
-    if (masdar) phrase += `. المصدر: ${masdar}`;
+    if (past)   phrase += `. الماضي ${past}`;
+    if (pres)   phrase += `. المضارع ${pres}`;
+    if (impv)   phrase += `. الأمر ${impv}`;
+    if (masdar) phrase += `. المصدر ${masdar}`;
+    const actP  = data.active_participle  || null;
+    const passP = data.passive_participle || null;
+    if (actP)   phrase += `. اسم الفاعل ${actP}`;
+    if (passP)  phrase += `. اسم المفعول ${passP}`;
   }
   return phrase;
 }
@@ -1209,7 +1227,8 @@ function showEtymologyAnalysis(data) {
     line1Parts.push(`<span class="ety-trilitere">${triliterePieces}</span>`);
   }
   if (cls) {
-    line1Parts.push(`<span class="ety-class">${cls.ar}</span>`);
+    // "فعل صحيح مهموز" / "فعل معتل أجوف" etc. — texte simple, même style que les wazns
+    line1Parts.push(`<span class="ety-class">فعل ${cls.branch} ${cls.sub}</span>`);
   }
   const waznsF1 = [waznPastF1, waznPresF1].filter(Boolean).join(' — ');
   if (waznsF1) {
@@ -1271,7 +1290,7 @@ function showEtymologyAnalysis(data) {
   updateClearAnalysisBtnVisibility();
 
   // TTS arabe des lettres de la racine (à affiner avec l'aide d'arabophone)
-  speakText(buildRootSpeech(data.root_ar, data, waznPast, waznPres));
+  speakText(buildRootSpeech(data.root_ar, data, waznPast, waznPres, base, cls));
 }
 
 /**

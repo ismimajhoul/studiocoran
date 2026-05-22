@@ -75,5 +75,13 @@
     "active_participle": "مُتَوَلٍّ",
     "passive_participle": "مُتَوَلًّى",
     "comment": "Form V défectif تَوَلَّى : participes défectifs avec tanwin (مُتَوَلٍّ / مُتَوَلًّى). Qutrub donne مُتَوَلِّي / مُتَوَلَّي (forme non-défective, faux)."
+  },
+
+  "ر ا ي:1:active": {
+    "present_3ms": "يَرَى",
+    "imperative_2ms": "رَ",
+    "masdar": "رُؤْيَة",
+    "passive_participle": "مَرْئِيّ",
+    "comment": "Verbe رأى (voir) — irrégulier classique : la hamza tombe au présent (يَرَى, pas يَرْئِي) et à l'impératif (رَ, forme très courte). Qutrub conjugue régulièrement la hamza, ce qui est faux pour ce verbe spécifique."
   }
 }

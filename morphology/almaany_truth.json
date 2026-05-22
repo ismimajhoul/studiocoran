@@ -1,0 +1,4913 @@
+[
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ع ل م",
+    "root_buck": "Elm",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَلِمَ",
+    "lemma_buck": "Ealima",
+    "occurrences": 381,
+    "sample_loc": "2:13:19",
+    "almaany": {
+      "past_3ms_almaany": "علَمَ",
+      "present_3ms_almaany": "يَعلُم",
+      "masdars_almaany": [
+        "عَلْمًا"
+      ],
+      "active_participle_almaany": "عالِم",
+      "passive_participle_almaany": "مَعْلوم",
+      "raw_head": "علَمَ يَعلُم ، عَلْمًا ، فهو عالِم ، والمفعول مَعْلوم",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "علم",
+      "variants_tried": [
+        "علم"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 17
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ج ع ل",
+    "root_buck": "jEl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "جَعَلَ",
+    "lemma_buck": "jaEala",
+    "occurrences": 339,
+    "sample_loc": "2:19:9",
+    "almaany": {
+      "past_3ms_almaany": "جعَلَ",
+      "present_3ms_almaany": "يَجعَل",
+      "masdars_almaany": [
+        "جَعْلاً"
+      ],
+      "active_participle_almaany": "جاعِل",
+      "passive_participle_almaany": "مَجْعول",
+      "raw_head": "جعَلَ يَجعَل ، جَعْلاً ، فهو جاعِل ، والمفعول مَجْعول",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "جعل",
+      "variants_tried": [
+        "جعل"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ع م ل",
+    "root_buck": "Eml",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَمِلَ",
+    "lemma_buck": "Eamila",
+    "occurrences": 276,
+    "sample_loc": "2:25:4",
+    "almaany": {
+      "past_3ms_almaany": "عمِلَ",
+      "present_3ms_almaany": "يَعمَل",
+      "masdars_almaany": [
+        "عَمَلاً"
+      ],
+      "active_participle_almaany": "عامل",
+      "passive_participle_almaany": "معمول",
+      "raw_head": "عمِلَ / عمِلَ بـ / عمِلَ على / عمِلَ في / عمِلَ لـ يَعمَل ، عَمَلاً ، فهو عامل ، والمفعول معمول - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "عمل",
+      "variants_tried": [
+        "عمل"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ف ع ل",
+    "root_buck": "fEl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "فَعَلَ",
+    "lemma_buck": "faEala",
+    "occurrences": 85,
+    "sample_loc": "2:24:3",
+    "almaany": {
+      "past_3ms_almaany": "فعل",
+      "present_3ms_almaany": "يطاوع",
+      "masdars_almaany": [
+        "فعلاً"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "(نح) فعل لازم يطاوع فعلاً متعدّيًا من مادته",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "فعل",
+      "variants_tried": [
+        "فعل"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "س م ع",
+    "root_buck": "smE",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "سَمِعَ",
+    "lemma_buck": "samiEa",
+    "occurrences": 78,
+    "sample_loc": "2:75:9",
+    "almaany": {
+      "past_3ms_almaany": "سمِعَ",
+      "present_3ms_almaany": "يَسمَع",
+      "masdars_almaany": [
+        "سماعًا",
+        "سَمْعًا"
+      ],
+      "active_participle_almaany": "سامِع",
+      "passive_participle_almaany": "مَسْموع",
+      "raw_head": "سمِعَ / سمِعَ إلى / سمِعَ لـ يَسمَع ، سماعًا وسَمْعًا ، فهو سامِع وسميع ، والمفعول مَسْموع",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "سمع",
+      "variants_tried": [
+        "سمع"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "و ذ ر",
+    "root_buck": "w*r",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَذَرَ",
+    "lemma_buck": "ya*ara",
+    "occurrences": 45,
+    "sample_loc": "2:234:4",
+    "almaany": {
+      "past_3ms_almaany": "ذرا",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "طار في الهواء وتفرّق وتبدّد ° ذرا فوه",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَذَرَ'",
+      "status": "ok",
+      "word_searched": "يذر",
+      "variants_tried": [
+        "يذر"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 3
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ش ه د",
+    "root_buck": "$hd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "شَهِدَ",
+    "lemma_buck": "$ahida",
+    "occurrences": 44,
+    "sample_loc": "2:84:15",
+    "almaany": {
+      "past_3ms_almaany": "شهِدَ",
+      "present_3ms_almaany": "يَشهَد",
+      "masdars_almaany": [
+        "شهادةً"
+      ],
+      "active_participle_almaany": "شاهد",
+      "passive_participle_almaany": "مَشْهود",
+      "raw_head": "شهِدَ / شهِدَ بـ / شهِدَ على / شهِدَ لـ يَشهَد ، شهادةً ، فهو شاهد ، والمفعول مَشْهود به",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "شهد",
+      "variants_tried": [
+        "شهد"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ح س ب",
+    "root_buck": "Hsb",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "حَسِبَ",
+    "lemma_buck": "Hasiba",
+    "occurrences": 44,
+    "sample_loc": "2:214:2",
+    "almaany": {
+      "past_3ms_almaany": "حسَبَ",
+      "present_3ms_almaany": "يَحسُب",
+      "masdars_almaany": [
+        "حِسابًا",
+        "حَسْبًا",
+        "حُسْبانًا",
+        "حِسَبةً"
+      ],
+      "active_participle_almaany": "حاسِب",
+      "passive_participle_almaany": "مَحْسوب",
+      "raw_head": "حسَبَ يَحسُب ، حِسابًا وحَسْبًا وحُسْبانًا وحِسَبةً ، فهو حاسِب ، والمفعول مَحْسوب",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "حسب",
+      "variants_tried": [
+        "حسب"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ب ع ث",
+    "root_buck": "bEv",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بَعَثَ",
+    "lemma_buck": "baEava",
+    "occurrences": 39,
+    "sample_loc": "2:56:2",
+    "almaany": {
+      "past_3ms_almaany": "بعَثَ",
+      "present_3ms_almaany": "يبعَث",
+      "masdars_almaany": [
+        "بَعْثًا",
+        "بِعْثةً",
+        "بَعْثةً"
+      ],
+      "active_participle_almaany": "باعِث",
+      "passive_participle_almaany": "مَبْعوث",
+      "raw_head": "بعَثَ / بعَثَ بـ / بعَثَ في يبعَث ، بَعْثًا وبِعْثةً وبَعْثةً ، فهو باعِث ، والمفعول مَبْعوث",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "بعث",
+      "variants_tried": [
+        "بعث"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ح ز ن",
+    "root_buck": "Hzn",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَحْزُن",
+    "lemma_buck": "yaHozun",
+    "occurrences": 37,
+    "sample_loc": "2:38:17",
+    "almaany": {
+      "past_3ms_almaany": "احتازَ",
+      "present_3ms_almaany": "يحتاز",
+      "masdars_almaany": [
+        "احتيازًا"
+      ],
+      "active_participle_almaany": "مُحتاز",
+      "passive_participle_almaany": "مُحتاز",
+      "raw_head": "احتازَ يحتاز ، احْتَزْ ، احتيازًا ، فهو مُحتاز ، والمفعول مُحتاز",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَحْزُن'",
+      "status": "ok",
+      "word_searched": "يحزن",
+      "variants_tried": [
+        "يحزن"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ذ ه ب",
+    "root_buck": "*hb",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ذَهَبَ",
+    "lemma_buck": "*ahaba",
+    "occurrences": 35,
+    "sample_loc": "2:17:10",
+    "almaany": {
+      "past_3ms_almaany": "ذهَبَ",
+      "present_3ms_almaany": "يذهَب",
+      "masdars_almaany": [
+        "ذَهابًا",
+        "ذُهُوبًا"
+      ],
+      "active_participle_almaany": "ذاهِب",
+      "passive_participle_almaany": "مذهوب",
+      "raw_head": "‎•‎‏ ذهَبَ / ذهَبَ إلى / ذهَبَ بـ / ذهَبَ على / ذهَبَ عن / ذهَبَ في يذهَب ، ذَهابًا و ذُهُوبًا ، فهو ذاهِب و ذَهوب ، والمفعول مذهوب إليه ، ‏ ذَهَبَ ذَهابًا ، ذُهُوبًا ، مَذْهَبًا",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "ذهب",
+      "variants_tried": [
+        "ذهب"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ن ف ع",
+    "root_buck": "nfE",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "نَفَعَ",
+    "lemma_buck": "nafaEa",
+    "occurrences": 31,
+    "sample_loc": "2:102:56",
+    "almaany": {
+      "past_3ms_almaany": "نفَعَ",
+      "present_3ms_almaany": "يَنفَع",
+      "masdars_almaany": [],
+      "active_participle_almaany": "نافِع",
+      "passive_participle_almaany": "مَنْفوع",
+      "raw_head": "نفَعَ يَنفَع ، نَفْعًا ، فهو نافِع ، والمفعول مَنْفوع",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "نفع",
+      "variants_tried": [
+        "نفع"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ل ب ث",
+    "root_buck": "lbv",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "لَبِثَ",
+    "lemma_buck": "labiva",
+    "occurrences": 30,
+    "sample_loc": "2:259:25",
+    "almaany": {
+      "past_3ms_almaany": "لبِثَ",
+      "present_3ms_almaany": "يَلبَث",
+      "masdars_almaany": [
+        "لَبْثًا",
+        "لُبْثًا"
+      ],
+      "active_participle_almaany": "لابث",
+      "passive_participle_almaany": "مَلْبُوث",
+      "raw_head": "لبِثَ بـ / لبِثَ في يَلبَث ، لَبْثًا ولُبْثًا ، فهو لابث ولَبِث ، والمفعول مَلْبُوث به",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "لبث",
+      "variants_tried": [
+        "لبث"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "و ه ب",
+    "root_buck": "whb",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "وَهَبَ",
+    "lemma_buck": "wahaba",
+    "occurrences": 22,
+    "sample_loc": "3:8:8",
+    "almaany": {
+      "past_3ms_almaany": "وَهَبَ",
+      "present_3ms_almaany": "يَهَبُه",
+      "masdars_almaany": [
+        "َهْبًا",
+        "َهَبًا",
+        "هِبَةً"
+      ],
+      "active_participle_almaany": "واهبٌ",
+      "passive_participle_almaany": null,
+      "raw_head": "وَهَبَ (يَهَبُه) وَهْبًا ، ووَهَبًا ، وهِبَةً فهو واهبٌ ، ووَهُوبٌ ، ووهّاب ، ووَهابةٌ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "وهب",
+      "variants_tried": [
+        "وهب"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
+    }
+  },
+  {
+    "category": "form1_sain_a",
+    "root_ar": "ر ف ع",
+    "root_buck": "rfE",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "رَفَعَ",
+    "lemma_buck": "rafaEa",
+    "occurrences": 20,
+    "sample_loc": "2:63:4",
+    "almaany": {
+      "past_3ms_almaany": "رفُعَ",
+      "present_3ms_almaany": "يَرفُع",
+      "masdars_almaany": [
+        "رِفعةً",
+        "رِفاعةً"
+      ],
+      "active_participle_almaany": "رَفيع",
+      "passive_participle_almaany": "مَرْفُوع",
+      "raw_head": "رفُعَ في يَرفُع ، رِفعةً ورِفاعةً ، فهو رَفيع ، والمفعول مَرْفُوع فيه",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "رفع",
+      "variants_tried": [
+        "رفع"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ك ف ر",
+    "root_buck": "kfr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "كَفَرَ",
+    "lemma_buck": "kafara",
+    "occurrences": 287,
+    "sample_loc": "2:6:3",
+    "almaany": {
+      "past_3ms_almaany": "كَفَرَ",
+      "present_3ms_almaany": "يؤمن",
+      "masdars_almaany": [
+        "كُفْرًا",
+        "كَفَرُوا"
+      ],
+      "active_participle_almaany": "كافِرٌ",
+      "passive_participle_almaany": null,
+      "raw_head": "كَفَرَ الرَّجُلُ كَفَرَ ُ كُفْرًا ، وكُفْرَانًا: لم يؤمن بالوحدانيّة، أَو النبوَّة، أَو الشريعة، أَو بثلاثتها. وفي التنزيل العزيز: العنكبوت آية 12وَقَالَ الَّذِينَ كَفَرُوا لِلَّذِينَ آمَنُوا اتَّبِعُوا سَبِيلَنَا) ) . ويقال: كفر بالله، أَو بنعمة الله. وفي التنزيل العزيز: البقرة آية 28كَيْفَ تَكْفُرُونَ بِاللهِ وكُنْتُمْ أَمْواتًا فَأَحْيَاكُمْ) ) وفيه أَيضًا: النحل آية 72وَبِنِعْمَةِ اللهِ هُمْ يَكْفُرُونَ ) ) . كما يقال: كفَر نعمةَ الله. فهو كافِرٌ . والجمع : كُفَّارٌ ، وكَفَرَةٌ . وهو كَفَّارٌ أَيضًا. وهو، وهي كَفُورٌ . والجمع : كُفُرٌ . وهي كافرة ، والجمع كوافرُ . وفي التنزيل العزيز الممتحنة آية 10وَلاَ تُمْسِكُوا بِعِصَمِ الكَوَافِرِ ) ) و كَفَرَ بهذا: تبرَّأَ منه و كَفَرَ الشيءَ، وعليه كَفْرًا : ستره وغطَّاهُ. ويقال: كَفَرَ الزَّارعُ البذرَ بالتراب. فهو كافِرٌ . وكَفَرَ التُّرابُ ما تحته: غطَّاهُ.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
+      "word_searched": "كفر",
+      "variants_tried": [
+        "كفر"
+      ],
+      "from_cache": true,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "خ ل ق",
+    "root_buck": "xlq",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "خَلَقَ",
+    "lemma_buck": "xalaqa",
+    "occurrences": 173,
+    "sample_loc": "2:21:6",
+    "almaany": {
+      "past_3ms_almaany": "خلُقَ",
+      "present_3ms_almaany": "يَخلُق",
+      "masdars_almaany": [
+        "خَلاقَةً"
+      ],
+      "active_participle_almaany": "خليق",
+      "passive_participle_almaany": "مَخْلُوق",
+      "raw_head": "خلُقَ / خلُقَ بـ / خلُقَ لـ يَخلُق ، خَلاقَةً ، فهو خليق ، والمفعول مَخْلُوق به",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "خلق",
+      "variants_tried": [
+        "خلق"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ع ب د",
+    "root_buck": "Ebd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَبَدَ",
+    "lemma_buck": "Eabada",
+    "occurrences": 121,
+    "sample_loc": "1:5:2",
+    "almaany": {
+      "past_3ms_almaany": "عبْد",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "جعله يبدأ بكلمة عبْد",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "عبد",
+      "variants_tried": [
+        "عبد"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ن ظ ر",
+    "root_buck": "nZr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "نَّظَرَ",
+    "lemma_buck": "n~aZara",
+    "occurrences": 87,
+    "sample_loc": "2:50:10",
+    "almaany": {
+      "past_3ms_almaany": "نظَرَ",
+      "present_3ms_almaany": "نظَرَ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "ناظر",
+      "passive_participle_almaany": "مَنْظور",
+      "raw_head": "نظَرَ / نظَرَ إلى / نظَرَ بـ / نظَرَ في / نظَرَ لـ يَنظُر ، نَظَرًا ونَظْرًا ، فهو ناظر ، والمفعول مَنْظور - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "نظر",
+      "variants_tried": [
+        "نظر"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "د خ ل",
+    "root_buck": "dxl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "دَخَلَ",
+    "lemma_buck": "daxala",
+    "occurrences": 75,
+    "sample_loc": "2:58:3",
+    "almaany": {
+      "past_3ms_almaany": "دخِلَ",
+      "present_3ms_almaany": "يَدخَل",
+      "masdars_almaany": [
+        "دَخْلاً",
+        "دَخَلاً"
+      ],
+      "active_participle_almaany": "دخِل",
+      "passive_participle_almaany": null,
+      "raw_head": "دخِلَ يَدخَل ، دَخْلاً ودَخَلاً ، فهو دخِل",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "دخل",
+      "variants_tried": [
+        "دخل"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ذ ك ر",
+    "root_buck": "*kr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ذَكَرَ",
+    "lemma_buck": "*akara",
+    "occurrences": 73,
+    "sample_loc": "2:40:3",
+    "almaany": {
+      "past_3ms_almaany": "ذكَرَ",
+      "present_3ms_almaany": "يَذكُر",
+      "masdars_almaany": [
+        "ذِكْرًا",
+        "ذُكْرًا",
+        "ذِكْرى"
+      ],
+      "active_participle_almaany": "ذاكِر",
+      "passive_participle_almaany": "مَذْكور",
+      "raw_head": "ذكَرَ يَذكُر ، ذِكْرًا وذُكْرًا وذِكْرى وتَذكارًا وتِذكارًا ، فهو ذاكِر ، والمفعول مَذْكور",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "ذكر",
+      "variants_tried": [
+        "ذكر"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ق ت ل",
+    "root_buck": "qtl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "قَتَلَ",
+    "lemma_buck": "qatala",
+    "occurrences": 63,
+    "sample_loc": "2:54:14",
+    "almaany": {
+      "past_3ms_almaany": "قتَلَ",
+      "present_3ms_almaany": "يَقتُل",
+      "masdars_almaany": [
+        "قَتْلاً"
+      ],
+      "active_participle_almaany": "قاتِل",
+      "passive_participle_almaany": "مَقْتول",
+      "raw_head": "قتَلَ يَقتُل ، قَتْلاً ، فهو قاتِل ، والمفعول مَقْتول وقَتيل",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "قتل",
+      "variants_tried": [
+        "قتل"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ر ز ق",
+    "root_buck": "rzq",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "رَزَقَ",
+    "lemma_buck": "razaqa",
+    "occurrences": 56,
+    "sample_loc": "2:3:7",
+    "almaany": {
+      "past_3ms_almaany": "رزَقَ",
+      "present_3ms_almaany": "يَرزُق",
+      "masdars_almaany": [
+        "رَزْقًا"
+      ],
+      "active_participle_almaany": "رازِق",
+      "passive_participle_almaany": "مَرْزوق",
+      "raw_head": "رزَقَ يَرزُق ، رَزْقًا ، فهو رازِق ، والمفعول مَرْزوق",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "رزق",
+      "variants_tried": [
+        "رزق"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "خ ر ج",
+    "root_buck": "xrj",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "خَرَجَ",
+    "lemma_buck": "xaraja",
+    "occurrences": 53,
+    "sample_loc": "2:74:23",
+    "almaany": {
+      "past_3ms_almaany": "خرَج",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "ذهب إليه? خرَج إلى فلان",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "خرج",
+      "variants_tried": [
+        "خرج"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ش ك ر",
+    "root_buck": "$kr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "شَكَرَ",
+    "lemma_buck": "$akara",
+    "occurrences": 46,
+    "sample_loc": "2:52:8",
+    "almaany": {
+      "past_3ms_almaany": "شكَرَ",
+      "present_3ms_almaany": "يَشكُر",
+      "masdars_almaany": [
+        "شُكْرًا",
+        "شُكرانًا",
+        "شُكورًا"
+      ],
+      "active_participle_almaany": "شاكر",
+      "passive_participle_almaany": "مَشْكور",
+      "raw_head": "شكَرَ / شكَرَ لـ يَشكُر ، شُكْرًا وشُكرانًا وشُكورًا ، فهو شاكر ، والمفعول مَشْكور - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "شكر",
+      "variants_tried": [
+        "شكر"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ح ك م",
+    "root_buck": "Hkm",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "حَكَمَ",
+    "lemma_buck": "Hakama",
+    "occurrences": 45,
+    "sample_loc": "2:113:24",
+    "almaany": {
+      "past_3ms_almaany": "حكَمَ",
+      "present_3ms_almaany": "يَحكُم",
+      "masdars_almaany": [
+        "حُكُومَةٌ"
+      ],
+      "active_participle_almaany": "حاكم",
+      "passive_participle_almaany": "مَحْكوم",
+      "raw_head": "حكَمَ / حكَمَ بـ / حكَمَ على / حكَمَ لـ يَحكُم ، حُكْمٌ ، حُكُومَةٌ ، فهو حاكم ، والمفعول مَحْكوم - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "حكم",
+      "variants_tried": [
+        "حكم"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ن ص ر",
+    "root_buck": "nSr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "نَصَرَ",
+    "lemma_buck": "naSara",
+    "occurrences": 45,
+    "sample_loc": "2:250:12",
+    "almaany": {
+      "past_3ms_almaany": "نصر",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [
+        "انتصار"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "نصر ثمنه أغلى منه. وأصل العبارة انتصار پيروس ملك إيپيروس على الرومان سنة 279 قبل الميلاد لكن بعد أن خسر معظم جيشه. مصطلحات سياسية",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "نصر",
+      "variants_tried": [
+        "نصر"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ب ل غ",
+    "root_buck": "blg",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بَلَغَ",
+    "lemma_buck": "balaga",
+    "occurrences": 40,
+    "sample_loc": "2:196:15",
+    "almaany": {
+      "past_3ms_almaany": "بلَغَ",
+      "present_3ms_almaany": "يَبلُغ",
+      "masdars_almaany": [
+        "بُلوغًا",
+        "بَلاغًا"
+      ],
+      "active_participle_almaany": "بالِغ",
+      "passive_participle_almaany": "مبلوغ",
+      "raw_head": "بلَغَ / بلَغَ بـ يَبلُغ ، بُلوغًا وبَلاغًا ، فهو بالِغ ، والمفعول مبلوغ - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "بلغ",
+      "variants_tried": [
+        "بلغ"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "ت ر ك",
+    "root_buck": "trk",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "تَرَكَ",
+    "lemma_buck": "taraka",
+    "occurrences": 36,
+    "sample_loc": "2:17:13",
+    "almaany": {
+      "past_3ms_almaany": "ترَكَ",
+      "present_3ms_almaany": "يَترُك",
+      "masdars_almaany": [],
+      "active_participle_almaany": "تارِك",
+      "passive_participle_almaany": "مَتْروك",
+      "raw_head": "ترَكَ يَترُك ، تَرْكًا ، فهو تارِك ، والمفعول مَتْروك",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "ترك",
+      "variants_tried": [
+        "ترك"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_u",
+    "root_ar": "س ج د",
+    "root_buck": "sjd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "سَجَدَ",
+    "lemma_buck": "sajada",
+    "occurrences": 35,
+    "sample_loc": "2:34:4",
+    "almaany": {
+      "past_3ms_almaany": "سجَدَ",
+      "present_3ms_almaany": "يَسجُد",
+      "masdars_almaany": [],
+      "active_participle_almaany": "ساجِد",
+      "passive_participle_almaany": null,
+      "raw_head": "سجَدَ يَسجُد ، سُجودًا ، فهو ساجِد",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "سجد",
+      "variants_tried": [
+        "سجد"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "و ج د",
+    "root_buck": "wjd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "وَجَدَ",
+    "lemma_buck": "wajada",
+    "occurrences": 105,
+    "sample_loc": "2:96:1",
+    "almaany": {
+      "past_3ms_almaany": "وجَدَ",
+      "present_3ms_almaany": "يجِد",
+      "masdars_almaany": [
+        "مَوجِدَةً"
+      ],
+      "active_participle_almaany": "واجِد",
+      "passive_participle_almaany": "موجود",
+      "raw_head": "وجَدَ على يجِد ، جِدْ ، مَوجِدَةً ، فهو واجِد ، والمفعول موجود عليه",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "وجد",
+      "variants_tried": [
+        "وجد"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ظ ل م",
+    "root_buck": "Zlm",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ظَلَمَ",
+    "lemma_buck": "Zalama",
+    "occurrences": 87,
+    "sample_loc": "2:54:7",
+    "almaany": {
+      "past_3ms_almaany": "ظلَمَ",
+      "present_3ms_almaany": "يظلِم",
+      "masdars_almaany": [],
+      "active_participle_almaany": "ظالِم",
+      "passive_participle_almaany": "مَظْلوم",
+      "raw_head": "ظلَمَ يظلِم ، ظَلْمًا وظُلْمًا ، فهو ظالِم ، والمفعول مَظْلوم",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "ظلم",
+      "variants_tried": [
+        "ظلم"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "غ ف ر",
+    "root_buck": "gfr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "غَفَرَ",
+    "lemma_buck": "gafara",
+    "occurrences": 63,
+    "sample_loc": "2:58:16",
+    "almaany": {
+      "past_3ms_almaany": "غفَرَ",
+      "present_3ms_almaany": "يَغفِر",
+      "masdars_almaany": [
+        "غَفِيرٌ",
+        "غَفِيرَةٌ",
+        "غُفْرَانٌ",
+        "مَغْفِرَةٌ"
+      ],
+      "active_participle_almaany": "غافِر",
+      "passive_participle_almaany": "مَغْفور",
+      "raw_head": "غفَرَ يَغفِر ، ، مصدر غَفْرٌ ، غَفِيرٌ ، غَفِيرَةٌ ، غُفْرَانٌ ، مَغْفِرَةٌ ، فهو غافِر وهو غَفِير ، والمفعول مَغْفور",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "غفر",
+      "variants_tried": [
+        "غفر"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ك س ب",
+    "root_buck": "ksb",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "كَسَبَ",
+    "lemma_buck": "kasaba",
+    "occurrences": 62,
+    "sample_loc": "2:79:24",
+    "almaany": {
+      "past_3ms_almaany": "كسب",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "نالَه وربِحه ° كسب عطفَ فلان/ كسب وُدَّ فلان/ كسب حبّ فلان",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "كسب",
+      "variants_tried": [
+        "كسب"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ص ب ر",
+    "root_buck": "Sbr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "صَبَرَ",
+    "lemma_buck": "Sabara",
+    "occurrences": 58,
+    "sample_loc": "2:61:5",
+    "almaany": {
+      "past_3ms_almaany": "صبَرَ",
+      "present_3ms_almaany": "يَصبِر",
+      "masdars_almaany": [
+        "صَبْرًا"
+      ],
+      "active_participle_almaany": "صابِر",
+      "passive_participle_almaany": "مَصْبور",
+      "raw_head": "صبَرَ / صبَرَ على / صبَرَ عن يَصبِر ، صَبْرًا ، فهو صابِر ، والمفعول مَصْبور - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "صبر",
+      "variants_tried": [
+        "صبر"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ض ر ب",
+    "root_buck": "Drb",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ضَرَبَ",
+    "lemma_buck": "Daraba",
+    "occurrences": 49,
+    "sample_loc": "2:26:6",
+    "almaany": {
+      "past_3ms_almaany": "ضرَبَ",
+      "present_3ms_almaany": "يَضرِب",
+      "masdars_almaany": [
+        "ضَرْبًا",
+        "ضَرَبانًا"
+      ],
+      "active_participle_almaany": "ضارب",
+      "passive_participle_almaany": "مضروب",
+      "raw_head": "ضرَبَ / ضرَبَ إلى / ضرَبَ بـ / ضرَبَ على / ضرَبَ عن / ضرَبَ في يَضرِب ، ضَرْبًا وضَرَبانًا ، فهو ضارب ، والمفعول مضروب - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "ضرب",
+      "variants_tried": [
+        "ضرب"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ع ق ل",
+    "root_buck": "Eql",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَقَلُ",
+    "lemma_buck": "Eaqalu",
+    "occurrences": 49,
+    "sample_loc": "2:44:10",
+    "almaany": {
+      "past_3ms_almaany": "عقَلَ",
+      "present_3ms_almaany": "يَعقِل",
+      "masdars_almaany": [
+        "عَقْلاً"
+      ],
+      "active_participle_almaany": "عاقل",
+      "passive_participle_almaany": "معقول",
+      "raw_head": "عقَلَ / عقَلَ عن يَعقِل ، عَقْلاً ، فهو عاقل ، والمفعول معقول (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "عقل",
+      "variants_tried": [
+        "عقل"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ر ج ع",
+    "root_buck": "rjE",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "رَجَعَ",
+    "lemma_buck": "rajaEa",
+    "occurrences": 46,
+    "sample_loc": "2:18:6",
+    "almaany": {
+      "past_3ms_almaany": "رجَّعَ",
+      "present_3ms_almaany": "يُرجِّع",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُرجِّع",
+      "passive_participle_almaany": "مُرجَّعٌ",
+      "raw_head": "رجَّعَ / رجَّعَ في يُرجِّع ، ترجيعًا ، فهو مُرجِّع ، والمفعول مُرجَّعٌ (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "رجع",
+      "variants_tried": [
+        "رجع"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "م ل ك",
+    "root_buck": "mlk",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "مَلَكَتْ",
+    "lemma_buck": "malakato",
+    "occurrences": 44,
+    "sample_loc": "4:3:23",
+    "almaany": {
+      "past_3ms_almaany": "أملكه",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [
+        "ملكًا"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "أملكه إيَّاها، جعلها ملكًا له",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'مَلَكَتْ'",
+      "status": "ok",
+      "word_searched": "ملكت",
+      "variants_tried": [
+        "ملكت"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "و ع د",
+    "root_buck": "wEd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "وَعَدَ",
+    "lemma_buck": "waEada",
+    "occurrences": 43,
+    "sample_loc": "2:268:2",
+    "almaany": {
+      "past_3ms_almaany": "وعَدَ",
+      "present_3ms_almaany": "يَعِد",
+      "masdars_almaany": [
+        "َعْدًا",
+        "عِدَةً",
+        "موعِدًا",
+        "موعِدةً",
+        "موعودًا"
+      ],
+      "active_participle_almaany": "واعد",
+      "passive_participle_almaany": "مَوْعود",
+      "raw_head": "وعَدَ يَعِد ، عِدْ ، وَعْدًا ، وعِدَةً ، وموعِدًا ، وموعِدةً ، وموعودًا ، فهو واعد ، والمفعول مَوْعود",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "وعد",
+      "variants_tried": [
+        "وعد"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ح م ل",
+    "root_buck": "Hml",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "حَمَلَ",
+    "lemma_buck": "Hamala",
+    "occurrences": 37,
+    "sample_loc": "2:248:21",
+    "almaany": {
+      "past_3ms_almaany": "حمَلَ",
+      "present_3ms_almaany": "يَحمِل",
+      "masdars_almaany": [
+        "حَمْلاً"
+      ],
+      "active_participle_almaany": "حامل",
+      "passive_participle_almaany": "مَحْمول",
+      "raw_head": "حمَلَ / حمَلَ بـ / حمَلَ على / حمَلَ عن يَحمِل ، حَمْلاً ، فهو حامل ، والمفعول مَحْمول - للمتعدِّي وحَمولة - للمتعدِّي وحميل - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "حمل",
+      "variants_tried": [
+        "حمل"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ق د ر",
+    "root_buck": "qdr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "قَدَرَ",
+    "lemma_buck": "qadara",
+    "occurrences": 23,
+    "sample_loc": "2:264:29",
+    "almaany": {
+      "past_3ms_almaany": "قدَر",
+      "present_3ms_almaany": "تمكّن",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "قدَر ؛ تمكّن منه وقوي عليه.",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "قدر",
+      "variants_tried": [
+        "قدر"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "س ب ق",
+    "root_buck": "sbq",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "سَبَقَ",
+    "lemma_buck": "sabaqa",
+    "occurrences": 20,
+    "sample_loc": "7:80:8",
+    "almaany": {
+      "past_3ms_almaany": "سبَقَ",
+      "present_3ms_almaany": "يَسبُق",
+      "masdars_almaany": [
+        "سَبْقًا"
+      ],
+      "active_participle_almaany": "سابِق",
+      "passive_participle_almaany": "مَسْبوق",
+      "raw_head": "سبَقَ / سبَقَ على يَسبُق ويَسبِق ، سَبْقًا ، فهو سابِق ، والمفعول مَسْبوق (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "سبق",
+      "variants_tried": [
+        "سبق"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ع ر ف",
+    "root_buck": "Erf",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَرَفَ",
+    "lemma_buck": "Earafa",
+    "occurrences": 18,
+    "sample_loc": "2:89:20",
+    "almaany": {
+      "past_3ms_almaany": "عرَفَ",
+      "present_3ms_almaany": "يَعرِف",
+      "masdars_almaany": [
+        "عِرْفانًا",
+        "عِرِفَّانًا",
+        "مَعْرِفةً"
+      ],
+      "active_participle_almaany": "عارفٌ",
+      "passive_participle_almaany": "مَعْروف",
+      "raw_head": "عرَفَ / عرَفَ بـ يَعرِف ، عَرَف عِرْفانًا ، وعِرِفَّانًا ، ومَعْرِفةً ، فهو عارفٌ ، وعَرِيفٌ ، وهو، وهي عَروفٌ ، وهو عَرُوفَةٌ ، والمفعول مَعْروف",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "عرف",
+      "variants_tried": [
+        "عرف"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
+    }
+  },
+  {
+    "category": "form1_sain_i",
+    "root_ar": "ف ت ن",
+    "root_buck": "ftn",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "فَتَنُ",
+    "lemma_buck": "fatanu",
+    "occurrences": 17,
+    "sample_loc": "4:101:15",
+    "almaany": {
+      "past_3ms_almaany": "فُتنَ",
+      "present_3ms_almaany": "يُفتَن",
+      "masdars_almaany": [
+        "فتونًا"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": "مَفْتون",
+      "raw_head": "فُتنَ / فُتنَ في يُفتَن ، فتونًا ، والمفعول مَفْتون",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "فتن",
+      "variants_tried": [
+        "فتن"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 3
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ق و ل",
+    "root_buck": "qwl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "قَالَ",
+    "lemma_buck": "qaAla",
+    "occurrences": 1566,
+    "sample_loc": "2:8:4",
+    "almaany": {
+      "past_3ms_almaany": "قالَ",
+      "present_3ms_almaany": "يقول",
+      "masdars_almaany": [
+        "قولاً",
+        "قالاً",
+        "قَالةً"
+      ],
+      "active_participle_almaany": "قائل",
+      "passive_participle_almaany": "مقول",
+      "raw_head": "قالَ / قالَ بـ / قالَ عن / قالَ في / قالَ لـ يقول ، قُلْ ، قولاً وقالاً وقِيلاً وقَالةً ، فهو قائل ، والمفعول مقول",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "قال",
+      "variants_tried": [
+        "قال"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ك و ن",
+    "root_buck": "kwn",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "كَانَ",
+    "lemma_buck": "kaAna",
+    "occurrences": 1358,
+    "sample_loc": "2:10:11",
+    "almaany": {
+      "past_3ms_almaany": "كانَ",
+      "present_3ms_almaany": "يَكُون",
+      "masdars_almaany": [],
+      "active_participle_almaany": "كائِن",
+      "passive_participle_almaany": null,
+      "raw_head": "كانَ يَكُون ، كُنْ ، كَوْنًا وكِيانًا وكَيْنُونَةً ، فهو كائِن",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "كان",
+      "variants_tried": [
+        "كان"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "خ و ف",
+    "root_buck": "xwf",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "خَافَ",
+    "lemma_buck": "xaAfa",
+    "occurrences": 82,
+    "sample_loc": "2:182:2",
+    "almaany": {
+      "past_3ms_almaany": "خافٍ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "خافٍ : فاعل من خَفَى",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "خاف",
+      "variants_tried": [
+        "خاف"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ت و ب",
+    "root_buck": "twb",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "تَابَ",
+    "lemma_buck": "taAba",
+    "occurrences": 63,
+    "sample_loc": "2:37:6",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تاب",
+      "variants_tried": [
+        "تاب"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ذ و ق",
+    "root_buck": "*wq",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ذَاقُ",
+    "lemma_buck": "*aAqu",
+    "occurrences": 36,
+    "sample_loc": "3:106:13",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ذاق",
+      "variants_tried": [
+        "ذاق"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ق و م",
+    "root_buck": "qwm",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "قَامَ",
+    "lemma_buck": "qaAma",
+    "occurrences": 33,
+    "sample_loc": "2:20:13",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "قام",
+      "variants_tried": [
+        "قام"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "م و ت",
+    "root_buck": "mwt",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "مَّاتَ",
+    "lemma_buck": "m~aAta",
+    "occurrences": 33,
+    "sample_loc": "2:132:13",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "مات",
+      "variants_tried": [
+        "مات"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ك و د",
+    "root_buck": "kwd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "كَادَ",
+    "lemma_buck": "kaAda",
+    "occurrences": 24,
+    "sample_loc": "2:20:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "كاد",
+      "variants_tried": [
+        "كاد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ع و د",
+    "root_buck": "Ewd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَادَ",
+    "lemma_buck": "EaAda",
+    "occurrences": 18,
+    "sample_loc": "2:275:39",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عاد",
+      "variants_tried": [
+        "عاد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ه و د",
+    "root_buck": "hwd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "هَادُ",
+    "lemma_buck": "haAdu",
+    "occurrences": 11,
+    "sample_loc": "2:62:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "هاد",
+      "variants_tried": [
+        "هاد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "ع و ذ",
+    "root_buck": "Ew*",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عُذْ",
+    "lemma_buck": "Eu*o",
+    "occurrences": 10,
+    "sample_loc": "2:67:15",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عذ",
+      "variants_tried": [
+        "عذ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_w",
+    "root_ar": "خ و ض",
+    "root_buck": "xwD",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "خَاضُ",
+    "lemma_buck": "xaADu",
+    "occurrences": 9,
+    "sample_loc": "4:140:19",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "خاض",
+      "variants_tried": [
+        "خاض"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ل ي س",
+    "root_buck": "lys",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "لَّيْسَ",
+    "lemma_buck": "l~ayosa",
+    "occurrences": 89,
+    "sample_loc": "2:113:3",
+    "almaany": {
+      "past_3ms_almaany": "لَيْسَ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "لَيْسَ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "ليس",
+      "variants_tried": [
+        "ليس"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 10
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ز ي د",
+    "root_buck": "zyd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "زَادَ",
+    "lemma_buck": "zaAda",
+    "occurrences": 46,
+    "sample_loc": "2:10:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "زاد",
+      "variants_tried": [
+        "زاد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "س ي ر",
+    "root_buck": "syr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "سَارَ",
+    "lemma_buck": "saAra",
+    "occurrences": 16,
+    "sample_loc": "3:137:6",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "سار",
+      "variants_tried": [
+        "سار"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ن ي ل",
+    "root_buck": "nyl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَنَالُ",
+    "lemma_buck": "yanaAlu",
+    "occurrences": 11,
+    "sample_loc": "2:124:17",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ينال",
+      "variants_tried": [
+        "ينال"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ح ي ق",
+    "root_buck": "Hyq",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "حَاقَ",
+    "lemma_buck": "HaAqa",
+    "occurrences": 10,
+    "sample_loc": "6:10:6",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "حاق",
+      "variants_tried": [
+        "حاق"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ز ي ل",
+    "root_buck": "zyl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "زَالَت",
+    "lemma_buck": "zaAlat",
+    "occurrences": 8,
+    "sample_loc": "2:217:30",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "زالت",
+      "variants_tried": [
+        "زالت"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ك ي د",
+    "root_buck": "kyd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "كِيدُ",
+    "lemma_buck": "kiydu",
+    "occurrences": 7,
+    "sample_loc": "7:195:24",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "كيد",
+      "variants_tried": [
+        "كيد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ض ي ق",
+    "root_buck": "Dyq",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ضَاقَ",
+    "lemma_buck": "DaAqa",
+    "occurrences": 7,
+    "sample_loc": "9:25:16",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ضاق",
+      "variants_tried": [
+        "ضاق"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "ز ي غ",
+    "root_buck": "zyg",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "زَاغَ",
+    "lemma_buck": "zaAga",
+    "occurrences": 6,
+    "sample_loc": "9:117:17",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "زاغ",
+      "variants_tried": [
+        "زاغ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "خ ي ب",
+    "root_buck": "xyb",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "خَابَ",
+    "lemma_buck": "xaAba",
+    "occurrences": 4,
+    "sample_loc": "14:15:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "خاب",
+      "variants_tried": [
+        "خاب"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "م ي ل",
+    "root_buck": "myl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَمِيلُ",
+    "lemma_buck": "yamiylu",
+    "occurrences": 3,
+    "sample_loc": "4:27:11",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يميل",
+      "variants_tried": [
+        "يميل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_creux_y",
+    "root_ar": "غ ي ظ",
+    "root_buck": "gyZ",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَغِيظُ",
+    "lemma_buck": "yagiyZu",
+    "occurrences": 3,
+    "sample_loc": "9:120:34",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يغيظ",
+      "variants_tried": [
+        "يغيظ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "د ع و",
+    "root_buck": "dEw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "دَعَا",
+    "lemma_buck": "daEaA",
+    "occurrences": 157,
+    "sample_loc": "2:23:13",
+    "almaany": {
+      "past_3ms_almaany": "دعا",
+      "present_3ms_almaany": "يَدعُو",
+      "masdars_almaany": [
+        "دعيّ"
+      ],
+      "active_participle_almaany": "داعٍ",
+      "passive_participle_almaany": "مَدْعُوّ",
+      "raw_head": "دعا / دعا إلى / دعا بـ / دعا على / دعا لـ يَدعُو ، ادْعُ ، مصدر دُعَاءٌ، دَعْوٌ، دَعْوَةٌ دُعاءً ودَعْوةً ومَدْعاةً، دَعْوَى فهو داعٍ ، والمفعول مَدْعُوّ ودعيّ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "دعا",
+      "variants_tried": [
+        "دعا"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 3
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ر ض و",
+    "root_buck": "rDw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "رَّضِىَ",
+    "lemma_buck": "r~aDiYa",
+    "occurrences": 38,
+    "sample_loc": "2:120:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "رضا",
+      "variants_tried": [
+        "رضى",
+        "رضا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ت ل و",
+    "root_buck": "tlw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "تَلَىٰ",
+    "lemma_buck": "talaY`",
+    "occurrences": 37,
+    "sample_loc": "2:44:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تلا",
+      "variants_tried": [
+        "تلى",
+        "تلا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ع ف و",
+    "root_buck": "Efw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَفَا",
+    "lemma_buck": "EafaA",
+    "occurrences": 26,
+    "sample_loc": "2:52:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عفا",
+      "variants_tried": [
+        "عفا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "خ ل و",
+    "root_buck": "xlw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "خَلَا",
+    "lemma_buck": "xalaA",
+    "occurrences": 25,
+    "sample_loc": "2:14:8",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "خلا",
+      "variants_tried": [
+        "خلا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ر ج و",
+    "root_buck": "rjw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَرْجُوا@",
+    "lemma_buck": "yarojuwA@",
+    "occurrences": 22,
+    "sample_loc": "2:218:11",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يرجوا@",
+      "variants_tried": [
+        "يرجوا@"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ع ل و",
+    "root_buck": "Elw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "تَعَٰلَىٰ",
+    "lemma_buck": "taEa`laY`",
+    "occurrences": 20,
+    "sample_loc": "6:100:13",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تعلا",
+      "variants_tried": [
+        "تعلى",
+        "تعلا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ب ل و",
+    "root_buck": "blw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بَلَوْ",
+    "lemma_buck": "balawo",
+    "occurrences": 19,
+    "sample_loc": "2:155:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بلو",
+      "variants_tried": [
+        "بلو"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "غ ش و",
+    "root_buck": "g$w",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "غَشِيَ",
+    "lemma_buck": "ga$iya",
+    "occurrences": 13,
+    "sample_loc": "3:154:9",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "غشي",
+      "variants_tried": [
+        "غشي"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ب د و",
+    "root_buck": "bdw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بَدَا",
+    "lemma_buck": "badaA",
+    "occurrences": 9,
+    "sample_loc": "3:118:16",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بدا",
+      "variants_tried": [
+        "بدا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ع ث و",
+    "root_buck": "Evw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "تَعْثَ",
+    "lemma_buck": "taEova",
+    "occurrences": 5,
+    "sample_loc": "2:60:25",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تعث",
+      "variants_tried": [
+        "تعث"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_w",
+    "root_ar": "ع ت و",
+    "root_buck": "Etw",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَتَ",
+    "lemma_buck": "Eata",
+    "occurrences": 5,
+    "sample_loc": "7:77:3",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عت",
+      "variants_tried": [
+        "عت"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ه د ي",
+    "root_buck": "hdy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "هَدَى",
+    "lemma_buck": "hadaY",
+    "occurrences": 140,
+    "sample_loc": "1:6:1",
+    "almaany": {
+      "past_3ms_almaany": "هدَى",
+      "present_3ms_almaany": "يَهدي",
+      "masdars_almaany": [
+        "هَدْيًا",
+        "هِدايةً"
+      ],
+      "active_participle_almaany": "هادٍ",
+      "passive_participle_almaany": "مَهدِيّ",
+      "raw_head": "هدَى يَهدي ، اهْدِ ، هُدًى وهَدْيًا وهِدايةً ، فهو هادٍ ، والمفعول مَهدِيّ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "هدى",
+      "variants_tried": [
+        "هدى",
+        "هدا"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ج ر ي",
+    "root_buck": "jry",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "جَرَيْ",
+    "lemma_buck": "jarayo",
+    "occurrences": 57,
+    "sample_loc": "2:25:9",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "جري",
+      "variants_tried": [
+        "جري"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ج ز ي",
+    "root_buck": "jzy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "جَزَىٰ",
+    "lemma_buck": "jazaY`",
+    "occurrences": 50,
+    "sample_loc": "2:48:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "جزا",
+      "variants_tried": [
+        "جزى",
+        "جزا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "خ ش ي",
+    "root_buck": "x$y",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "خَشِىَ",
+    "lemma_buck": "xa$iYa",
+    "occurrences": 40,
+    "sample_loc": "2:150:25",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "خشا",
+      "variants_tried": [
+        "خشى",
+        "خشا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ق ض ي",
+    "root_buck": "qDy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "قَضَىٰٓ",
+    "lemma_buck": "qaDaY`^",
+    "occurrences": 36,
+    "sample_loc": "2:117:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "قضىٓ",
+      "variants_tried": [
+        "قضىٓ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ن س ي",
+    "root_buck": "nsy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "نَسِىَ",
+    "lemma_buck": "nasiYa",
+    "occurrences": 34,
+    "sample_loc": "2:44:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "نسا",
+      "variants_tried": [
+        "نسى",
+        "نسا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ك ف ي",
+    "root_buck": "kfy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "كَفَىٰ",
+    "lemma_buck": "kafaY`",
+    "occurrences": 32,
+    "sample_loc": "2:137:15",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "كفا",
+      "variants_tried": [
+        "كفى",
+        "كفا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ع س ي",
+    "root_buck": "Esy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَسَى",
+    "lemma_buck": "EasaY",
+    "occurrences": 30,
+    "sample_loc": "2:216:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عسا",
+      "variants_tried": [
+        "عسى",
+        "عسا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ع ص ي",
+    "root_buck": "ESy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَصَا",
+    "lemma_buck": "EaSaA",
+    "occurrences": 27,
+    "sample_loc": "2:61:57",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عصا",
+      "variants_tried": [
+        "عصا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ب غ ي",
+    "root_buck": "bgy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بَغَىٰ",
+    "lemma_buck": "bagaY`",
+    "occurrences": 24,
+    "sample_loc": "3:83:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بغا",
+      "variants_tried": [
+        "بغى",
+        "بغا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "ن ه ي",
+    "root_buck": "nhy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "نَهَىٰ",
+    "lemma_buck": "nahaY`",
+    "occurrences": 24,
+    "sample_loc": "3:104:9",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "نها",
+      "variants_tried": [
+        "نهى",
+        "نها"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_def_y",
+    "root_ar": "م ش ي",
+    "root_buck": "m$y",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "مَّشَ",
+    "lemma_buck": "m~a$a",
+    "occurrences": 21,
+    "sample_loc": "2:20:8",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "مش",
+      "variants_tried": [
+        "مش"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "م س س",
+    "root_buck": "mss",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "مَسَّ",
+    "lemma_buck": "mas~a",
+    "occurrences": 56,
+    "sample_loc": "2:80:3",
+    "almaany": {
+      "past_3ms_almaany": "مَسّ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "مَسّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "مس",
+      "variants_tried": [
+        "مس"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 3
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ض ل ل",
+    "root_buck": "Dll",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ضَلَّ",
+    "lemma_buck": "Dal~a",
+    "occurrences": 52,
+    "sample_loc": "2:108:16",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ضل",
+      "variants_tried": [
+        "ضل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ظ ن ن",
+    "root_buck": "Znn",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ظَنَّ",
+    "lemma_buck": "Zan~a",
+    "occurrences": 47,
+    "sample_loc": "2:46:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ظن",
+      "variants_tried": [
+        "ظن"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ص د د",
+    "root_buck": "Sdd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "صَدَّ",
+    "lemma_buck": "Sad~a",
+    "occurrences": 36,
+    "sample_loc": "3:99:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "صد",
+      "variants_tried": [
+        "صد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ق ص ص",
+    "root_buck": "qSS",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "قَصَّ",
+    "lemma_buck": "qaS~a",
+    "occurrences": 20,
+    "sample_loc": "4:164:3",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "قص",
+      "variants_tried": [
+        "قص"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ض ر ر",
+    "root_buck": "Drr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَضُرَّ",
+    "lemma_buck": "yaDur~a",
+    "occurrences": 19,
+    "sample_loc": "2:102:54",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يضر",
+      "variants_tried": [
+        "يضر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ح ق ق",
+    "root_buck": "Hqq",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "حَقَّ",
+    "lemma_buck": "Haq~a",
+    "occurrences": 18,
+    "sample_loc": "7:30:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "حق",
+      "variants_tried": [
+        "حق"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "و د د",
+    "root_buck": "wdd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "وَدَّ",
+    "lemma_buck": "wad~a",
+    "occurrences": 17,
+    "sample_loc": "2:96:9",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ود",
+      "variants_tried": [
+        "ود"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "م ن ن",
+    "root_buck": "mnn",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "مَنَّ",
+    "lemma_buck": "man~a",
+    "occurrences": 16,
+    "sample_loc": "3:164:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "من",
+      "variants_tried": [
+        "من"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "غ ر ر",
+    "root_buck": "grr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "غَرَّ",
+    "lemma_buck": "gar~a",
+    "occurrences": 15,
+    "sample_loc": "3:24:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "غر",
+      "variants_tried": [
+        "غر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ر د د",
+    "root_buck": "rdd",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "رَدَّ",
+    "lemma_buck": "rad~a",
+    "occurrences": 14,
+    "sample_loc": "2:109:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "رد",
+      "variants_tried": [
+        "رد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_gemine",
+    "root_ar": "ح ل ل",
+    "root_buck": "Hll",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "حَلَلْ",
+    "lemma_buck": "Halalo",
+    "occurrences": 14,
+    "sample_loc": "2:228:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "حلل",
+      "variants_tried": [
+        "حلل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا ت ي",
+    "root_buck": "Aty",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَتَى",
+    "lemma_buck": ">ataY",
+    "occurrences": 263,
+    "sample_loc": "2:23:9",
+    "almaany": {
+      "past_3ms_almaany": "أتَى",
+      "present_3ms_almaany": "يَأتِي",
+      "masdars_almaany": [
+        "إتيانة",
+        "مأتاة",
+        "مَأْتًى"
+      ],
+      "active_participle_almaany": "آتٍ",
+      "passive_participle_almaany": "مَأتيّ",
+      "raw_head": "أتَى / أتَى بـ / أتَى على يَأتِي ، ائْتِ ، أتَيْتُ ، آتِي ُ ، أَتْيًا و إتْيانًا و إتيانة و مأتاة و مَأْتًى ، فهو آتٍ ، والمفعول مَأتيّ (للمتعدِّي) .",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "أتى",
+      "variants_tried": [
+        "أتى",
+        "أتا"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا خ ذ",
+    "root_buck": "Ax*",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَخَذَ",
+    "lemma_buck": ">axa*a",
+    "occurrences": 119,
+    "sample_loc": "2:55:11",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أخذ",
+      "variants_tried": [
+        "أخذ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا ك ل",
+    "root_buck": "Akl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَكَلَ",
+    "lemma_buck": ">akala",
+    "occurrences": 93,
+    "sample_loc": "2:35:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أكل",
+      "variants_tried": [
+        "أكل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا م ر",
+    "root_buck": "Amr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَمَرَ",
+    "lemma_buck": ">amara",
+    "occurrences": 54,
+    "sample_loc": "2:27:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أمر",
+      "variants_tried": [
+        "أمر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا م ن",
+    "root_buck": "Amn",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَمِنَ",
+    "lemma_buck": ">amina",
+    "occurrences": 20,
+    "sample_loc": "2:196:35",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أمن",
+      "variants_tried": [
+        "أمن"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا ذ ن",
+    "root_buck": "A*n",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَذِنَ",
+    "lemma_buck": ">a*ina",
+    "occurrences": 17,
+    "sample_loc": "2:279:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أذن",
+      "variants_tried": [
+        "أذن"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا ب ي",
+    "root_buck": "Aby",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَبَى",
+    "lemma_buck": ">abaY",
+    "occurrences": 13,
+    "sample_loc": "2:34:9",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أبا",
+      "variants_tried": [
+        "أبى",
+        "أبا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r1",
+    "root_ar": "ا و ي",
+    "root_buck": "Awy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "أَوَى",
+    "lemma_buck": ">awaY",
+    "occurrences": 5,
+    "sample_loc": "11:43:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أوا",
+      "variants_tried": [
+        "أوى",
+        "أوا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "ر ا ي",
+    "root_buck": "rAy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "رَءَا",
+    "lemma_buck": "ra'aA",
+    "occurrences": 269,
+    "sample_loc": "2:55:8",
+    "almaany": {
+      "past_3ms_almaany": "ارتئاء",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "ارتئاء",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'رَءَا'",
+      "status": "ok",
+      "word_searched": "رءا",
+      "variants_tried": [
+        "رءا"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "س ا ل",
+    "root_buck": "sAl",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "سَأَلَ",
+    "lemma_buck": "sa>ala",
+    "occurrences": 87,
+    "sample_loc": "2:61:36",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "سأل",
+      "variants_tried": [
+        "سأل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "ب ا س",
+    "root_buck": "bAs",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بِئْسَ",
+    "lemma_buck": "bi}osa",
+    "occurrences": 40,
+    "sample_loc": "2:90:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بئس",
+      "variants_tried": [
+        "بئس"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "ي ا س",
+    "root_buck": "yAs",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَئِسَ",
+    "lemma_buck": "ya}isa",
+    "occurrences": 8,
+    "sample_loc": "5:3:32",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يئس",
+      "variants_tried": [
+        "يئس"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "ه ا ت",
+    "root_buck": "hAt",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "هَاتُ",
+    "lemma_buck": "haAtu",
+    "occurrences": 4,
+    "sample_loc": "2:111:14",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "هات",
+      "variants_tried": [
+        "هات"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "س ا م",
+    "root_buck": "sAm",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَسْـ#َمُ",
+    "lemma_buck": "yaso_#amu",
+    "occurrences": 3,
+    "sample_loc": "2:282:79",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يس#م",
+      "variants_tried": [
+        "يس#م"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "ن ا ي",
+    "root_buck": "nAy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "نَـ#َا",
+    "lemma_buck": "na_#aA",
+    "occurrences": 3,
+    "sample_loc": "6:26:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ن#ا",
+      "variants_tried": [
+        "ن#ا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r2",
+    "root_ar": "ج ا ر",
+    "root_buck": "jAr",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَجْـ#َرُ",
+    "lemma_buck": "yajo_#aru",
+    "occurrences": 3,
+    "sample_loc": "16:53:12",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يج#ر",
+      "variants_tried": [
+        "يج#ر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "ج ي ا",
+    "root_buck": "jyA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "جَآءَ",
+    "lemma_buck": "jaA^'a",
+    "occurrences": 276,
+    "sample_loc": "2:71:19",
+    "almaany": {
+      "past_3ms_almaany": "جاءَ",
+      "present_3ms_almaany": "يجيء",
+      "masdars_almaany": [
+        "جَيْئَةً",
+        "جِيئةً"
+      ],
+      "active_participle_almaany": "جاءٍ",
+      "passive_participle_almaany": "مَجِيء",
+      "raw_head": "جاءَ / جاءَ إلى / جاءَ بـ / جاءَ في يجيء ، جِئْ ، جَيْئَةً وجِيئةً ، فهو جاءٍ ، والمفعول مَجِيء - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'جَآءَ'",
+      "status": "ok",
+      "word_searched": "جآء",
+      "variants_tried": [
+        "جآء"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "ش ي ا",
+    "root_buck": "$yA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "شَآءَ",
+    "lemma_buck": "$aA^'a",
+    "occurrences": 236,
+    "sample_loc": "2:20:15",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "شآء",
+      "variants_tried": [
+        "شآء"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "س و ا",
+    "root_buck": "swA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "سَآءَ",
+    "lemma_buck": "saA^'a",
+    "occurrences": 27,
+    "sample_loc": "3:120:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "سآء",
+      "variants_tried": [
+        "سآء"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "ق ر ا",
+    "root_buck": "qrA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "قَرَأَ",
+    "lemma_buck": "qara>a",
+    "occurrences": 14,
+    "sample_loc": "10:94:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "قرأ",
+      "variants_tried": [
+        "قرأ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "ب د ا",
+    "root_buck": "bdA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بَدَأَ",
+    "lemma_buck": "bada>a",
+    "occurrences": 12,
+    "sample_loc": "7:29:15",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بدأ",
+      "variants_tried": [
+        "بدأ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "ب و ا",
+    "root_buck": "bwA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "بَآءَ",
+    "lemma_buck": "baA^'a",
+    "occurrences": 6,
+    "sample_loc": "2:61:41",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بآء",
+      "variants_tried": [
+        "بآء"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "ذ ر ا",
+    "root_buck": "*rA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "ذَرَأَ",
+    "lemma_buck": "*ara>a",
+    "occurrences": 6,
+    "sample_loc": "6:136:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ذرأ",
+      "variants_tried": [
+        "ذرأ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_hamza_r3",
+    "root_ar": "د ر ا",
+    "root_buck": "drA",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَدْرَؤُا@",
+    "lemma_buck": "yadora&uA@",
+    "occurrences": 4,
+    "sample_loc": "3:168:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يدرؤا@",
+      "variants_tried": [
+        "يدرؤا@"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_lafif",
+    "root_ar": "و ق ي",
+    "root_buck": "wqy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "وَقَىٰ",
+    "lemma_buck": "waqaY`",
+    "occurrences": 14,
+    "sample_loc": "2:201:12",
+    "almaany": {
+      "past_3ms_almaany": "وَقَى",
+      "present_3ms_almaany": "يَقِي",
+      "masdars_almaany": [
+        "َقْيًا"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "وَقَى (يَقِي) وَقْيًا ووَقًى",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "وقى",
+      "variants_tried": [
+        "وقى",
+        "وقا"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form1_lafif",
+    "root_ar": "ه و ي",
+    "root_buck": "hwy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "هَوَىٰ",
+    "lemma_buck": "hawaY`",
+    "occurrences": 8,
+    "sample_loc": "2:87:22",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "هوا",
+      "variants_tried": [
+        "هوى",
+        "هوا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_lafif",
+    "root_ar": "ح ي ي",
+    "root_buck": "Hyy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "حَىَّ",
+    "lemma_buck": "HaY~a",
+    "occurrences": 7,
+    "sample_loc": "7:25:3",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "حا",
+      "variants_tried": [
+        "حى",
+        "حا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_lafif",
+    "root_ar": "ل و ي",
+    "root_buck": "lwy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "يَلْ",
+    "lemma_buck": "yalo",
+    "occurrences": 3,
+    "sample_loc": "3:78:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يل",
+      "variants_tried": [
+        "يل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_lafif",
+    "root_ar": "غ و ي",
+    "root_buck": "gwy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "غَوَىٰ",
+    "lemma_buck": "gawaY`",
+    "occurrences": 3,
+    "sample_loc": "20:121:15",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "غوا",
+      "variants_tried": [
+        "غوى",
+        "غوا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_lafif",
+    "root_ar": "ع ي ي",
+    "root_buck": "Eyy",
+    "form": 1,
+    "voice": "active",
+    "lemma_ar": "عَيِي",
+    "lemma_buck": "Eayiy",
+    "occurrences": 2,
+    "sample_loc": "46:33:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عيي",
+      "variants_tried": [
+        "عيي"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ق و ل",
+    "root_buck": "qwl",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "قَالَ",
+    "lemma_buck": "qaAla",
+    "occurrences": 52,
+    "sample_loc": "2:11:2",
+    "almaany": {
+      "past_3ms_almaany": "قالَ",
+      "present_3ms_almaany": "يقول",
+      "masdars_almaany": [
+        "قولاً",
+        "قالاً",
+        "قَالةً"
+      ],
+      "active_participle_almaany": "قائل",
+      "passive_participle_almaany": "مقول",
+      "raw_head": "قالَ / قالَ بـ / قالَ عن / قالَ في / قالَ لـ يقول ، قُلْ ، قولاً وقالاً وقِيلاً وقَالةً ، فهو قائل ، والمفعول مقول",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "قال",
+      "variants_tried": [
+        "قال"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ر ج ع",
+    "root_buck": "rjE",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "رَجَعَ",
+    "lemma_buck": "rajaEa",
+    "occurrences": 33,
+    "sample_loc": "2:28:13",
+    "almaany": {
+      "past_3ms_almaany": "رجَّعَ",
+      "present_3ms_almaany": "يُرجِّع",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُرجِّع",
+      "passive_participle_almaany": "مُرجَّعٌ",
+      "raw_head": "رجَّعَ / رجَّعَ في يُرجِّع ، ترجيعًا ، فهو مُرجِّع ، والمفعول مُرجَّعٌ (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "رجع",
+      "variants_tried": [
+        "رجع"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "و ع د",
+    "root_buck": "wEd",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "وَعَدَ",
+    "lemma_buck": "waEada",
+    "occurrences": 27,
+    "sample_loc": "6:134:3",
+    "almaany": {
+      "past_3ms_almaany": "وعَدَ",
+      "present_3ms_almaany": "يَعِد",
+      "masdars_almaany": [
+        "َعْدًا",
+        "عِدَةً",
+        "موعِدًا",
+        "موعِدةً",
+        "موعودًا"
+      ],
+      "active_participle_almaany": "واعد",
+      "passive_participle_almaany": "مَوْعود",
+      "raw_head": "وعَدَ يَعِد ، عِدْ ، وَعْدًا ، وعِدَةً ، وموعِدًا ، وموعِدةً ، وموعودًا ، فهو واعد ، والمفعول مَوْعود",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "وعد",
+      "variants_tried": [
+        "وعد"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ت ل و",
+    "root_buck": "tlw",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "تَلَىٰ",
+    "lemma_buck": "talaY`",
+    "occurrences": 24,
+    "sample_loc": "3:101:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تلا",
+      "variants_tried": [
+        "تلى",
+        "تلا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ا م ر",
+    "root_buck": "Amr",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "أَمَرَ",
+    "lemma_buck": ">amara",
+    "occurrences": 23,
+    "sample_loc": "2:68:23",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أمر",
+      "variants_tried": [
+        "أمر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ق ض ي",
+    "root_buck": "qDy",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "قَضَىٰٓ",
+    "lemma_buck": "qaDaY`^",
+    "occurrences": 23,
+    "sample_loc": "2:210:12",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "قضىٓ",
+      "variants_tried": [
+        "قضىٓ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ظ ل م",
+    "root_buck": "Zlm",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "ظَلَمَ",
+    "lemma_buck": "Zalama",
+    "occurrences": 23,
+    "sample_loc": "2:272:28",
+    "almaany": {
+      "past_3ms_almaany": "ظلَمَ",
+      "present_3ms_almaany": "يظلِم",
+      "masdars_almaany": [],
+      "active_participle_almaany": "ظالِم",
+      "passive_participle_almaany": "مَظْلوم",
+      "raw_head": "ظلَمَ يظلِم ، ظَلْمًا وظُلْمًا ، فهو ظالِم ، والمفعول مَظْلوم",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "ظلم",
+      "variants_tried": [
+        "ظلم"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ج ز ي",
+    "root_buck": "jzy",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "جَزَىٰ",
+    "lemma_buck": "jazaY`",
+    "occurrences": 23,
+    "sample_loc": "4:123:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "جزا",
+      "variants_tried": [
+        "جزى",
+        "جزا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ر د د",
+    "root_buck": "rdd",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "رَدَّ",
+    "lemma_buck": "rad~a",
+    "occurrences": 22,
+    "sample_loc": "2:85:41",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "رد",
+      "variants_tried": [
+        "رد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form1_passive",
+    "root_ar": "ق ت ل",
+    "root_buck": "qtl",
+    "form": 1,
+    "voice": "passive",
+    "lemma_ar": "قَتَلَ",
+    "lemma_buck": "qatala",
+    "occurrences": 20,
+    "sample_loc": "2:154:4",
+    "almaany": {
+      "past_3ms_almaany": "قتَلَ",
+      "present_3ms_almaany": "يَقتُل",
+      "masdars_almaany": [
+        "قَتْلاً"
+      ],
+      "active_participle_almaany": "قاتِل",
+      "passive_participle_almaany": "مَقْتول",
+      "raw_head": "قتَلَ يَقتُل ، قَتْلاً ، فهو قاتِل ، والمفعول مَقْتول وقَتيل",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "قتل",
+      "variants_tried": [
+        "قتل"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ك ذ ب",
+    "root_buck": "k*b",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "كَذَّبَ",
+    "lemma_buck": "ka*~aba",
+    "occurrences": 170,
+    "sample_loc": "2:39:3",
+    "almaany": {
+      "past_3ms_almaany": "كذَّبَ",
+      "present_3ms_almaany": "يكذِّب",
+      "masdars_almaany": [
+        "كِذّابًا"
+      ],
+      "active_participle_almaany": "مُكذِّب",
+      "passive_participle_almaany": "مُكذَّب",
+      "raw_head": "كذَّبَ / كذَّبَ بـ يكذِّب ، تكذيبًا وكِذّابًا ، فهو مُكذِّب ، والمفعول مُكذَّب - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "كذب",
+      "variants_tried": [
+        "كذب"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ن ز ل",
+    "root_buck": "nzl",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "نَزَّلَ",
+    "lemma_buck": "naz~ala",
+    "occurrences": 49,
+    "sample_loc": "2:23:6",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "نزل",
+      "variants_tried": [
+        "نزل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ن ب ا",
+    "root_buck": "nbA",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "نَبَّأَ",
+    "lemma_buck": "nab~a>a",
+    "occurrences": 43,
+    "sample_loc": "3:15:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "نبأ",
+      "variants_tried": [
+        "نبأ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "س ب ح",
+    "root_buck": "sbH",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "سَبَّحَ",
+    "lemma_buck": "sab~aHa",
+    "occurrences": 42,
+    "sample_loc": "2:30:19",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "سبح",
+      "variants_tried": [
+        "سبح"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ع ذ ب",
+    "root_buck": "E*b",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "عَذَّبَ",
+    "lemma_buck": "Ea*~aba",
+    "occurrences": 41,
+    "sample_loc": "2:284:21",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عذب",
+      "variants_tried": [
+        "عذب"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ع ل م",
+    "root_buck": "Elm",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "عَلَّمَ",
+    "lemma_buck": "Eal~ama",
+    "occurrences": 38,
+    "sample_loc": "2:31:1",
+    "almaany": {
+      "past_3ms_almaany": "علَّمَ",
+      "present_3ms_almaany": "يعلِّم",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُعلِّم",
+      "passive_participle_almaany": "مُعلَّم",
+      "raw_head": "علَّمَ / علَّمَ على يعلِّم ، تعليمًا ، فهو مُعلِّم ، والمفعول مُعلَّم",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "علم",
+      "variants_tried": [
+        "علم"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 17
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ن ج و",
+    "root_buck": "njw",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "نَجَّىٰ",
+    "lemma_buck": "naj~aY`",
+    "occurrences": 36,
+    "sample_loc": "2:49:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "نجا",
+      "variants_tried": [
+        "نجى",
+        "نجا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ب ش ر",
+    "root_buck": "b$r",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "بُشِّرَ",
+    "lemma_buck": "bu$~ira",
+    "occurrences": 35,
+    "sample_loc": "2:25:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بشر",
+      "variants_tried": [
+        "بشر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ب ي ن",
+    "root_buck": "byn",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "بَيَّنُ",
+    "lemma_buck": "bay~anu",
+    "occurrences": 35,
+    "sample_loc": "2:68:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "بين",
+      "variants_tried": [
+        "بين"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ح ر م",
+    "root_buck": "Hrm",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "حَرَّمَ",
+    "lemma_buck": "Har~ama",
+    "occurrences": 33,
+    "sample_loc": "2:173:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "حرم",
+      "variants_tried": [
+        "حرم"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "و ل ي",
+    "root_buck": "wly",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "وَلَّىٰ",
+    "lemma_buck": "wal~aY`",
+    "occurrences": 30,
+    "sample_loc": "2:115:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ولا",
+      "variants_tried": [
+        "ولى",
+        "ولا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form2",
+    "root_ar": "ق د م",
+    "root_buck": "qdm",
+    "form": 2,
+    "voice": "active",
+    "lemma_ar": "قَدَّمَ",
+    "lemma_buck": "qad~ama",
+    "occurrences": 27,
+    "sample_loc": "2:95:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "قدم",
+      "variants_tried": [
+        "قدم"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ق ت ل",
+    "root_buck": "qtl",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "قَٰتَلَ",
+    "lemma_buck": "qa`tala",
+    "occurrences": 51,
+    "sample_loc": "2:190:1",
+    "almaany": {
+      "past_3ms_almaany": "قتَلَ",
+      "present_3ms_almaany": "يَقتُل",
+      "masdars_almaany": [
+        "قَتْلاً"
+      ],
+      "active_participle_almaany": "قاتِل",
+      "passive_participle_almaany": "مَقْتول",
+      "raw_head": "قتَلَ يَقتُل ، قَتْلاً ، فهو قاتِل ، والمفعول مَقْتول وقَتيل",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "قتل",
+      "variants_tried": [
+        "قتل"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ن د و",
+    "root_buck": "ndw",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "نَادَىٰ",
+    "lemma_buck": "naAdaY`",
+    "occurrences": 37,
+    "sample_loc": "3:39:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "نادا",
+      "variants_tried": [
+        "نادى",
+        "نادا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ج ه د",
+    "root_buck": "jhd",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "جَٰهَدَ",
+    "lemma_buck": "ja`hada",
+    "occurrences": 27,
+    "sample_loc": "2:218:6",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "جهد",
+      "variants_tried": [
+        "جهد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ج د ل",
+    "root_buck": "jdl",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "جَٰدَلُ",
+    "lemma_buck": "ja`dalu",
+    "occurrences": 25,
+    "sample_loc": "4:107:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "جدل",
+      "variants_tried": [
+        "جدل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ه ج ر",
+    "root_buck": "hjr",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "هَاجَرَ",
+    "lemma_buck": "haAjara",
+    "occurrences": 16,
+    "sample_loc": "2:218:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "هاجر",
+      "variants_tried": [
+        "هاجر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ح ج ج",
+    "root_buck": "Hjj",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "حَآجَّ",
+    "lemma_buck": "HaA^j~a",
+    "occurrences": 11,
+    "sample_loc": "2:76:18",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "حآج",
+      "variants_tried": [
+        "حآج"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ع ه د",
+    "root_buck": "Ehd",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "عَٰهَدَ",
+    "lemma_buck": "Ea`hada",
+    "occurrences": 11,
+    "sample_loc": "2:100:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "عهد",
+      "variants_tried": [
+        "عهد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form3",
+    "root_ar": "ا خ ذ",
+    "root_buck": "Ax*",
+    "form": 3,
+    "voice": "active",
+    "lemma_ar": "يُؤَاخِذُ",
+    "lemma_buck": "yu&aAxi*u",
+    "occurrences": 9,
+    "sample_loc": "2:225:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يؤاخذ",
+      "variants_tried": [
+        "يؤاخذ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ا م ن",
+    "root_buck": "Amn",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "ءَامَنَ",
+    "lemma_buck": "'aAmana",
+    "occurrences": 537,
+    "sample_loc": "2:3:2",
+    "almaany": {
+      "status": "exception",
+      "error": "empty separator"
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ا ت ي",
+    "root_buck": "Aty",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "آتَى",
+    "lemma_buck": "A^taY",
+    "occurrences": 204,
+    "sample_loc": "2:43:3",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "آتا",
+      "variants_tried": [
+        "آتى",
+        "آتا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ر و د",
+    "root_buck": "rwd",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَرَادَ",
+    "lemma_buck": ">araAda",
+    "occurrences": 137,
+    "sample_loc": "2:26:25",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أراد",
+      "variants_tried": [
+        "أراد"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ن ز ل",
+    "root_buck": "nzl",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَنزَلَ",
+    "lemma_buck": ">anzala",
+    "occurrences": 128,
+    "sample_loc": "2:22:8",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أنزل",
+      "variants_tried": [
+        "أنزل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ر س ل",
+    "root_buck": "rsl",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَرْسَلَ",
+    "lemma_buck": ">arosala",
+    "occurrences": 114,
+    "sample_loc": "2:119:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أرسل",
+      "variants_tried": [
+        "أرسل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "خ ر ج",
+    "root_buck": "xrj",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَخْرَجَ",
+    "lemma_buck": ">axoraja",
+    "occurrences": 86,
+    "sample_loc": "2:22:12",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أخرج",
+      "variants_tried": [
+        "أخرج"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ط و ع",
+    "root_buck": "TwE",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَطَاعَ",
+    "lemma_buck": ">aTaAEa",
+    "occurrences": 72,
+    "sample_loc": "2:285:23",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أطاع",
+      "variants_tried": [
+        "أطاع"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ن ف ق",
+    "root_buck": "nfq",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَنفَقَ",
+    "lemma_buck": ">anfaqa",
+    "occurrences": 68,
+    "sample_loc": "2:3:8",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أنفق",
+      "variants_tried": [
+        "أنفق"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ش ر ك",
+    "root_buck": "$rk",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَشْرَكَ",
+    "lemma_buck": ">a$oraka",
+    "occurrences": 68,
+    "sample_loc": "2:96:8",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أشرك",
+      "variants_tried": [
+        "أشرك"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ض ل ل",
+    "root_buck": "Dll",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَضَلَّ",
+    "lemma_buck": ">aDal~a",
+    "occurrences": 64,
+    "sample_loc": "2:26:29",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أضل",
+      "variants_tried": [
+        "أضل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ص و ب",
+    "root_buck": "Swb",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَصَابَ",
+    "lemma_buck": ">aSaAba",
+    "occurrences": 64,
+    "sample_loc": "2:156:3",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أصاب",
+      "variants_tried": [
+        "أصاب"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form4",
+    "root_ar": "ح ب ب",
+    "root_buck": "Hbb",
+    "form": 4,
+    "voice": "active",
+    "lemma_ar": "أَحْبَبْ",
+    "lemma_buck": ">aHobabo",
+    "occurrences": 64,
+    "sample_loc": "2:165:9",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "أحبب",
+      "variants_tried": [
+        "أحبب"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "و ل ي",
+    "root_buck": "wly",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "تَوَلَّىٰ",
+    "lemma_buck": "tawal~aY`",
+    "occurrences": 78,
+    "sample_loc": "2:64:2",
+    "almaany": {
+      "past_3ms_almaany": "تولَّى",
+      "present_3ms_almaany": "تولَّى",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتولٍّ",
+      "passive_participle_almaany": "مُتولًّى",
+      "raw_head": "تولَّى / تولَّى عن يتولَّى ، تولَّ ، تولّيًا ، فهو مُتولٍّ ، والمفعول مُتولًّى - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "تولى",
+      "variants_tried": [
+        "تولى",
+        "تولا"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "ذ ك ر",
+    "root_buck": "*kr",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "تَذَكَّرَ",
+    "lemma_buck": "ta*ak~ara",
+    "occurrences": 51,
+    "sample_loc": "2:221:39",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تذكر",
+      "variants_tried": [
+        "تذكر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "و ك ل",
+    "root_buck": "wkl",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "تَوَكَّلْ",
+    "lemma_buck": "tawak~alo",
+    "occurrences": 40,
+    "sample_loc": "3:122:11",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "توكل",
+      "variants_tried": [
+        "توكل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "و ف ي",
+    "root_buck": "wfy",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "تَوَفَّىٰ",
+    "lemma_buck": "tawaf~aY`",
+    "occurrences": 20,
+    "sample_loc": "3:193:18",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "توفا",
+      "variants_tried": [
+        "توفى",
+        "توفا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "ب ي ن",
+    "root_buck": "byn",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "تَبَيَّنَ",
+    "lemma_buck": "tabay~ana",
+    "occurrences": 18,
+    "sample_loc": "2:109:19",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تبين",
+      "variants_tried": [
+        "تبين"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "ف ك ر",
+    "root_buck": "fkr",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "يَتَفَكَّرُ",
+    "lemma_buck": "yatafak~aru",
+    "occurrences": 17,
+    "sample_loc": "2:219:26",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "يتفكر",
+      "variants_tried": [
+        "يتفكر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "ر ب ص",
+    "root_buck": "rbS",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "تَرَبَّصْ",
+    "lemma_buck": "tarab~aSo",
+    "occurrences": 13,
+    "sample_loc": "2:228:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تربص",
+      "variants_tried": [
+        "تربص"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form5",
+    "root_ar": "م ت ع",
+    "root_buck": "mtE",
+    "form": 5,
+    "voice": "active",
+    "lemma_ar": "تَمَتَّعَ",
+    "lemma_buck": "tamat~aEa",
+    "occurrences": 11,
+    "sample_loc": "2:196:37",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تمتع",
+      "variants_tried": [
+        "تمتع"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form6",
+    "root_ar": "س ا ل",
+    "root_buck": "sAl",
+    "form": 6,
+    "voice": "active",
+    "lemma_ar": "يَتَسَآءَلُ",
+    "lemma_buck": "yatasaA^'alu",
+    "occurrences": 9,
+    "sample_loc": "4:1:21",
+    "almaany": {
+      "past_3ms_almaany": "تساءلَ",
+      "present_3ms_almaany": "تساءلَ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتسائِل",
+      "passive_participle_almaany": "مُتساءَلٌ",
+      "raw_head": "تساءلَ / تساءلَ بـ / تساءلَ عن يتساءل ، تساؤُلاً ، فهو مُتسائِل ، والمفعول مُتساءَلٌ به",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَتَسَآءَلُ'",
+      "status": "ok",
+      "word_searched": "يتسآءل",
+      "variants_tried": [
+        "يتسآءل"
+      ],
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form6",
+    "root_ar": "ب ر ك",
+    "root_buck": "brk",
+    "form": 6,
+    "voice": "active",
+    "lemma_ar": "تَبَارَكَ",
+    "lemma_buck": "tabaAraka",
+    "occurrences": 9,
+    "sample_loc": "7:54:29",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تبارك",
+      "variants_tried": [
+        "تبارك"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form6",
+    "root_ar": "ن ز ع",
+    "root_buck": "nzE",
+    "form": 6,
+    "voice": "active",
+    "lemma_ar": "تَنَٰزَعُ",
+    "lemma_buck": "tana`zaEu",
+    "occurrences": 7,
+    "sample_loc": "3:152:11",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تنزع",
+      "variants_tried": [
+        "تنزع"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form6",
+    "root_ar": "و ص ي",
+    "root_buck": "wSy",
+    "form": 6,
+    "voice": "active",
+    "lemma_ar": "تَوَاصَ",
+    "lemma_buck": "tawaASa",
+    "occurrences": 5,
+    "sample_loc": "51:53:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تواص",
+      "variants_tried": [
+        "تواص"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form6",
+    "root_ar": "ش ب ه",
+    "root_buck": "$bh",
+    "form": 6,
+    "voice": "active",
+    "lemma_ar": "تَشَٰبَهَ",
+    "lemma_buck": "ta$a`baha",
+    "occurrences": 4,
+    "sample_loc": "2:70:11",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تشبه",
+      "variants_tried": [
+        "تشبه"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form6",
+    "root_ar": "ن ج و",
+    "root_buck": "njw",
+    "form": 6,
+    "voice": "active",
+    "lemma_ar": "تَنَٰجَيْ",
+    "lemma_buck": "tana`jayo",
+    "occurrences": 4,
+    "sample_loc": "58:8:13",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "تنجي",
+      "variants_tried": [
+        "تنجي"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form7",
+    "root_ar": "ق ل ب",
+    "root_buck": "qlb",
+    "form": 7,
+    "voice": "active",
+    "lemma_ar": "ٱنقَلَبَ",
+    "lemma_buck": "{nqalaba",
+    "occurrences": 17,
+    "sample_loc": "2:143:25",
+    "almaany": {
+      "past_3ms_almaany": "انقلبَ",
+      "present_3ms_almaany": "ينقلب",
+      "masdars_almaany": [
+        "انقلابًا"
+      ],
+      "active_participle_almaany": "مُنْقَلِب",
+      "passive_participle_almaany": "مُنْقَلَب",
+      "raw_head": "انقلبَ / انقلبَ إلى / انقلبَ على ينقلب ، انقلابًا ، فهو مُنْقَلِب ، والمفعول مُنْقَلَب إليه",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "انقلب",
+      "variants_tried": [
+        "انقلب"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
+    }
+  },
+  {
+    "category": "form7",
+    "root_ar": "ط ل ق",
+    "root_buck": "Tlq",
+    "form": 7,
+    "voice": "active",
+    "lemma_ar": "ٱنطَلَقَ",
+    "lemma_buck": "{nTalaqa",
+    "occurrences": 9,
+    "sample_loc": "18:71:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "انطلق",
+      "variants_tried": [
+        "انطلق"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form7",
+    "root_ar": "ب غ ي",
+    "root_buck": "bgy",
+    "form": 7,
+    "voice": "active",
+    "lemma_ar": "يَن[بَغِى",
+    "lemma_buck": "yan[bagiY",
+    "occurrences": 6,
+    "sample_loc": "19:92:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ين[بغا",
+      "variants_tried": [
+        "ين[بغى",
+        "ين[بغا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form7",
+    "root_ar": "ش ق ق",
+    "root_buck": "$qq",
+    "form": 7,
+    "voice": "active",
+    "lemma_ar": "ٱنشَقَّ",
+    "lemma_buck": "{n$aq~a",
+    "occurrences": 5,
+    "sample_loc": "19:90:5",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "انشق",
+      "variants_tried": [
+        "انشق"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form7",
+    "root_ar": "ف ض ض",
+    "root_buck": "fDD",
+    "form": 7,
+    "voice": "active",
+    "lemma_ar": "ٱنفَضُّ",
+    "lemma_buck": "{nfaD~u",
+    "occurrences": 3,
+    "sample_loc": "3:159:12",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "انفض",
+      "variants_tried": [
+        "انفض"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "و ق ي",
+    "root_buck": "wqy",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱتَّقَىٰ",
+    "lemma_buck": "{t~aqaY`",
+    "occurrences": 166,
+    "sample_loc": "2:21:11",
+    "almaany": {
+      "past_3ms_almaany": "اتَّقى",
+      "present_3ms_almaany": "يَتَّقِي",
+      "masdars_almaany": [
+        "اتِّقاءً"
+      ],
+      "active_participle_almaany": "مُتَّقٍ",
+      "passive_participle_almaany": "مُتَّقًى",
+      "raw_head": "اتَّقى / اتَّقى بـ يَتَّقِي ، اتَّقِ ، اتِّقاءً وتُقاةً وتُقْيةً ، فهو مُتَّقٍ ، والمفعول مُتَّقًى",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "اتقى",
+      "variants_tried": [
+        "اتقى",
+        "اتقا"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "ت ب ع",
+    "root_buck": "tbE",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱتَّبَعَ",
+    "lemma_buck": "{t~abaEa",
+    "occurrences": 134,
+    "sample_loc": "2:102:1",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "اتبع",
+      "variants_tried": [
+        "اتبع"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "ا خ ذ",
+    "root_buck": "Ax*",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱتَّخَذَ",
+    "lemma_buck": "{t~axa*a",
+    "occurrences": 124,
+    "sample_loc": "2:51:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "اتخذ",
+      "variants_tried": [
+        "اتخذ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "ف ر ي",
+    "root_buck": "fry",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱفْتَرَىٰ",
+    "lemma_buck": "{fotaraY`",
+    "occurrences": 48,
+    "sample_loc": "3:24:15",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "افترا",
+      "variants_tried": [
+        "افترى",
+        "افترا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "ه د ي",
+    "root_buck": "hdy",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱهْتَدَىٰ",
+    "lemma_buck": "{hotadaY`",
+    "occurrences": 40,
+    "sample_loc": "2:53:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "اهتدا",
+      "variants_tried": [
+        "اهتدى",
+        "اهتدا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "س و ي",
+    "root_buck": "swy",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَوَىٰٓ",
+    "lemma_buck": "{sotawaY`^",
+    "occurrences": 35,
+    "sample_loc": "2:29:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "استوىٓ",
+      "variants_tried": [
+        "استوىٓ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "ب غ ي",
+    "root_buck": "bgy",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱبْتَغَىٰ",
+    "lemma_buck": "{botagaY`",
+    "occurrences": 34,
+    "sample_loc": "2:187:26",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "ابتغا",
+      "variants_tried": [
+        "ابتغى",
+        "ابتغا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "خ ل ف",
+    "root_buck": "xlf",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱخْتَلَفَ",
+    "lemma_buck": "{xotalafa",
+    "occurrences": 33,
+    "sample_loc": "2:113:31",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "اختلف",
+      "variants_tried": [
+        "اختلف"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "ش ر ي",
+    "root_buck": "$ry",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱشْتَرَىٰ",
+    "lemma_buck": "{$otaraY`",
+    "occurrences": 21,
+    "sample_loc": "2:16:3",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "اشترا",
+      "variants_tried": [
+        "اشترى",
+        "اشترا"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form8",
+    "root_ar": "ن ه ي",
+    "root_buck": "nhy",
+    "form": 8,
+    "voice": "active",
+    "lemma_ar": "ٱنتَهَىٰ",
+    "lemma_buck": "{ntahaY`",
+    "occurrences": 16,
+    "sample_loc": "2:192:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "انتها",
+      "variants_tried": [
+        "انتهى",
+        "انتها"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form9",
+    "root_ar": "ب ي ض",
+    "root_buck": "byD",
+    "form": 9,
+    "voice": "active",
+    "lemma_ar": "ٱبْيَضَّتْ",
+    "lemma_buck": "{boyaD~ato",
+    "occurrences": 3,
+    "sample_loc": "3:106:2",
+    "almaany": {
+      "past_3ms_almaany": "أبيض",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "(حن) نوع من السَّمك من الفصيلة السِّلّورية، يعيش في النِّيل، جسمه عارٍ من القشور، ولون ظهره رماديّ فِضيّ وبطنه أبيض ، له زعنفتان ظهريّتان.",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'ٱبْيَضَّتْ'",
+      "status": "ok",
+      "word_searched": "ابيضت",
+      "variants_tried": [
+        "ابيضت"
+      ],
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 14
+    }
+  },
+  {
+    "category": "form9",
+    "root_ar": "س و د",
+    "root_buck": "swd",
+    "form": 9,
+    "voice": "active",
+    "lemma_ar": "ٱسْوَدَّتْ",
+    "lemma_buck": "{sowad~ato",
+    "occurrences": 2,
+    "sample_loc": "3:106:4",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "اسودت",
+      "variants_tried": [
+        "اسودت"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "ط و ع",
+    "root_buck": "TwE",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَطَاعَ",
+    "lemma_buck": "{sotaTaAEa",
+    "occurrences": 42,
+    "sample_loc": "2:217:37",
+    "almaany": {
+      "past_3ms_almaany": "اسْتَطَاعَ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "اسْتَطَاعَ الشيءَ: أَطاقه وقَدَر عليه وأَمكنه. و اسْتَطَاعَ فلاناً ونحوَه: اسْتَدْعَى طَاعَتَهُ وإجابته.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
+      "word_searched": "استطاع",
+      "variants_tried": [
+        "استطاع"
+      ],
+      "from_cache": true,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 6
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "ك ب ر",
+    "root_buck": "kbr",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَكْبَرَ",
+    "lemma_buck": "{sotakobara",
+    "occurrences": 40,
+    "sample_loc": "2:34:10",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "استكبر",
+      "variants_tried": [
+        "استكبر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "غ ف ر",
+    "root_buck": "gfr",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَغْفَرَ",
+    "lemma_buck": "{sotagofara",
+    "occurrences": 40,
+    "sample_loc": "2:199:7",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "استغفر",
+      "variants_tried": [
+        "استغفر"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "ج و ب",
+    "root_buck": "jwb",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَجَابَ",
+    "lemma_buck": "{sotajaAba",
+    "occurrences": 27,
+    "sample_loc": "2:186:12",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "استجاب",
+      "variants_tried": [
+        "استجاب"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "ع ج ل",
+    "root_buck": "Ejl",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَعْجَلَ",
+    "lemma_buck": "{sotaEojala",
+    "occurrences": 19,
+    "sample_loc": "6:57:12",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "استعجل",
+      "variants_tried": [
+        "استعجل"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "ه ز ا",
+    "root_buck": "hzA",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتُهْزِئَ",
+    "lemma_buck": "{sotuhozi}a",
+    "occurrences": 17,
+    "sample_loc": "2:15:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "استهزئ",
+      "variants_tried": [
+        "استهزئ"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "ا ذ ن",
+    "root_buck": "A*n",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَـ#ْذَنَ",
+    "lemma_buck": "{sota_#o*ana",
+    "occurrences": 12,
+    "sample_loc": "9:44:2",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "است#ذن",
+      "variants_tried": [
+        "است#ذن"
+      ],
+      "from_cache": true
+    }
+  },
+  {
+    "category": "form10",
+    "root_ar": "ق و م",
+    "root_buck": "qwm",
+    "form": 10,
+    "voice": "active",
+    "lemma_ar": "ٱسْتَقَٰمُ",
+    "lemma_buck": "{sotaqa`mu",
+    "occurrences": 10,
+    "sample_loc": "9:7:16",
+    "almaany": {
+      "status": "not_found",
+      "word_searched": "استقم",
+      "variants_tried": [
+        "استقم"
+      ],
+      "from_cache": true
+    }
+  }
+]

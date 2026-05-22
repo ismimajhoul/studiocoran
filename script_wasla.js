@@ -1124,28 +1124,33 @@ function formatFeaturesAr(features) {
   return parts.join(' · ');
 }
 
-// Construit la phrase TTS : lit la LIGNE 1 (racine + trilitère + classification
-// + wazn Form I) puis la LIGNE 2 (wazn forme courante + conjugaisons + participes).
-// Ex pour أَخَذَ :
-//   "جذر : ألف خاء ذال. أَخَذَ — يَأْخُذُ. فعل صحيح مهموز.
-//    وزن الماضي فَعَلَ. وزن المضارع يَفْعُلُ.
-//    الماضي أَخَذَ. المضارع يَأْخُذُ. الأمر خُذْ. المصدر أَخْذ.
-//    اسم الفاعل آخِذ. اسم المفعول مَأْخُوذ."
-function buildRootSpeech(rootAr, data, waznPast, waznPres, base, cls) {
+// Construit la phrase TTS : lit la LIGNE 1 EN ENTIER, puis la LIGNE 2 EN ENTIER.
+// Chaque ligne est lue dans l'ordre où elle apparaît visuellement.
+//
+// LIGNE 1 : "جذر [racine]. [trilitère]. [classification]. [wazn Form I]"
+// LIGNE 2 : "الفعل. [wazn coranique]. الماضي [...]. المضارع [...]. الأمر [...].
+//           المصدر [...]. اسم الفاعل [...]. اسم المفعول [...]. [مشتق من X]"
+function buildRootSpeech(rootAr, data, waznPast, waznPres, base, cls,
+                         waznPastF1, waznPresF1, isFormIActive) {
   const letters = rootAr.split(/\s+/).filter(Boolean);
   const names = letters.map(l => (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[l]) || l);
-  // ─── LIGNE 1 ─────────────────────────────────────────────────────────
-  let phrase = `جذر: ${names.join(' ')}`;
-  // Verbe trilitère (Form I), si disponible
+
+  // ─── LIGNE 1 (lue EN ENTIER) ─────────────────────────────────────────
+  let phrase = `جذر ${names.join(' ')}`;
   if (base && base.past_3ms) {
     const tri = [base.past_3ms, base.present_3ms].filter(Boolean).join(' — ');
     phrase += `. ${tri}`;
   }
-  // Classification "فعل صحيح/معتل + sous-type"
   if (cls && cls.branch && cls.sub) {
     phrase += `. فعل ${cls.branch} ${cls.sub}`;
   }
-  // ─── LIGNE 2 ─────────────────────────────────────────────────────────
+  // Wazn Form I (END de la ligne 1) — TOUJOURS lu, comme à l'écran
+  if (waznPastF1) phrase += `. وزن الماضي ${waznPastF1}`;
+  if (waznPresF1) phrase += `. وزن المضارع ${waznPresF1}`;
+
+  // ─── LIGNE 2 (lue EN ENTIER, après la ligne 1) ───────────────────────
+  phrase += `. الفعل`;
+  // Wazn du verbe coranique (différent de Form I pour les Forms II-X)
   if (waznPast) phrase += `. وزن الماضي ${waznPast}`;
   if (waznPres) phrase += `. وزن المضارع ${waznPres}`;
   if (data) {
@@ -1161,6 +1166,10 @@ function buildRootSpeech(rootAr, data, waznPast, waznPres, base, cls) {
     const passP = data.passive_participle || null;
     if (actP)   phrase += `. اسم الفاعل ${actP}`;
     if (passP)  phrase += `. اسم المفعول ${passP}`;
+  }
+  // "مشتق من X" pour les Forms II-X (cohérent avec le visuel)
+  if (!isFormIActive && base && base.past_3ms) {
+    phrase += `. مشتق من ${base.past_3ms}`;
   }
   return phrase;
 }
@@ -1290,7 +1299,8 @@ function showEtymologyAnalysis(data) {
   updateClearAnalysisBtnVisibility();
 
   // TTS arabe des lettres de la racine (à affiner avec l'aide d'arabophone)
-  speakText(buildRootSpeech(data.root_ar, data, waznPast, waznPres, base, cls));
+  speakText(buildRootSpeech(data.root_ar, data, waznPast, waznPres, base, cls,
+                            waznPastF1, waznPresF1, isFormIActive));
 }
 
 /**

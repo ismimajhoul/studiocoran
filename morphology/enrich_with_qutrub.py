@@ -777,6 +777,36 @@ def main():
     for re_ in sample_errors:
         print(f"      ⚠ {re_[0]} F{re_[1]} {re_[2]} : {re_[3]}")
 
+    # ─── Étape 2.4 : synthèse Form I active pour les racines n'ayant
+    # que des Forms II-X dans le Coran ────────────────────────────────
+    # Objectif : afficher en UI la racine trilitère "d'origine" pour TOUS
+    # les Forms II-X. Ex: أَغْطَشَ (Form IV) → on génère غَطَشَ — يَغْطُشُ
+    # même si غطش n'apparaît pas en Form I dans le Coran.
+    # Source du verbe synthétique : Qutrub (à partir de la racine + voyelles
+    # par défaut). Le résultat est marqué source='qutrub-form1-synth' pour
+    # distinguer des entrées issues du corpus.
+    print(f"\n[2.4] Synthèse Form I active pour racines sans Form I dans le Coran...")
+    have_form1_active = {r['root_ar'] for r in rows
+                         if r['verb_form'] == 1 and r['voice'] == 'active'}
+    all_roots = sorted({r['root_ar'] for r in rows})
+    missing_roots = [r for r in all_roots if r not in have_form1_active]
+    print(f"      Racines uniques            : {len(all_roots)}")
+    print(f"      Avec Form I active         : {len(have_form1_active)}")
+    print(f"      Synthèse à faire           : {len(missing_roots)}")
+    synth_ok, synth_ko = 0, 0
+    for root_ar in missing_roots:
+        conj = conjugate_with_qutrub(root_ar, 1, 'active', None)
+        if conj.get('_error'):
+            synth_ko += 1
+            continue
+        rows.append({
+            'root_ar': root_ar, 'verb_form': 1, 'voice': 'active',
+            '_synthetic': True,  # marqueur pour la source SQL
+            **conj
+        })
+        synth_ok += 1
+    print(f"      → {synth_ok} Form I synthétisées, {synth_ko} échecs")
+
     # ─── Étape 2.5 : overrides post-Qutrub ────────────────────────────
     print(f"\n[2.5] Application des overrides canoniques...")
     overrides = load_canonical_overrides()
@@ -819,7 +849,9 @@ def main():
                     sql_escape(r['masdar']),
                     sql_escape(r['active_participle']),
                     sql_escape(r['passive_participle']),
-                    "'qutrub+override'" if r.get('_overridden') else "'qutrub'",
+                    ("'qutrub+override'" if r.get('_overridden')
+                     else "'qutrub-form1-synth'" if r.get('_synthetic')
+                     else "'qutrub'"),
                 ]) + ')')
             out.write(',\n'.join(values) + ';\n\n')
 

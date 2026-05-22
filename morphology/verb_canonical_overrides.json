@@ -18,20 +18,22 @@
   },
 
   "و ق ي:8:active": {
+    "masdar": "اِتِّقَاء",
     "active_participle": "مُتَّقٍ",
     "passive_participle": "مُتَّقًى",
-    "comment": "Form VIII de وقي : assimilation و+ت → تّ dans les participes (Qutrub donne مُوْتَقٍ / مُوْتَقًى — incorrect). Source : Almaany (اللغة العربية المعاصر)."
+    "comment": "Form VIII de وقي : assimilation و+ت → تّ partout (Qutrub donne مُوْتَقٍ/مُوْتَقًى/اِوْتِقَاء — incorrect). Source : Almaany."
   },
 
   "ا ت ي:1:active": {
+    "masdar": "إِتْيَان",
     "active_participle": "آتٍ",
-    "comment": "Form I défectueux أتى : fusion ءا → آ dans le participe actif (Qutrub donne أَاتٍ avec deux alif). Source : Almaany."
+    "comment": "Form I défectueux أتى : masdar correct = إتيان (notre أَتْي est non-standard) ; participe = آتٍ (fusion ءا → آ, Qutrub donne أَاتٍ)."
   },
 
   "ج ي ا:1:active": {
     "active_participle": "جَاءٍ",
     "passive_participle": "مَجِيء",
-    "comment": "Form I de جاء (R2=ي R3=ء) : participes mal formés par Qutrub (جَائِأ / مَجِيأ). Source : Almaany."
+    "comment": "Form I de جاء (R2=ي R3=ء) : participes mal formés par Qutrub (جَائِأ/مَجِيأ). Source : Almaany."
   },
 
   "ل ي س:1:active": {
@@ -42,5 +44,36 @@
     "active_participle": null,
     "passive_participle": null,
     "comment": "Verbe défectif unique (négation existentielle) — pas de conjugaison régulière. Qutrub génère لَاسَ ce qui est faux."
+  },
+
+  "د ع و:1:active": {
+    "masdar": "دُعَاء",
+    "comment": "Masdar correct de دَعَا = دُعَاء (notre دَعْو est non-standard, fréquence quranique très haute pour دُعَاء)."
+  },
+
+  "س م ع:1:active": {
+    "masdar": "سَمْع",
+    "comment": "Masdar = سَمْع. Notre lexique avait pris أسْمَاع qui est le PLURIEL (oreilles), pas le masdar verbal."
+  },
+
+  "ع ق ل:1:active": {
+    "masdar": "عَقْل",
+    "comment": "Masdar = عَقْل. Notre lexique avait pris عُقُول qui est le PLURIEL."
+  },
+
+  "ح م ل:1:active": {
+    "masdar": "حَمْل",
+    "comment": "Masdar = حَمْل. Notre lexique avait pris حَمَلات qui est le PLURIEL."
+  },
+
+  "ح ك م:1:active": {
+    "masdar": "حُكْم",
+    "comment": "Masdar = حُكْم (jugement). Notre lexique avait pris حِكْمَة qui est un nom dérivé (sagesse), pas le masdar verbal."
+  },
+
+  "و ل ي:5:active": {
+    "active_participle": "مُتَوَلٍّ",
+    "passive_participle": "مُتَوَلًّى",
+    "comment": "Form V défectif تَوَلَّى : participes défectifs avec tanwin (مُتَوَلٍّ / مُتَوَلًّى). Qutrub donne مُتَوَلِّي / مُتَوَلَّي (forme non-défective, faux)."
   }
 }

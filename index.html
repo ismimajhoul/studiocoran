@@ -492,47 +492,39 @@
       margin-top: 0.35rem;
       line-height: 1.4;
     }
-    /* Lignes ligne 1 (racine + verbe trilitère) et ligne 2 (verbe coranique) */
+    /* Lignes ligne 1 (جذر) et ligne 2 (الفعل) */
     #analysisRule .ety-line {
       display: block;
-      margin-bottom: 0.35rem;
-    }
-    #analysisRule .ety-line-root {
-      font-size: 1em;             /* racine en plein */
+      margin-bottom: 0.5rem;
     }
     #analysisRule .ety-line-verb {
-      font-size: 0.85em;
-      padding-top: 0.35rem;
+      padding-top: 0.4rem;
       border-top: 1px dashed rgba(192,57,43,0.25);
     }
-    #analysisRule .ety-root-label {
-      font-size: 0.55em;
-      color: #888;
-      font-weight: normal;
-      vertical-align: middle;
+    /* En-tête de ligne (جذر / الفعل) — plus gros, en gras, sert de titre */
+    #analysisRule .ety-header {
+      display: inline-block;
+      font-size: 1.15em;            /* plus gros que le reste de la ligne */
+      color: #c0392b;
+      font-weight: bold;
+      margin-left: 0.4rem;          /* RTL : espace à gauche de l'en-tête */
     }
     #analysisRule .ety-root {
       letter-spacing: 0.15em;
+      font-weight: bold;
     }
     #analysisRule .ety-trilitere {
       color: #c0392b;
       font-weight: bold;
     }
     #analysisRule .ety-class {
-      font-size: 0.6em;
-      color: #2c7a7b;             /* teal — repère visuel pour la classification */
+      font-size: 0.8em;
+      color: #2c7a7b;               /* teal */
       font-weight: 600;
       background: #e6fffa;
       padding: 0.1rem 0.5rem;
       border-radius: 0.4rem;
       vertical-align: middle;
-    }
-    #analysisRule .ety-class-fr {
-      font-size: 0.85em;
-      color: #4a8b8c;
-      font-style: italic;
-      font-family: sans-serif;
-      margin-right: 0.3rem;
     }
     #analysisRule .ety-wazn {
       color: #844;

@@ -2,28 +2,30 @@
 
 - **Verbes testés** : 216
 - **Match parfait** : 6
-- **Avec erreurs** : 64
-- **Skipped (pas dans Almaany)** : 146
-- **Total divergences** : 140
+- **Avec erreurs** : 57
+- **Skipped (pas dans Almaany / pas de match propre)** : 153
+  - not_found : 145
+  - almaany_no_match : 7
+  - exception : 1
+- **Total divergences** : 114
 
 ## Top causes d'erreur (toutes catégories confondues)
 
 | Cause | Count |
 |---|---|
-| masdar_pattern | 41 |
-| almaany_no_passive_participle | 19 |
-| almaany_no_active_participle | 16 |
-| almaany_no_present_3ms | 12 |
-| autre_present_3ms | 11 |
-| autre_active_participle | 11 |
-| autre_past_3ms | 7 |
+| masdar_pattern | 38 |
+| almaany_no_passive_participle | 16 |
+| almaany_no_active_participle | 12 |
+| autre_present_3ms | 9 |
+| autre_active_participle | 8 |
+| almaany_no_present_3ms | 8 |
 | manque_active_participle | 5 |
 | manque_passive_participle | 5 |
-| autre_passive_participle | 4 |
-| shadda_past_3ms | 3 |
+| autre_passive_participle | 3 |
+| autre_past_3ms | 3 |
 | manque_masdar | 2 |
+| shadda_past_3ms | 2 |
 | shadda_present_3ms | 2 |
-| hamza_passive_participle | 1 |
 | final_faible_passive_participle | 1 |
 
 ## Par catégorie morphologique
@@ -60,17 +62,6 @@
 - autre_active_participle : 1
 - masdar_pattern : 1
 
-### form1_hamza_r2 (4 erreurs)
-- autre_past_3ms : 1
-- almaany_no_present_3ms : 1
-- almaany_no_active_participle : 1
-- almaany_no_passive_participle : 1
-
-### form1_hamza_r3 (3 erreurs)
-- autre_active_participle : 1
-- hamza_passive_participle : 1
-- masdar_pattern : 1
-
 ### form1_lafif (3 erreurs)
 - almaany_no_active_participle : 1
 - almaany_no_passive_participle : 1
@@ -85,27 +76,23 @@
 - shadda_past_3ms : 1
 - shadda_present_3ms : 1
 
-### form1_sain_a (24 erreurs)
-- masdar_pattern : 8
-- autre_present_3ms : 3
-- almaany_no_passive_participle : 3
+### form1_sain_a (15 erreurs)
+- masdar_pattern : 7
 - manque_masdar : 2
-- almaany_no_active_participle : 2
-- autre_past_3ms : 2
-- autre_active_participle : 2
-- almaany_no_present_3ms : 1
-- autre_passive_participle : 1
+- autre_present_3ms : 2
+- almaany_no_passive_participle : 2
+- almaany_no_active_participle : 1
+- autre_active_participle : 1
 
-### form1_sain_i (25 erreurs)
-- masdar_pattern : 10
-- almaany_no_active_participle : 4
-- almaany_no_passive_participle : 3
-- almaany_no_present_3ms : 2
+### form1_sain_i (20 erreurs)
+- masdar_pattern : 9
+- almaany_no_active_participle : 3
+- almaany_no_passive_participle : 2
+- almaany_no_present_3ms : 1
 - shadda_past_3ms : 1
 - shadda_present_3ms : 1
 - autre_active_participle : 1
 - autre_passive_participle : 1
-- autre_past_3ms : 1
 - autre_present_3ms : 1
 
 ### form1_sain_u (26 erreurs)
@@ -131,10 +118,6 @@
 - autre_active_participle : 1
 - final_faible_passive_participle : 1
 
-### form6 (2 erreurs)
-- autre_present_3ms : 1
-- autre_active_participle : 1
-
 ### form7 (1 erreurs)
 - masdar_pattern : 1
 
@@ -142,11 +125,6 @@
 - autre_active_participle : 1
 - autre_passive_participle : 1
 - masdar_pattern : 1
-
-### form9 (3 erreurs)
-- shadda_past_3ms : 1
-- almaany_no_present_3ms : 1
-- almaany_no_active_participle : 1
 
 ## Détail des erreurs (verbe par verbe)
 
@@ -164,11 +142,6 @@
 - **present_3ms** : nous=`يَتَوَلَّى` / Almaany=`تولَّى`  →  *autre_present_3ms*
 - **active_participle** : nous=`مُتَوَلِّي` / Almaany=`مُتولٍّ`  →  *autre_active_participle*
 - **passive_participle** : nous=`مُتَوَلَّي` / Almaany=`مُتولًّى`  →  *final_faible_passive_participle*
-
-### جَآءَ  (form1_hamza_r3, racine `ج ي ا`)
-- **active_participle** : nous=`جَائِأ` / Almaany=`جاءٍ`  →  *autre_active_participle*
-- **passive_participle** : nous=`مَجِيأ` / Almaany=`مَجِيء`  →  *hamza_passive_participle*
-- **masdar** : nous=`جَيْأ` / Almaany=`جَيْئَةً / جِيئةً`  →  *masdar_pattern*
 
 ### جَعَلَ  (form1_sain_a, racine `ج ع ل`)
 - **masdar** : nous=`∅` / Almaany=`جَعْلاً`  →  *manque_masdar*
@@ -209,12 +182,6 @@
 
 ### ذَهَبَ  (form1_sain_a, racine `ذ ه ب`)
 - **masdar** : nous=`ذَهَابٌ` / Almaany=`ذَهابًا / ذُهُوبًا`  →  *masdar_pattern*
-
-### رَءَا  (form1_hamza_r2, racine `ر ا ي`)
-- **past_3ms** : nous=`رَأَى` / Almaany=`ارتئاء`  →  *autre_past_3ms*
-- **present_3ms** : nous=`يَرْئِي` / Almaany=`∅`  →  *almaany_no_present_3ms*
-- **active_participle** : nous=`رَاءٍ` / Almaany=`∅`  →  *almaany_no_active_participle*
-- **passive_participle** : nous=`مَرْءِيّ` / Almaany=`∅`  →  *almaany_no_passive_participle*
 
 ### رَجَعَ  (form1_passive, racine `ر ج ع`)
 - **past_3ms** : nous=`رُجِعَ` / Almaany=`رجَّعَ`  →  *shadda_past_3ms*
@@ -343,13 +310,6 @@
 - **active_participle** : nous=`مَاسِس` / Almaany=`∅`  →  *almaany_no_active_participle*
 - **passive_participle** : nous=`مَمْسُوس` / Almaany=`∅`  →  *almaany_no_passive_participle*
 
-### مَلَكَتْ  (form1_sain_i, racine `م ل ك`)
-- **past_3ms** : nous=`مَلَكَ` / Almaany=`أملكه`  →  *autre_past_3ms*
-- **present_3ms** : nous=`يَمْلِكُ` / Almaany=`∅`  →  *almaany_no_present_3ms*
-- **active_participle** : nous=`مَالِك` / Almaany=`∅`  →  *almaany_no_active_participle*
-- **passive_participle** : nous=`مَمْلُوك` / Almaany=`∅`  →  *almaany_no_passive_participle*
-- **masdar** : nous=`أَمْلاَكٌ` / Almaany=`ملكًا`  →  *masdar_pattern*
-
 ### نَصَرَ  (form1_sain_u, racine `ن ص ر`)
 - **present_3ms** : nous=`يَنْصُرُ` / Almaany=`∅`  →  *almaany_no_present_3ms*
 - **active_participle** : nous=`نَاصِر` / Almaany=`∅`  →  *almaany_no_active_participle*
@@ -382,28 +342,6 @@
 ### وَهَبَ  (form1_sain_a, racine `و ه ب`)
 - **present_3ms** : nous=`يَهَبُ` / Almaany=`يَهَبُه`  →  *autre_present_3ms*
 - **passive_participle** : nous=`مَوْهُوب` / Almaany=`∅`  →  *almaany_no_passive_participle*
-
-### يَتَسَآءَلُ  (form6, racine `س ا ل`)
-- **present_3ms** : nous=`يَتَسَاءَلُ` / Almaany=`تساءلَ`  →  *autre_present_3ms*
-- **active_participle** : nous=`مُتَسَاءِل` / Almaany=`مُتسائِل`  →  *autre_active_participle*
-
-### يَحْزُن  (form1_sain_a, racine `ح ز ن`)
-- **past_3ms** : nous=`حَزَنَ` / Almaany=`احتازَ`  →  *autre_past_3ms*
-- **present_3ms** : nous=`يَحْزَنُ` / Almaany=`يحتاز`  →  *autre_present_3ms*
-- **active_participle** : nous=`حَازِن` / Almaany=`مُحتاز`  →  *autre_active_participle*
-- **passive_participle** : nous=`مَحْزُون` / Almaany=`مُحتاز`  →  *autre_passive_participle*
-- **masdar** : nous=`حُزْنٌ` / Almaany=`احتيازًا`  →  *masdar_pattern*
-
-### يَذَرَ  (form1_sain_a, racine `و ذ ر`)
-- **past_3ms** : nous=`وَذَرَ` / Almaany=`ذرا`  →  *autre_past_3ms*
-- **present_3ms** : nous=`يَذَرُ` / Almaany=`∅`  →  *almaany_no_present_3ms*
-- **active_participle** : nous=`وَاذِر` / Almaany=`∅`  →  *almaany_no_active_participle*
-- **passive_participle** : nous=`مَوْذُور` / Almaany=`∅`  →  *almaany_no_passive_participle*
-
-### ٱبْيَضَّتْ  (form9, racine `ب ي ض`)
-- **past_3ms** : nous=`اِبْيَضَّ` / Almaany=`أبيض`  →  *shadda_past_3ms*
-- **present_3ms** : nous=`يَبْيَضُّ` / Almaany=`∅`  →  *almaany_no_present_3ms*
-- **active_participle** : nous=`مُبْيَضّ` / Almaany=`∅`  →  *almaany_no_active_participle*
 
 ### ٱتَّقَىٰ  (form8, racine `و ق ي`)
 - **active_participle** : nous=`مُوْتَقٍ` / Almaany=`مُتَّقٍ`  →  *autre_active_participle*

@@ -149,6 +149,11 @@ def diff_verb(row, canonical):
     if a.get('status') != 'ok':
         return [{'kind': 'skipped', 'reason': a.get('status', 'unknown')}]
 
+    # Si match_quality est fallback_first_entry, Almaany n'a pas pu matcher
+    # l'entrée de notre lemme → la "vérité" n'est PAS fiable, on skip.
+    if a.get('match_quality') == 'fallback_first_entry':
+        return [{'kind': 'skipped', 'reason': 'almaany_no_match'}]
+
     key = (row['root_ar'], row['form'], row['voice'])
     can = canonical.get(key)
     if can is None:
@@ -214,14 +219,17 @@ def main():
     per_category = defaultdict(lambda: defaultdict(int))  # category → cause → count
     per_cause = Counter()
     n_ok = n_skipped = n_with_errors = 0
+    skipped_reasons = Counter()
 
     for row in truth:
         errs = diff_verb(row, canonical)
         if not errs:
             n_ok += 1
             continue
-        if any(e['kind'] == 'skipped' for e in errs):
+        skipped = [e for e in errs if e['kind'] == 'skipped']
+        if skipped:
             n_skipped += 1
+            skipped_reasons[skipped[0].get('reason', '?')] += 1
             continue
         n_with_errors += 1
         for e in errs:
@@ -242,7 +250,9 @@ def main():
     lines.append(f'- **Verbes testés** : {len(truth)}')
     lines.append(f'- **Match parfait** : {n_ok}')
     lines.append(f'- **Avec erreurs** : {n_with_errors}')
-    lines.append(f'- **Skipped (pas dans Almaany)** : {n_skipped}')
+    lines.append(f'- **Skipped (pas dans Almaany / pas de match propre)** : {n_skipped}')
+    for reason, n in skipped_reasons.most_common():
+        lines.append(f'  - {reason} : {n}')
     lines.append(f'- **Total divergences** : {len(all_errors)}')
     lines.append('')
 

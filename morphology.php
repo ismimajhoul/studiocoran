@@ -51,6 +51,28 @@ try {
   $row = $result->fetch_assoc();
 
   if ($row) {
+    // Si le verbe coranique n'est pas une Form I active, on récupère aussi
+    // la Form I active de la racine (le verbe trilitère "de base") — utilisée
+    // dans l'UI pour afficher la racine sur la 1re ligne avec ses wazns
+    // d'origine, puis le verbe coranique sur la 2e ligne avec "مشتق من …".
+    $base = null;
+    $isFormIActive = (intval($row['verb_form'] ?? 1) === 1)
+                  && (stripos($row['features'] ?? '', 'PASS') === false);
+    if (!$isFormIActive && !empty($row['root_ar'])) {
+      $stmt2 = $conn->prepare("
+        SELECT past_3ms, present_3ms, imperative_2ms, masdar,
+               active_participle, passive_participle
+        FROM quran_verb_canonical
+        WHERE root_ar = ? AND verb_form = 1 AND voice = 'active'
+        LIMIT 1
+      ");
+      $stmt2->bind_param("s", $row['root_ar']);
+      $stmt2->execute();
+      $base = $stmt2->get_result()->fetch_assoc();
+      $stmt2->close();
+    }
+    $row['form1_base'] = $base;   // null si verbe = Form I active, OU si Form I absente
+
     echo json_encode($row, JSON_UNESCAPED_UNICODE);
   } else {
     http_response_code(404);

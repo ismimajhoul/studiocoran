@@ -1024,6 +1024,66 @@ function computeWaznPresent(formNum, rootAr, presentForm) {
 // data.present_3ms, data.imperative_2ms, data.masdar depuis la réponse JSON
 // de morphology.php (qui fait un LEFT JOIN avec quran_verb_canonical).
 
+// Classification du verbe trilitère par type morphologique de la racine.
+// Détecte (par ordre de priorité) :
+//   - مضاعف (mudaaf, géminé)         : R2 == R3 (non-faibles)
+//   - لفيف (lafif, deux faibles)      : ≥ 2 lettres faibles (و/ي/ا)
+//   - مثال (mithal, assimilé)         : R1 = و ou ي
+//   - أجوف (ajwaf, creux)             : R2 = و, ي ou ا
+//   - ناقص (naqis, défectueux)        : R3 = و, ي ou ا
+//   - مهموز (mahmuz, hamzé)           : une lettre est ء/أ/إ/ؤ/ئ (ou ا hamza dans le corpus)
+//   - سالم (salim, sain)              : sinon
+function classifyVerb(rootAr) {
+  if (!rootAr) return null;
+  const L = rootAr.split(/\s+/).filter(Boolean);
+  if (L.length !== 3) return null;
+  const [r1, r2, r3] = L;
+  const isWeakLetter = c => c === 'و' || c === 'ي' || c === 'ا';
+  const isHamza      = c => 'ءأإآؤئ'.includes(c);
+  const r1Weak = isWeakLetter(r1), r2Weak = isWeakLetter(r2), r3Weak = isWeakLetter(r3);
+  const anyHamza = isHamza(r1) || isHamza(r2) || isHamza(r3);
+  // Le corpus encode toute hamza-racine par ا (alif). On considère donc qu'un ا
+  // en position racine traduit un mahmuz si aucune autre faiblesse n'est présente.
+  // Cas particulier : si ا est en R2 ou R3, on traite d'abord comme creux/défectueux
+  // (priorité morphologique en grammaire arabe), mais la classification "mahmuz"
+  // est dominante pour les racines hamza R1 (أَخَذَ, أَكَلَ).
+
+  const weakCount = (r1Weak ? 1 : 0) + (r2Weak ? 1 : 0) + (r3Weak ? 1 : 0);
+
+  // مضاعف : R2 == R3 (mais pas si l'un est faible — ce serait ajwaf/naqis)
+  if (r2 === r3 && !r2Weak) {
+    return { ar: 'مضاعف', fr: 'mudaaf (géminé)' };
+  }
+
+  // لفيف : 2 lettres faibles parmi R1/R2/R3
+  if (weakCount >= 2) {
+    return { ar: 'لفيف', fr: 'lafif (deux faibles)' };
+  }
+
+  // مثال : R1 = و ou ي (pas ا car ا R1 = mahmuz)
+  if (r1 === 'و' || r1 === 'ي') {
+    return { ar: 'مثال', fr: 'mithal (assimilé)' };
+  }
+
+  // أجوف : R2 faible
+  if (r2Weak) {
+    return { ar: 'أجوف', fr: 'ajwaf (creux)' };
+  }
+
+  // ناقص : R3 faible
+  if (r3Weak) {
+    return { ar: 'ناقص', fr: 'naqis (défectueux)' };
+  }
+
+  // مهموز : hamza explicite OU ا en R1 (le corpus encode أ/إ/آ initial par ا)
+  if (anyHamza || r1 === 'ا') {
+    return { ar: 'مهموز', fr: 'mahmuz (hamzé)' };
+  }
+
+  // Sinon : سالم
+  return { ar: 'سالم', fr: 'salim (sain)' };
+}
+
 const ETY_FEATURE_FR = {
   PERF: 'accompli', IMPF: 'inaccompli', IMPV: 'impératif',
   PASS: 'passif',  ACT:  'actif',
@@ -1118,54 +1178,94 @@ function showEtymologyAnalysis(data) {
   }
 
   const formNum    = data.verb_form || 1;        // NULL en base = Form I
-  const waznPast   = WAZN_PAST_ABSTRACT[formNum];
-  // Wazn présent : abstrait (avec ف/ع/ل), détecté depuis la forme surface
-  // pour Form I (variabilité de la voyelle opérative selon le verbe).
-  const waznPres   = computeWaznPresent(formNum, data.root_ar, data.present_3ms);
+  const isFormI    = formNum === 1;
+  const isPassive  = (data.features || '').includes('PASS');
   const featuresAr = formatFeaturesAr(data.features);
   const featuresFr = formatFeaturesFr(data.features);
 
-  // Conjugaisons + participes : viennent directement de la table
-  // quran_verb_canonical (peuplée par Qutrub + templates).
-  const pastForm   = data.past_3ms          || data.lemma_ar || null;
-  const presForm   = data.present_3ms       || null;
-  const imperForm  = data.imperative_2ms    || null;
+  // Wazns du verbe CORANIQUE (la forme effectivement dans le verset)
+  const waznPast = WAZN_PAST_ABSTRACT[formNum];
+  const waznPres = computeWaznPresent(formNum, data.root_ar, data.present_3ms);
+
   // Masdar et participes : convention dictionnaire — tanwin damma ٌ pour
   // marquer l'indéfini nominatif. Mais on N'ajoute PAS de tanwin si la
-  // forme est défectueuse (déjà se termine en ٍ/ً/ى — convention spécifique
-  // aux noms défectueux comme مُنَادٍ, مُنَادًى).
+  // forme est défectueuse (déjà se termine en ٍ/ً/ى).
   const withTanwin = (s) => {
     if (!s) return null;
-    if (/[ًٌٍ]$/.test(s)) return s;   // déjà tanwiné
-    if (s.endsWith('ى')) return s;    // alif maksura final (forme défective)
+    if (/[ًٌٍ]$/.test(s)) return s;
+    if (s.endsWith('ى')) return s;
     return s + 'ٌ';
   };
-  const masdar     = withTanwin(data.masdar);
-  const actPart    = withTanwin(data.active_participle);
-  const passPart   = withTanwin(data.passive_participle);
 
-  // Affichage sur 3 lignes sous la racine :
-  //   ligne 1 (wazn abstrait)        : فَعَلَ — يَفْعِلُ
-  //   ligne 2 (conjugaisons réelles) : الماضي: كَادَ · المضارع: يَكِيدُ · الأمر: كِدْ · المصدر: كَيْدٌ
-  //   ligne 3 (participes)            : اسم الفاعل: كَائِدٌ · اسم المفعول: مَكِيدٌ
-  const wazns = [waznPast, waznPres].filter(Boolean).join(' — ');
-  const verbParts = [];
-  if (pastForm)  verbParts.push(`الماضي: ${pastForm}`);
-  if (presForm)  verbParts.push(`المضارع: ${presForm}`);
-  if (imperForm) verbParts.push(`الأمر: ${imperForm}`);
-  if (masdar)    verbParts.push(`المصدر: ${masdar}`);
-  const partParts = [];
-  if (actPart)   partParts.push(`اسم الفاعل: ${actPart}`);
-  if (passPart)  partParts.push(`اسم المفعول: ${passPart}`);
+  // Classification morpho du verbe trilitère (sain/creux/...)
+  const cls = classifyVerb(data.root_ar);
 
-  const lines = [];
-  if (wazns)              lines.push(wazns);
-  if (verbParts.length)   lines.push(verbParts.join(' · '));
-  if (partParts.length)   lines.push(partParts.join(' · '));
-  const morphHtml = lines
-    .map(l => `<span class="ety-morph-line">${l}</span>`)
-    .join('');
-  ruleDiv.innerHTML = `${data.root_ar}${morphHtml}`;
+  // ─── LIGNE 1 : la racine et son verbe Form I de base ────────────────
+  // Soit on EST une Form I active (le verbe = sa propre base), soit on
+  // a la Form I de la racine dans form1_base (envoyé par morphology.php).
+  // Sinon (Form I absente du Coran pour cette racine), on affiche juste
+  // racine + classification + wazns abstraits sans verbe trilitère réel.
+  const isFormIActive = isFormI && !isPassive;
+  const base = isFormIActive
+    ? { past_3ms: data.past_3ms, present_3ms: data.present_3ms,
+        imperative_2ms: data.imperative_2ms, masdar: data.masdar,
+        active_participle: data.active_participle,
+        passive_participle: data.passive_participle }
+    : (data.form1_base || null);
+
+  // Wazns de la Form I (toujours فَعَلَ - يَفْعُ/عِ/عَلُ selon la voyelle R2)
+  const waznPastF1 = WAZN_PAST_ABSTRACT[1];
+  const waznPresF1 = computeWaznPresent(1, data.root_ar, base ? base.present_3ms : null);
+
+  const line1Parts = [];
+  // En-tête racine : "الجذر: ا خ ذ"
+  line1Parts.push(`<span class="ety-root-label">الجذر:</span> <span class="ety-root">${data.root_ar}</span>`);
+  if (base && base.past_3ms) {
+    const triliterePieces = [base.past_3ms, base.present_3ms].filter(Boolean).join(' — ');
+    line1Parts.push(`<span class="ety-trilitere">${triliterePieces}</span>`);
+  }
+  if (cls) {
+    line1Parts.push(`<span class="ety-class">${cls.ar} <span class="ety-class-fr">${cls.fr}</span></span>`);
+  }
+  const waznsF1 = [waznPastF1, waznPresF1].filter(Boolean).join(' — ');
+  if (waznsF1) {
+    line1Parts.push(`<span class="ety-wazn">${waznsF1}</span>`);
+  }
+  const line1Html = `<div class="ety-line ety-line-root">${line1Parts.join(' · ')}</div>`;
+
+  // ─── LIGNE 2 : le verbe coranique (uniquement si ≠ Form I active) ───
+  // Pour Form I active : ligne 1 = ligne 2, on n'affiche que ligne 1.
+  let line2Html = '';
+  if (!isFormIActive) {
+    const pastForm  = data.past_3ms          || data.lemma_ar || null;
+    const presForm  = data.present_3ms       || null;
+    const imperForm = data.imperative_2ms    || null;
+    const masdar    = withTanwin(data.masdar);
+    const actPart   = withTanwin(data.active_participle);
+    const passPart  = withTanwin(data.passive_participle);
+
+    const conjParts = [];
+    if (pastForm)  conjParts.push(`الماضي: ${pastForm}`);
+    if (presForm)  conjParts.push(`المضارع: ${presForm}`);
+    if (imperForm) conjParts.push(`الأمر: ${imperForm}`);
+    if (masdar)    conjParts.push(`المصدر: ${masdar}`);
+    const partParts = [];
+    if (actPart)   partParts.push(`اسم الفاعل: ${actPart}`);
+    if (passPart)  partParts.push(`اسم المفعول: ${passPart}`);
+
+    const wazns2 = [waznPast, waznPres].filter(Boolean).join(' — ');
+    const subLines = [];
+    if (conjParts.length) subLines.push(conjParts.join(' · '));
+    if (partParts.length) subLines.push(partParts.join(' · '));
+    if (wazns2)           subLines.push(`<span class="ety-wazn">${wazns2}</span>`);
+    // "مشتق من" — uniquement pour les Forms II–X ; on cite le passé de la Form I
+    if (formNum >= 2 && base && base.past_3ms) {
+      subLines.push(`<span class="ety-derived">مشتق من ${base.past_3ms}</span>`);
+    }
+    line2Html = `<div class="ety-line ety-line-verb">${subLines.map(s => `<span class="ety-morph-line">${s}</span>`).join('')}</div>`;
+  }
+
+  ruleDiv.innerHTML = line1Html + line2Html;
 
   // analysisText : features morpho arabe + sous-ligne FR plus petite
   let html = featuresAr || '';
@@ -3494,21 +3594,42 @@ document.addEventListener('DOMContentLoaded', () => {
   if (clearBtn) clearBtn.addEventListener('click', clearAnalysisAndHighlights);
   updateClearAnalysisBtnVisibility();
 
-  // Helpers internes pour extraire le contenu structuré du panneau
+  // Helpers internes pour extraire le contenu structuré du panneau.
+  // Structure cible : ruleDiv contient .ety-line (1 ou 2 blocs : racine, et
+  // optionnellement verbe coranique). Chaque ligne est extraite en texte plat.
   const extractPanelLines = () => {
     const ruleDiv = document.getElementById('analysisRule');
     const txtDiv  = document.getElementById('analysisText');
     const lines = [];
     if (ruleDiv) {
-      const root = Array.from(ruleDiv.childNodes)
-        .filter(n => n.nodeType === Node.TEXT_NODE)
-        .map(n => n.textContent.trim())
-        .filter(Boolean).join(' ');
-      if (root) lines.push(root);
-      ruleDiv.querySelectorAll('.ety-morph-line').forEach(span => {
-        const t = span.textContent.trim();
-        if (t) lines.push(t);
-      });
+      const etyLines = ruleDiv.querySelectorAll('.ety-line');
+      if (etyLines.length) {
+        etyLines.forEach(div => {
+          // Pour la ligne 2, on peut avoir plusieurs sous-spans .ety-morph-line —
+          // on les sépare par newline pour rester lisible dans VS Code/Notion.
+          const subs = div.querySelectorAll('.ety-morph-line');
+          if (subs.length) {
+            subs.forEach(sp => {
+              const t = sp.textContent.trim();
+              if (t) lines.push(t);
+            });
+          } else {
+            const t = div.textContent.trim();
+            if (t) lines.push(t);
+          }
+        });
+      } else {
+        // Fallback : ancien rendu (avant restructure)
+        const root = Array.from(ruleDiv.childNodes)
+          .filter(n => n.nodeType === Node.TEXT_NODE)
+          .map(n => n.textContent.trim())
+          .filter(Boolean).join(' ');
+        if (root) lines.push(root);
+        ruleDiv.querySelectorAll('.ety-morph-line').forEach(span => {
+          const t = span.textContent.trim();
+          if (t) lines.push(t);
+        });
+      }
     }
     if (txtDiv) {
       const ar = Array.from(txtDiv.childNodes)
@@ -3524,13 +3645,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     return lines;
   };
-  // Extrait le 1er verbe (passé 3MS) de la ligne "الماضي: X · المضارع: ..."
+  // Extrait le passé 3MS pour le bouton 📋 (paste dans Almaany/Google).
+  // Cherche d'abord "الماضي: X" (cas Forms II-X qui ont une ligne 2),
+  // sinon prend le 1er mot du verbe trilitère affiché en ligne 1 (Form I active).
   const extractPastForm = () => {
-    const lines = extractPanelLines();
-    for (const l of lines) {
-      // Cherche "الماضي:" ou "الماضي :" suivi d'un mot
-      const m = l.match(/الماضي\s*[:：]\s*([^·]+)/);
-      if (m) return m[1].trim().replace(/[ٌٍ]$/, ''); // strip tanwin final
+    const ruleDiv = document.getElementById('analysisRule');
+    // 1. Cherche "الماضي:" dans tout le texte
+    if (ruleDiv) {
+      const text = ruleDiv.textContent;
+      const m = text.match(/الماضي\s*[:：]\s*([^·\n—]+)/);
+      if (m) return m[1].trim().replace(/[ٌٍ]$/, '');
+      // 2. Sinon : premier mot du verbe trilitère (Form I active)
+      const tri = ruleDiv.querySelector('.ety-trilitere');
+      if (tri) {
+        const first = tri.textContent.trim().split(/\s*[—-]\s*/)[0];
+        if (first) return first.replace(/[ٌٍ]$/, '');
+      }
     }
     return null;
   };

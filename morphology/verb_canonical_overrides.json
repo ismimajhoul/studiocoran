@@ -1,0 +1,46 @@
+{
+  "_comment": "Overrides post-Qutrub. Surcharge les sorties générées par Qutrub pour des verbes spécifiques quand Qutrub se trompe ou ne couvre pas un cas particulier. Clé: 'root_ar:verb_form:voice' où root_ar utilise des espaces (ex: 'و ق ي'), verb_form est 1-10, voice est 'active'|'passive'. Seuls les champs présents dans l'override écrasent. Le champ 'comment' est documentaire. Les clés commençant par '_' sont ignorées.",
+
+  "_overridable_fields": [
+    "past_3ms",
+    "present_3ms",
+    "imperative_2ms",
+    "masdar",
+    "active_participle",
+    "passive_participle"
+  ],
+
+  "_examples": {
+    "ك ت ب:1:active": {
+      "masdar": "كِتَابَة",
+      "comment": "Exemple : forcer un masdar particulier"
+    }
+  },
+
+  "و ق ي:8:active": {
+    "active_participle": "مُتَّقٍ",
+    "passive_participle": "مُتَّقًى",
+    "comment": "Form VIII de وقي : assimilation و+ت → تّ dans les participes (Qutrub donne مُوْتَقٍ / مُوْتَقًى — incorrect). Source : Almaany (اللغة العربية المعاصر)."
+  },
+
+  "ا ت ي:1:active": {
+    "active_participle": "آتٍ",
+    "comment": "Form I défectueux أتى : fusion ءا → آ dans le participe actif (Qutrub donne أَاتٍ avec deux alif). Source : Almaany."
+  },
+
+  "ج ي ا:1:active": {
+    "active_participle": "جَاءٍ",
+    "passive_participle": "مَجِيء",
+    "comment": "Form I de جاء (R2=ي R3=ء) : participes mal formés par Qutrub (جَائِأ / مَجِيأ). Source : Almaany."
+  },
+
+  "ل ي س:1:active": {
+    "past_3ms": "لَيْسَ",
+    "present_3ms": null,
+    "imperative_2ms": null,
+    "masdar": null,
+    "active_participle": null,
+    "passive_participle": null,
+    "comment": "Verbe défectif unique (négation existentielle) — pas de conjugaison régulière. Qutrub génère لَاسَ ce qui est faux."
+  }
+}

@@ -13,7 +13,7 @@ LANCE :
     python enrich_with_qutrub.py
 """
 
-import os, re, sys
+import os, re, sys, json
 sys.stdout.reconfigure(encoding='utf-8')
 
 QUTRUB_PATH = r'c:\MAMP\htdocs\qutrub'
@@ -21,6 +21,7 @@ HERE = os.path.dirname(__file__)
 INPUT_CORPUS = os.path.join(HERE, 'quranic-corpus-morphology-0.4.txt')
 SCHEMA_FILE  = os.path.join(HERE, 'schema_canonical.sql')
 OUTPUT_FILE  = os.path.join(HERE, 'quran_verb_canonical.sql')
+OVERRIDES_CANONICAL_FILE = os.path.join(HERE, 'verb_canonical_overrides.json')
 
 if not os.path.isdir(QUTRUB_PATH):
     print(f"ERREUR : QUTRUB_PATH n'existe pas → {QUTRUB_PATH}")
@@ -697,6 +698,50 @@ def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
 # ─────────────────────────────────────────────────────────────────────
 # SQL output
 # ─────────────────────────────────────────────────────────────────────
+# ─────────────────────────────────────────────────────────────────────
+# Overrides post-Qutrub : surcharge des sorties par verbe
+# ─────────────────────────────────────────────────────────────────────
+# Champs surchargeables (les autres restent intacts).
+OVERRIDABLE_FIELDS = {
+    'past_3ms', 'present_3ms', 'imperative_2ms',
+    'masdar', 'active_participle', 'passive_participle',
+}
+
+def load_canonical_overrides():
+    """Charge verb_canonical_overrides.json. Clés ignorées si elles commencent par '_'
+    (réservées aux commentaires/exemples).
+    Format : { "root_ar:verb_form:voice": {"field": "value", "comment": "..."}, ... }
+    """
+    if not os.path.exists(OVERRIDES_CANONICAL_FILE):
+        return {}
+    with open(OVERRIDES_CANONICAL_FILE, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    return {k: v for k, v in data.items() if not k.startswith('_')}
+
+def apply_canonical_overrides(rows, overrides):
+    """Applique les overrides sur les rows in-place. Annote chaque row surchargée
+    avec _overridden=True (utilisé pour marquer source='qutrub+override').
+    Retourne (nb_rows_surchargées, nb_champs_surchargés, list_des_clés_non_matchées)."""
+    n_rows = n_fields = 0
+    matched_keys = set()
+    for r in rows:
+        key = f"{r['root_ar']}:{r['verb_form']}:{r['voice']}"
+        ov = overrides.get(key)
+        if not ov: continue
+        matched_keys.add(key)
+        applied_any = False
+        for fld in OVERRIDABLE_FIELDS:
+            if fld in ov:
+                r[fld] = ov[fld]
+                n_fields += 1
+                applied_any = True
+        if applied_any:
+            r['_overridden'] = True
+            n_rows += 1
+    unmatched = [k for k in overrides if k not in matched_keys]
+    return n_rows, n_fields, unmatched
+
+
 def sql_escape(s):
     if s is None: return 'NULL'
     return "'" + str(s).replace("\\","\\\\").replace("'", "''") + "'"
@@ -732,6 +777,21 @@ def main():
     for re_ in sample_errors:
         print(f"      ⚠ {re_[0]} F{re_[1]} {re_[2]} : {re_[3]}")
 
+    # ─── Étape 2.5 : overrides post-Qutrub ────────────────────────────
+    print(f"\n[2.5] Application des overrides canoniques...")
+    overrides = load_canonical_overrides()
+    if overrides:
+        n_rows, n_fields, unmatched = apply_canonical_overrides(rows, overrides)
+        print(f"      → {n_rows} verbes surchargés, {n_fields} champs modifiés")
+        if unmatched:
+            print(f"      ⚠ {len(unmatched)} clés d'override sans correspondance :")
+            for k in unmatched[:5]:
+                print(f"         · {k}")
+            if len(unmatched) > 5:
+                print(f"         · ... ({len(unmatched)-5} autres)")
+    else:
+        print(f"      (aucun override défini dans {os.path.basename(OVERRIDES_CANONICAL_FILE)})")
+
     print(f"\n[3/3] Génération du SQL...")
     with open(SCHEMA_FILE, 'r', encoding='utf-8') as f:
         schema_sql = f.read()
@@ -759,7 +819,7 @@ def main():
                     sql_escape(r['masdar']),
                     sql_escape(r['active_participle']),
                     sql_escape(r['passive_participle']),
-                    "'qutrub'",
+                    "'qutrub+override'" if r.get('_overridden') else "'qutrub'",
                 ]) + ')')
             out.write(',\n'.join(values) + ';\n\n')
 

@@ -1,0 +1,101 @@
+{
+  "ا و ب:1:active": {
+    "present_3ms": "يَأُوبُ",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ا و د:1:active": {
+    "present_3ms": "يَئِيدُ",
+    "passive_participle": "مَئِيد",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ا ي د:1:active": {
+    "passive_participle": "مَئِيد",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ت ي ه:1:active": {
+    "present_3ms": "يَتُوهُ",
+    "masdar": "تَوْه",
+    "passive_participle": "مَتُوه",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ج ي ا:1:active": {
+    "masdar": "مَجِيء",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "خ ي ب:1:active": {
+    "masdar": "خَيْبَة",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ر و ح:1:active": {
+    "masdar": "رَوَاح",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ز و د:1:active": {
+    "present_3ms": "يَزِيدُ",
+    "masdar": "زِيَادَة",
+    "passive_participle": "مَزِيد",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ز ي د:1:active": {
+    "masdar": "زِيَادَة",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "س و ر:1:active": {
+    "present_3ms": "يَسِيرُ",
+    "masdar": "سَيْر",
+    "passive_participle": "مَسِير",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "س و غ:1:active": {
+    "present_3ms": "يَسِيغُ",
+    "passive_participle": "مَسِيغ",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ش و ي:1:active": {
+    "masdar": "شَيّ",
+    "active_participle": "شَاوٍ",
+    "passive_participle": "مَشْوِيّ",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ص و ر:1:active": {
+    "present_3ms": "يَصِيرُ",
+    "masdar": "صَيْر",
+    "passive_participle": "مَصِير",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ض ي ف:1:active": {
+    "masdar": "ضِيَافَة",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "غ و ث:1:active": {
+    "present_3ms": "يَغِيثُ",
+    "passive_participle": "مَغِيث",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ف و ض:1:active": {
+    "present_3ms": "يَفِيضُ",
+    "masdar": "فَيْض",
+    "passive_participle": "مَفِيض",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ك ي د:1:active": {
+    "present_3ms": "يَكَادُ",
+    "masdar": "كَوْد",
+    "passive_participle": "مَكُود",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ك ي ن:1:active": {
+    "present_3ms": "يَكُونُ",
+    "masdar": "كَوْن",
+    "passive_participle": "مَكُون",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ن و ا:1:active": {
+    "passive_participle": "مَنُوء",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  },
+  "ن ي ل:1:active": {
+    "present_3ms": "يَنَالُ",
+    "comment": "Auto-généré depuis reverso (audit أجوف)"
+  }
+}

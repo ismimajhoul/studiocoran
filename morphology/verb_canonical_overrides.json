@@ -28,7 +28,8 @@
   "ج ي ا:1:active": {
     "active_participle": "جَاءٍ",
     "passive_participle": "مَجِيء",
-    "comment": "Form I de جاء (R2=ي R3=ء) : participes mal formés par Qutrub (جَائِأ/مَجِيأ). Source : Almaany."
+    "comment": "Form I de جاء (R2=ي R3=ء) : participes mal formés par Qutrub (جَائِأ/مَجِيأ). Source : Almaany. | Form I creux+hamza R3 جَاءَ : masdar correct = مَجِيء (notre جَيْأ broken). Source : reverso. Très fréquent (276 occ).",
+    "masdar": "مَجِيء"
   },
   "ل ي س:1:active": {
     "past_3ms": "لَيْسَ",
@@ -201,5 +202,34 @@
     "active_participle": "سَاءٍ",
     "passive_participle": "مَسُوء",
     "comment": "Form I creux+hamza R3 سَاءَ (être mauvais) : masdar Quranic = سُوء (cf. سورة yusuf, etc.). Participes correctement orthographiés avec hamza finale ء. Source : reverso."
+  },
+  "ز ي د:1:active": {
+    "masdar": "زِيَادَة",
+    "comment": "Form I creux ز ي د (augmenter) : masdar standard زِيَادَة (notre زَيْد non-standard). Source : reverso."
+  },
+  "خ ي ب:1:active": {
+    "masdar": "خَيْبَة",
+    "comment": "Form I creux خَابَ (être déçu) : masdar = خَيْبَة (notre خَيْب tronqué). Source : reverso."
+  },
+  "ن ي ل:1:active": {
+    "present_3ms": "يَنَالُ",
+    "comment": "Form I creux نَالَ (obtenir) : présent = يَنَالُ (notre يَنِيلُ avec mauvaise voyelle R2). Source : reverso."
+  },
+  "ش و ي:1:active": {
+    "active_participle": "شَاوٍ",
+    "passive_participle": "مَشْوِيّ",
+    "comment": "شَوَى (faire griller) : participe actif défectif شَاوٍ, passif مَشْوِيّ (avec shadda sur ي). Source : reverso."
+  },
+  "ن و ا:1:active": {
+    "passive_participle": "مَنُوء",
+    "comment": "Form I creux+hamza R3 نَاءَ : passive participle مَنُوء avec hamza ء finale (notre مَنُوأ broken). Source : reverso."
+  },
+  "ض ي ف:1:active": {
+    "masdar": "ضِيَافَة",
+    "comment": "Form I creux ضَافَ (héberger) : masdar standard ضِيَافَة. Source : reverso."
+  },
+  "ر و ح:1:active": {
+    "masdar": "رَوَاح",
+    "comment": "Form I creux رَاحَ (aller vers le soir) : masdar = رَوَاح. Source : reverso."
   }
 }

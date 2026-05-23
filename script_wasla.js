@@ -1188,16 +1188,76 @@ function buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive) {
   return phrase;
 }
 
+// Walk les text nodes de `rootEl`, enveloppe chaque mot dans un
+// <span class="ety-word">, et retourne la liste des spans créés dans l'ordre.
+// Ignore les tokens purement ponctuation (·, —, :, ...) pour qu'ils ne
+// soient pas surlignés comme des mots.
+const _PUNCT_ONLY_RE = /^[·—:.,;\-]+$/;
+function wrapWordsInElement(rootEl) {
+  if (!rootEl) return [];
+  const spans = [];
+  const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT, null);
+  const textNodes = [];
+  let n;
+  while ((n = walker.nextNode())) textNodes.push(n);
+
+  for (const tn of textNodes) {
+    const text = tn.nodeValue;
+    if (!text || !text.trim()) continue;
+    const parent = tn.parentNode;
+    if (!parent) continue;
+    if (parent.classList && parent.classList.contains('ety-word')) continue;
+    const parts = text.split(/(\s+)/);
+    const frag = document.createDocumentFragment();
+    for (const part of parts) {
+      if (!part) continue;
+      if (/^\s+$/.test(part) || _PUNCT_ONLY_RE.test(part)) {
+        frag.appendChild(document.createTextNode(part));
+      } else {
+        const sp = document.createElement('span');
+        sp.className = 'ety-word';
+        sp.textContent = part;
+        frag.appendChild(sp);
+        spans.push(sp);
+      }
+    }
+    parent.replaceChild(frag, tn);
+  }
+  return spans;
+}
+
 // Lit une séquence [{text, el}] : chaque élément DOM reçoit la classe
 // `ety-reading` pendant que son texte associé est en cours de lecture TTS,
-// puis la classe est retirée à la fin du segment.
+// et chaque mot visible est surligné à tour de rôle en fonction de la
+// progression de l'audio (timing estimé proportionnellement à la longueur
+// en caractères de chaque mot).
 async function speakLinesWithHighlight(segments) {
   for (const seg of segments) {
     if (!seg.text) continue;
     if (seg.el) seg.el.classList.add('ety-reading');
+    const wordSpans = seg.el ? wrapWordsInElement(seg.el) : [];
+    const wordChars = wordSpans.map(s => Math.max(1, s.textContent.length));
+    const totalChars = wordChars.reduce((a,b) => a+b, 0) || 1;
+    // cumChars[i] = nb total de chars jusqu'à la fin du mot i (inclus)
+    const cumChars = []; { let acc = 0; for (const c of wordChars) { acc += c; cumChars.push(acc); } }
+    let activeIdx = -1;
+    const setActive = (idx) => {
+      if (idx === activeIdx) return;
+      if (activeIdx >= 0 && wordSpans[activeIdx]) wordSpans[activeIdx].classList.remove('ety-word-active');
+      activeIdx = idx;
+      if (activeIdx >= 0 && wordSpans[activeIdx]) wordSpans[activeIdx].classList.add('ety-word-active');
+    };
+    const onProgress = wordSpans.length ? (ratio) => {
+      const target = ratio * totalChars;
+      let idx = 0;
+      while (idx < cumChars.length && cumChars[idx] < target) idx++;
+      if (idx >= wordSpans.length) idx = wordSpans.length - 1;
+      setActive(idx);
+    } : null;
     try {
-      await speakText(seg.text);
+      await speakText(seg.text, { onProgress });
     } finally {
+      setActive(-1);
       if (seg.el) seg.el.classList.remove('ety-reading');
     }
   }
@@ -1943,8 +2003,9 @@ function toArabicDigits(n) {
 // PAS de repli automatique sur Web Speech : si Google plante, on ne dit rien
 // plutôt que de risquer une double voix avec Naayf. La Promise se résout quand
 // même pour ne pas bloquer le await dans loadPageWithButton.
-function speakText(arabicText) {
+function speakText(arabicText, opts) {
   console.log('speakText :', arabicText);
+  const onProgress = (opts && typeof opts.onProgress === 'function') ? opts.onProgress : null;
 
   return new Promise((resolve) => {
     // Stop tout audio TTS en cours
@@ -1957,15 +2018,28 @@ function speakText(arabicText) {
 
     // Découpe en segments si > 180 caractères (limite Google translate_tts)
     const segments = _splitForTTS(arabicText, 180);
+    // Pour la progression globale : on traite les segments comme une seule
+    // timeline pondérée par leur longueur en caractères.
+    const segLens = segments.map(s => s.length);
+    const totalLen = segLens.reduce((a,b) => a+b, 0) || 1;
+    const cumStart = []; { let acc = 0; for (const l of segLens) { cumStart.push(acc); acc += l; } }
+
     let i = 0;
     let aborted = false;
+    let rafId = null;
+    const cancelRaf = () => { if (rafId !== null) { cancelAnimationFrame(rafId); rafId = null; } };
+
     const playNext = () => {
       if (aborted) return;
       if (i >= segments.length) {
+        cancelRaf();
         window._currentTTSAudio = null;
+        if (onProgress) { try { onProgress(1); } catch (_) {} }
         resolve();
         return;
       }
+      const segLen = segLens[i];
+      const segStart = cumStart[i];
       const url = `tts.php?lang=ar&text=${encodeURIComponent(segments[i])}`;
       const a = new Audio(url);
       window._currentTTSAudio = a;
@@ -1974,21 +2048,41 @@ function speakText(arabicText) {
       const kill = () => {
         try { a.pause(); a.src = ''; a.removeAttribute('src'); a.load(); } catch (_) {}
       };
-      a.onended = () => { if (!aborted) { i++; playNext(); } };
+
+      const tick = () => {
+        if (aborted || a !== window._currentTTSAudio) { rafId = null; return; }
+        const d = a.duration;
+        if (isFinite(d) && d > 0) {
+          const segRatio = Math.min(1, Math.max(0, a.currentTime / d));
+          const ratio = (segStart + segRatio * segLen) / totalLen;
+          if (onProgress) { try { onProgress(ratio); } catch (_) {} }
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+
+      a.onplay = () => { if (onProgress) { cancelRaf(); rafId = requestAnimationFrame(tick); } };
+      a.onended = () => {
+        cancelRaf();
+        if (!aborted) { i++; playNext(); }
+      };
       a.onerror = () => {
         if (aborted) return;
         aborted = true;
+        cancelRaf();
         kill();
         console.warn('Google TTS onerror — annonce coupée');
         window._currentTTSAudio = null;
+        if (onProgress) { try { onProgress(1); } catch (_) {} }
         resolve();
       };
       a.play().catch(() => {
         if (aborted) return;
         aborted = true;
+        cancelRaf();
         kill();
         console.warn('Google TTS play().catch — annonce coupée');
         window._currentTTSAudio = null;
+        if (onProgress) { try { onProgress(1); } catch (_) {} }
         resolve();
       });
     };

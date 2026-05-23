@@ -336,5 +336,120 @@
     "present_3ms": "يَلِي",
     "imperative_2ms": "لِ",
     "comment": "Form I lafif وَلَى/وَلِيَ (être proche, gouverner) : présent يَلِي (Coran 9:123 يَلُونَكُم), impératif لِ. Notre يَوْلُيُ broken."
+  },
+  "و ج د:1:active": {
+    "masdar": "وُجُود",
+    "comment": "Form I mithal وَجَدَ (trouver) : masdar standard وُجُود (105 occ). Notre وِجْدَان est plus abstrait. Triple-validated."
+  },
+  "و ه ب:1:active": {
+    "masdar": "وَهْب",
+    "comment": "Form I mithal وَهَبَ (donner) : masdar وَهْب. Notre هِبَة (don, nom) ≠ masdar verbal. Triple-validated."
+  },
+  "و د د:1:active": {
+    "imperative_2ms": "وَدَّ",
+    "active_participle": "وَادّ",
+    "comment": "Form I mithal+géminé وَدَّ (aimer) : imp وَدَّ contracté, actpart وَادّ contracté. Triple-validated."
+  },
+  "و ص ف:1:active": {
+    "masdar": "وَصْف",
+    "comment": "Form I mithal وَصَفَ (décrire) : masdar وَصْف. Triple-validated."
+  },
+  "و ص ل:1:active": {
+    "masdar": "وَصْل",
+    "comment": "Form I mithal وَصَلَ (arriver, joindre) : masdar وَصْل. Triple-validated."
+  },
+  "و س ق:1:active": {
+    "present_3ms": "يَسِقُ",
+    "imperative_2ms": "سِقْ",
+    "comment": "Form I mithal وَسَقَ (rassembler) : présent يَسِقُ, imp سِقْ (R1 و tombe). Triple-validated."
+  },
+  "و س م:1:active": {
+    "masdar": "وَسْم",
+    "comment": "Form I mithal وَسَمَ (marquer) : masdar وَسْم. Triple-validated."
+  },
+  "و ق ب:1:active": {
+    "present_3ms": "يَقِبُ",
+    "imperative_2ms": "قِبْ",
+    "comment": "Form I mithal وَقَبَ (entrer dans, cf. الفلق 3) : pres يَقِبُ, imp قِبْ. Triple-validated."
+  },
+  "و ك ز:1:active": {
+    "present_3ms": "يَكِزُ",
+    "imperative_2ms": "كِزْ",
+    "comment": "Form I mithal وَكَزَ (frapper, cf. القصص 15) : pres يَكِزُ, imp كِزْ. Triple-validated."
+  },
+  "و ج س:1:active": {
+    "present_3ms": "يَجِسُ",
+    "imperative_2ms": "جِسْ",
+    "comment": "Form I mithal وَجَسَ : pres يَجِسُ. Triple-validated."
+  },
+  "و ج ف:1:active": {
+    "present_3ms": "يَجِفُ",
+    "imperative_2ms": "جِفْ",
+    "comment": "Form I mithal وَجَفَ : pres يَجِفُ. Triple-validated."
+  },
+  "و ف ض:1:active": {
+    "present_3ms": "يَفِضُ",
+    "imperative_2ms": "فِضْ",
+    "comment": "Form I mithal وَفَضَ : pres يَفِضُ. Triple-validated."
+  },
+  "و ف ق:1:active": {
+    "present_3ms": "يَفِقُ",
+    "imperative_2ms": "فِقْ",
+    "comment": "Form I mithal وَفَقَ : pres يَفِقُ. Triple-validated."
+  },
+  "و ق د:1:active": {
+    "present_3ms": "يَقِدُ",
+    "imperative_2ms": "قِدْ",
+    "comment": "Form I mithal وَقَدَ (brûler) : pres يَقِدُ. Triple-validated."
+  },
+  "و ر ث:1:active": {
+    "masdar": "وِرْث",
+    "comment": "Form I mithal وَرَثَ (hériter) : masdar وِرْث. Source : cooljugator."
+  },
+  "و ر د:1:active": {
+    "present_3ms": "يَرِدُ",
+    "imperative_2ms": "رِدْ",
+    "masdar": "وُرُود",
+    "comment": "Form I mithal وَرَدَ (venir à) : pres يَرِدُ, imp رِدْ. Source : cooljugator."
+  },
+  "و ز ن:1:active": {
+    "present_3ms": "يَزِنُ",
+    "imperative_2ms": "زِنْ",
+    "comment": "Form I mithal وَزَنَ (peser) : pres يَزِنُ, imp زِنْ. Source : cooljugator."
+  },
+  "و ج ب:1:active": {
+    "present_3ms": "يَجِبُ",
+    "imperative_2ms": "جِبْ",
+    "masdar": "وُجُوب",
+    "comment": "Form I mithal وَجَبَ : pres يَجِبُ. Source : cooljugator."
+  },
+  "و ق ف:1:active": {
+    "present_3ms": "يَقِفُ",
+    "imperative_2ms": "قِفْ",
+    "masdar": "وَقْف",
+    "comment": "Form I mithal وَقَفَ (s'arrêter) : pres يَقِفُ. Source : cooljugator."
+  },
+  "و ك ل:1:active": {
+    "present_3ms": "يَكِلُ",
+    "imperative_2ms": "كِلْ",
+    "comment": "Form I mithal وَكَلَ (confier) : pres يَكِلُ. Source : cooljugator."
+  },
+  "و ب ق:1:active": {
+    "present_3ms": "يَبِقُ",
+    "imperative_2ms": "بِقْ",
+    "comment": "Form I mithal وَبَقَ : pres يَبِقُ. Source : cooljugator."
+  },
+  "و ز ع:1:active": {
+    "present_3ms": "يَزَعُ",
+    "imperative_2ms": "زَعْ",
+    "comment": "Form I mithal وَزَعَ : pres يَزَعُ. Source : cooljugator."
+  },
+  "ي ق ن:1:active": {
+    "imperative_2ms": "اِيقَنْ",
+    "comment": "Form I mithal ي ق ن : imp اِيقَنْ. Source : cooljugator."
+  },
+  "و س ع:1:active": {
+    "present_3ms": "يَسَعُ",
+    "comment": "Form I mithal وَسِعَ (être large, étendre) : pres يَسَعُ. Source : cooljugator."
   }
 }

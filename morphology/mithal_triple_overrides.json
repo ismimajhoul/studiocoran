@@ -1,0 +1,72 @@
+{
+  "و ج د:1:active": {
+    "masdar": "وُجُود",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ج س:1:active": {
+    "present_3ms": "يَجِسُ",
+    "imperative_2ms": "جِسْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ج ف:1:active": {
+    "present_3ms": "يَجِفُ",
+    "imperative_2ms": "جِفْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و د د:1:active": {
+    "imperative_2ms": "وَدَّ",
+    "active_participle": "وَادّ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و س ط:1:active": {
+    "present_3ms": "يَسُطُ",
+    "imperative_2ms": "سُطْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و س ق:1:active": {
+    "present_3ms": "يَسِقُ",
+    "imperative_2ms": "سِقْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و س م:1:active": {
+    "masdar": "وَسْم",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ص ف:1:active": {
+    "masdar": "وَصْف",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ص ل:1:active": {
+    "masdar": "وَصْل",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ف ض:1:active": {
+    "present_3ms": "يَفِضُ",
+    "imperative_2ms": "فِضْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ف ق:1:active": {
+    "present_3ms": "يَفِقُ",
+    "imperative_2ms": "فِقْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ق ب:1:active": {
+    "present_3ms": "يَقِبُ",
+    "imperative_2ms": "قِبْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ق د:1:active": {
+    "present_3ms": "يَقِدُ",
+    "imperative_2ms": "قِدْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ك ز:1:active": {
+    "present_3ms": "يَكِزُ",
+    "imperative_2ms": "كِزْ",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  },
+  "و ه ب:1:active": {
+    "masdar": "وَهْب",
+    "comment": "Triple-validated مثال (≥2 sources)"
+  }
+}

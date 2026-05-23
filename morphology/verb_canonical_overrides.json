@@ -218,7 +218,10 @@
   "ش و ي:1:active": {
     "active_participle": "شَاوٍ",
     "passive_participle": "مَشْوِيّ",
-    "comment": "شَوَى (faire griller) : participe actif défectif شَاوٍ, passif مَشْوِيّ (avec shadda sur ي). Source : reverso."
+    "comment": "شَوَى (faire griller) : participe actif défectif شَاوٍ, passif مَشْوِيّ (avec shadda sur ي). Source : reverso. | Form I lafif شَوَى (rôtir) : présent يَشْوِي, impératif اِشْوِ, masdar شَيّ (Coran 18:29 يَشْوِى). Notre يَشْوُيُ/اُشْوُ broken.",
+    "present_3ms": "يَشْوِي",
+    "imperative_2ms": "اِشْوِ",
+    "masdar": "شَيّ"
   },
   "ن و ا:1:active": {
     "passive_participle": "مَنُوء",
@@ -270,7 +273,8 @@
     "masdar": "إِيَاء",
     "active_participle": "آوٍ",
     "passive_participle": "مَأْوِيّ",
-    "comment": "Form I lafif أَوَى (se réfugier, racine ا و ي R1=و R3=ي) : présent يَأْوِي (notre يَأْوُيُ broken), participe actif آوٍ, passif مَأْوِيّ. Sources : reverso + cooljugator d'accord."
+    "comment": "Form I lafif أَوَى (se réfugier, racine ا و ي R1=و R3=ي) : présent يَأْوِي (notre يَأْوُيُ broken), participe actif آوٍ, passif مَأْوِيّ. Sources : reverso + cooljugator d'accord. | Form I lafif أَوَى (se réfugier) : impératif اِيوِ. Triple-validated reverso+cooljugator.",
+    "imperative_2ms": "اِيوِ"
   },
   "ج ز ي:1:active": {
     "masdar": "جَزَاء",
@@ -319,5 +323,18 @@
   "ر ع ي:1:active": {
     "present_3ms": "يَرْعَى",
     "comment": "Form I défectueux رَعَى (paître) : présent يَرْعَى (notre يَرْعِي serait pour \"enchanter\" verbe homographe). Triple-validated."
+  },
+  "غ و ي:1:active": {
+    "present_3ms": "يَغْوِي",
+    "imperative_2ms": "اِغْوِ",
+    "masdar": "غَيّ",
+    "active_participle": "غَاوٍ",
+    "passive_participle": "مَغْوِيّ",
+    "comment": "Form I lafif غَوَى (s'égarer) : présent يَغْوِي, masdar غَيّ (cf. Coran 20:121 غَوَىٰ). Notre يَغْوُيُ broken."
+  },
+  "و ل ي:1:active": {
+    "present_3ms": "يَلِي",
+    "imperative_2ms": "لِ",
+    "comment": "Form I lafif وَلَى/وَلِيَ (être proche, gouverner) : présent يَلِي (Coran 9:123 يَلُونَكُم), impératif لِ. Notre يَوْلُيُ broken."
   }
 }

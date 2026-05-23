@@ -183,5 +183,9 @@
     "masdar": "أَمْن",
     "active_participle": "آمِن",
     "comment": "Form I de أَمَنَ (être en sécurité) : masdar = أَمْن (et non إيمَان qui est le masdar Form IV) ; participe actif = آمِن (fusion ءا → آ). Source : reverso. Bug de confusion Form I/IV avant."
+  },
+  "ا ذ ن:1:active": {
+    "masdar": "أَذْن",
+    "comment": "Form I أَذَنَ (permettre, écouter) → masdar = أَذْن (permission). Le masdar أَذَان (l'appel à la prière, adhān) est en réalité celui de la Form II أَذَّنَ. Confusion Form I/II dans notre lexique. Source : reverso + dico papier confirmé par utilisateur."
   }
 }

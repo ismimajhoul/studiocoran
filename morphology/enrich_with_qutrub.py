@@ -843,6 +843,24 @@ def main():
         synth_ok += 1
     print(f"      → {synth_ok} Form I synthétisées, {synth_ko} échecs")
 
+    # ─── Étape 2.45 : post-processing systématique ────────────────────
+    # Bug Qutrub : pour les Form I active où R1=hamza (encodé ا en corpus),
+    # le participe actif est généré comme "أَا..." (e.g., أَابِق, أَاخِذ)
+    # alors que l'orthographe correcte fusionne ءا → آ (alif madda).
+    # En arabe standard, on n'écrit JAMAIS "أَا" — toujours "آ".
+    # Cette règle s'applique aussi au masdar quand il commence par "إِا" → "إِا"
+    # (rarement applicable, juste pour active_participle ici).
+    print(f"\n[2.45] Post-processing : fusion ءا → آ dans les participes actifs...")
+    n_fused = 0
+    for r in rows:
+        if r['verb_form'] != 1 or r['voice'] != 'active':
+            continue
+        ap = r.get('active_participle')
+        if ap and ap.startswith('أَا'):
+            r['active_participle'] = 'آ' + ap[3:]   # skip 'أ', 'َ', 'ا' = 3 chars
+            n_fused += 1
+    print(f"      → {n_fused} participes actifs fusionnés (أَا → آ)")
+
     # ─── Étape 2.5 : overrides post-Qutrub ────────────────────────────
     print(f"\n[2.5] Application des overrides canoniques...")
     overrides = load_canonical_overrides()

@@ -1,0 +1,53 @@
+{
+  "ا ب ق:1:active": {
+    "imperative_2ms": "اِيبِقْ",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "ا ز ف:1:active": {
+    "imperative_2ms": "اِيزَفْ",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "ا س ف:1:active": {
+    "imperative_2ms": "اِيسَفْ",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "ا م ر:1:active": {
+    "imperative_2ms": "مُرْ",
+    "masdar": "أَمْر",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "ب د ا:1:active": {
+    "active_participle": "بَادِئ",
+    "passive_participle": "مَبْدُوء",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "خ س ا:1:active": {
+    "present_3ms": "يَخْسَأُ",
+    "imperative_2ms": "اِخْسَأْ",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "س ا ل:1:active": {
+    "present_3ms": "يَسْأَلُ",
+    "imperative_2ms": "اِسْأَلْ",
+    "active_participle": "سَائِل",
+    "passive_participle": "مَسْؤُول",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "ق ر ا:1:active": {
+    "active_participle": "قَارِئ",
+    "passive_participle": "مَقْرُوء",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "ن ب ا:1:active": {
+    "present_3ms": "يَنْبَأُ",
+    "imperative_2ms": "اِنْبَأْ",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  },
+  "ن ش ا:1:active": {
+    "present_3ms": "يَنْشَأُ",
+    "imperative_2ms": "اِنْشَأْ",
+    "active_participle": "نَاشِئ",
+    "passive_participle": "مَنْشُوء",
+    "comment": "Triple-validated مهموز (≥2 sources)"
+  }
+}

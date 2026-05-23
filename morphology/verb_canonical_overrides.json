@@ -178,7 +178,9 @@
   "ن ب ا:1:active": {
     "active_participle": "نَابِئ",
     "passive_participle": "مَنْبُوء",
-    "comment": "Form I de نبأ : participes نَابِئ / مَنْبُوء (Qutrub donne hamza isolée نَابِأ / مَنْبُوأ). Pattern Form I hamza R3."
+    "comment": "Form I de نبأ : participes نَابِئ / مَنْبُوء (Qutrub donne hamza isolée نَابِأ / مَنْبُوأ). Pattern Form I hamza R3. | Form I hamza R3 نَبَأَ (être informé) : présent يَنْبَأُ. Sources : reverso+cooljugator.",
+    "present_3ms": "يَنْبَأُ",
+    "imperative_2ms": "اِنْبَأْ"
   },
   "ا م ن:1:active": {
     "masdar": "أَمْن",
@@ -607,5 +609,36 @@
   "ش ط ط:1:active": {
     "imperative_2ms": "شِطَّ",
     "comment": "Form I géminé : impératif contracté. verbe شَطَّ (s'éloigner) : impératif contracté شِطَّ."
+  },
+  "س ا ل:1:active": {
+    "present_3ms": "يَسْأَلُ",
+    "imperative_2ms": "اِسْأَلْ",
+    "active_participle": "سَائِل",
+    "passive_participle": "مَسْؤُول",
+    "comment": "Form I hamza R2 سَأَلَ (demander) : Qutrub se trompe avec hamza sur waw. Sources : reverso+cooljugator."
+  },
+  "ا م ر:1:active": {
+    "imperative_2ms": "مُرْ",
+    "masdar": "أَمْر",
+    "comment": "Form I hamza R1 أَمَرَ (ordonner) : imp مُرْ (la hamza alif tombe au début, contraction classique). Masdar أَمْر. Sources : reverso+cooljugator."
+  },
+  "خ س ا:1:active": {
+    "present_3ms": "يَخْسَأُ",
+    "imperative_2ms": "اِخْسَأْ",
+    "comment": "Form I hamza R3 خَسَأَ (être méprisé) : Qutrub donne damma au lieu de fatha sur R2. Sources : reverso+cooljugator."
+  },
+  "ه ز ا:1:active": {
+    "present_3ms": "يَهْزَأُ",
+    "imperative_2ms": "اِهْزَأْ",
+    "comment": "Form I hamza R3 هَزَأَ (se moquer, cf. 2:14) : Qutrub donne damma au lieu de fatha. Source : cooljugator."
+  },
+  "ن ش ا:1:active": {
+    "present_3ms": "يَنْشَأُ",
+    "imperative_2ms": "اِنْشَأْ",
+    "comment": "Form I hamza R3 نَشَأَ (croître) : présent يَنْشَأُ. Sources : reverso+cooljugator."
+  },
+  "ا ب ق:1:active": {
+    "imperative_2ms": "اِيبِقْ",
+    "comment": "Form I hamza R1 أَبَقَ (s'enfuir) : impératif اِيبِقْ. Sources : reverso+cooljugator."
   }
 }

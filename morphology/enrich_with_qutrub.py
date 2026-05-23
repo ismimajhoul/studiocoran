@@ -883,6 +883,27 @@ def main():
             n_gem += 1
     print(f"      → {n_gem} participes géminés contractés")
 
+    # ─── Étape 2.47 : hamza R3 (مهموز اللام) dans participes ──────────
+    # Pour Form I active avec R3 = hamza (encodée 'ا' dans le corpus),
+    # Qutrub produit une hamza ISOLÉE en fin de participes :
+    #   - active : قَارِأ → doit être قَارِئ (hamza sur ي)
+    #   - passive : مَقْرُوأ → doit être مَقْرُوء (hamza sur la ligne)
+    print(f"\n[2.47] Post-processing : hamza R3 dans participes (أ → ئ/ء)...")
+    n_h3 = 0
+    for r in rows:
+        if r['verb_form'] != 1 or r['voice'] != 'active': continue
+        L = r['root_ar'].split()
+        if len(L) != 3 or L[2] != 'ا': continue
+        ap = r.get('active_participle')
+        if ap and ap.endswith('ِأ'):
+            r['active_participle'] = ap[:-1] + 'ئ'
+            n_h3 += 1
+        pp = r.get('passive_participle')
+        if pp and pp.endswith('وأ'):
+            r['passive_participle'] = pp[:-1] + 'ء'
+            n_h3 += 1
+    print(f"      → {n_h3} corrections hamza R3 dans participes")
+
     # ─── Étape 2.5 : overrides post-Qutrub ────────────────────────────
     print(f"\n[2.5] Application des overrides canoniques...")
     overrides = load_canonical_overrides()

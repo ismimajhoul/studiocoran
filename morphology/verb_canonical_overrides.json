@@ -640,5 +640,14 @@
   "ا ب ق:1:active": {
     "imperative_2ms": "اِيبِقْ",
     "comment": "Form I hamza R1 أَبَقَ (s'enfuir) : impératif اِيبِقْ. Sources : reverso+cooljugator."
+  },
+  "ح و ذ:10:active": {
+    "past_3ms": "اِسْتَحْوَذَ",
+    "present_3ms": "يَسْتَحْوِذُ",
+    "imperative_2ms": "اِسْتَحْوِذْ",
+    "masdar": "اِسْتِحْوَاذ",
+    "active_participle": "مُسْتَحْوِذ",
+    "passive_participle": "مُسْتَحْوَذ",
+    "comment": "EXCEPTION classique : Form X de ح و ذ PRÉSERVE le و au lieu de l'assimilation creuse standard. Cité par السيوطي comme شاذ. Coran 4:141 نَسْتَحْوِذْ et 58:19 اسْتَحْوَذَ. Qutrub applique à tort la règle standard."
   }
 }

@@ -71,6 +71,10 @@
     "passive_participle": "مَرْئِيّ",
     "comment": "Verbe رأى (voir) — irrégulier classique : la hamza tombe au présent (يَرَى, pas يَرْئِي) et à l'impératif (رَ, forme très courte). Qutrub conjugue régulièrement la hamza, ce qui est faux pour ce verbe spécifique."
   },
+  "ع ب د:1:active": {
+    "masdar": "عِبَادَة",
+    "comment": "Masdar coranique de عَبَدَ = عِبَادَة (acte d'adorer, ~9 occurrences dans le Coran). Notre lexique avait pris عُبُودِيَّة (servitude, 0 occurrence coranique). Source : reverso + sens quranique."
+  },
   "و ع د:3:active": {
     "masdar": "وِعَاد",
     "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"

@@ -649,5 +649,26 @@
     "active_participle": "مُسْتَحْوِذ",
     "passive_participle": "مُسْتَحْوَذ",
     "comment": "EXCEPTION classique : Form X de ح و ذ PRÉSERVE le و au lieu de l'assimilation creuse standard. Cité par السيوطي comme شاذ. Coran 4:141 نَسْتَحْوِذْ et 58:19 اسْتَحْوَذَ. Qutrub applique à tort la règle standard."
+  },
+  "ا خ ذ:8:active": {
+    "past_3ms": "اِتَّخَذَ",
+    "present_3ms": "يَتَّخِذُ",
+    "imperative_2ms": "اِتَّخِذْ",
+    "masdar": "اِتِّخَاذ",
+    "active_participle": "مُتَّخِذ",
+    "passive_participle": "مُتَّخَذ",
+    "comment": "Form VIII de أخذ : assimilation classique hamza+ت → تّ partout (إفتعل avec R1=hamza). Qutrub gardait la hamza isolée (اِئْتَخَذَ, يَأْتَخِذُ, مُأْتَخِذ). Coran 4:144 لَا تَتَّخِذُوا۟, fréquent."
+  },
+  "ا م ر:8:active": {
+    "masdar": "اِئْتِمَار",
+    "active_participle": "مُؤْتَمِر",
+    "passive_participle": "مُؤْتَمَر",
+    "comment": "Form VIII ا م ر (se concerter, cf. 28:20 يَأْتَمِرُونَ) : hamza orthographique correcte (اِئـ après kasra, مُؤـ après damma). Qutrub mettait أ partout."
+  },
+  "ا ل و:8:active": {
+    "masdar": "اِئْتِلَاء",
+    "active_participle": "مُؤْتَلٍ",
+    "passive_participle": "مُؤْتَلًى",
+    "comment": "Form VIII ا ل و (refuser de faire, cf. 24:22 وَلَا يَأْتَلِ) : orthographe hamza correcte. Qutrub mettait أ partout."
   }
 }

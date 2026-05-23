@@ -187,5 +187,19 @@
   "ا ذ ن:1:active": {
     "masdar": "أَذْن",
     "comment": "Form I أَذَنَ (permettre, écouter) → masdar = أَذْن (permission). Le masdar أَذَان (l'appel à la prière, adhān) est en réalité celui de la Form II أَذَّنَ. Confusion Form I/II dans notre lexique. Source : reverso + dico papier confirmé par utilisateur."
+  },
+  "ش ي ا:1:active": {
+    "present_3ms": "يَشَاءُ",
+    "imperative_2ms": "شَأْ",
+    "masdar": "مَشِيئَة",
+    "active_participle": "شَاءٍ",
+    "passive_participle": "مَشِيء",
+    "comment": "Form I creux+hamza R3 شَاءَ (vouloir) : Qutrub se trompe sur la voyelle R2 du présent (يَشِيءُ au lieu de يَشَاءُ). Source : reverso + studyquranarabic."
+  },
+  "س و ا:1:active": {
+    "masdar": "سُوء",
+    "active_participle": "سَاءٍ",
+    "passive_participle": "مَسُوء",
+    "comment": "Form I creux+hamza R3 سَاءَ (être mauvais) : masdar Quranic = سُوء (cf. سورة yusuf, etc.). Participes correctement orthographiés avec hamza finale ء. Source : reverso."
   }
 }

@@ -231,5 +231,38 @@
   "ر و ح:1:active": {
     "masdar": "رَوَاح",
     "comment": "Form I creux رَاحَ (aller vers le soir) : masdar = رَوَاح. Source : reverso."
+  },
+  "خ و ف:1:active": {
+    "present_3ms": "يَخَافُ",
+    "imperative_2ms": "خَفْ",
+    "active_participle": "خَائِف",
+    "comment": "Form I creux خَافَ (avoir peur, racine خ و ف) : présent يَخَافُ et non يَخُوفُ (qui serait Form II \"effrayer\"). 82 occurrences au Coran."
+  },
+  "ز ي ل:1:active": {
+    "present_3ms": "يَزَالُ",
+    "comment": "Form I creux زَالَ (racine ز ي ل, cesser/quitter) : présent يَزَالُ et non يَزِيلُ. Verbe défectif utilisé dans \"مَا زَالَ\" (\"ne cesse pas\")."
+  },
+  "ح ي ي:1:active": {
+    "present_3ms": "يَحْيَا",
+    "imperative_2ms": "اِحْيَ",
+    "masdar": "حَيَاة",
+    "active_participle": "حَيّ",
+    "comment": "Form I حَيَّ (vivre, racine ح ي ي géminée défective) : présent يَحْيَا (notre يَحِيُّ broken), masdar حَيَاة. Cas très spécial classique."
+  },
+  "ع ي ي:1:active": {
+    "present_3ms": "يَعْيَا",
+    "comment": "Form I عَيَّ (être fatigué, racine ع ي ي même pattern que حَيَّ) : présent يَعْيَا."
+  },
+  "ه و ي:1:active": {
+    "present_3ms": "يَهْوِي",
+    "masdar": "هَوًى",
+    "active_participle": "هَاوٍ",
+    "passive_participle": "مَهْوِيّ",
+    "comment": "Form I هَوَى (tomber/désirer, racine ه و ي lafif) : présent يَهْوِي (notre يَهْوُيُ broken), masdar هَوًى."
+  },
+  "ل و ي:1:active": {
+    "present_3ms": "يَلْوِي",
+    "active_participle": "لَاوٍ",
+    "comment": "Form I لَوَى (tordre, racine ل و ي lafif) : présent يَلْوِي (notre يَلْوُيُ broken)."
   }
 }

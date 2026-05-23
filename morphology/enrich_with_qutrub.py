@@ -861,6 +861,28 @@ def main():
             n_fused += 1
     print(f"      → {n_fused} participes actifs fusionnés (أَا → آ)")
 
+    # ─── Étape 2.46 : contraction géminés مضعف ────────────────────────
+    # Pour les verbes géminés Form I (R2 == R3), le participe actif doit
+    # être CONTRACTÉ : مَاسّ (avec shadda) et non مَاسِس (séparé).
+    # Pattern : `*+R2+ِ+R2` (au moins 3 chars) → `*+R2+ّ`
+    # Ex: مَاسِس → مَاسّ, ضَالِل → ضَالّ, مَادِد → مَادّ
+    print(f"\n[2.46] Post-processing : contraction participes géminés (XِX → Xّ)...")
+    n_gem = 0
+    for r in rows:
+        if r['verb_form'] != 1 or r['voice'] != 'active': continue
+        L = r['root_ar'].split()
+        if len(L) != 3: continue
+        R2 = L[1]
+        if R2 in ('و', 'ي', 'ا'): continue
+        if L[1] != L[2]: continue   # pas géminé
+        ap = r.get('active_participle')
+        if not ap or len(ap) < 4: continue
+        # Check pattern: ends with R2+ِ+R2
+        if ap[-1] == R2 and ap[-2] == 'ِ' and ap[-3] == R2:
+            r['active_participle'] = ap[:-3] + R2 + 'ّ'
+            n_gem += 1
+    print(f"      → {n_gem} participes géminés contractés")
+
     # ─── Étape 2.5 : overrides post-Qutrub ────────────────────────────
     print(f"\n[2.5] Application des overrides canoniques...")
     overrides = load_canonical_overrides()

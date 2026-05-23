@@ -1,0 +1,100 @@
+{
+  "ت ل ل:1:active": {
+    "active_participle": "تَالّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ت م م:1:active": {
+    "active_participle": "تَامّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ج ن ن:1:active": {
+    "imperative_2ms": "جُنَّ",
+    "active_participle": "جَانّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ح ج ج:1:active": {
+    "imperative_2ms": "حُجَّ",
+    "active_participle": "حَاجّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ح د د:1:active": {
+    "imperative_2ms": "حَدَّ",
+    "active_participle": "حَادّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ح ف ف:1:active": {
+    "imperative_2ms": "حِفَّ",
+    "active_participle": "حَافّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "خ ط ط:1:active": {
+    "imperative_2ms": "خُطَّ",
+    "active_participle": "خَاطّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ر د د:1:active": {
+    "imperative_2ms": "رُدَّ",
+    "active_participle": "رَادّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ش ط ط:1:active": {
+    "imperative_2ms": "شِطَّ",
+    "active_participle": "شَاطّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ص ب ب:1:active": {
+    "imperative_2ms": "صُبَّ",
+    "active_participle": "صَابّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ص د د:1:active": {
+    "imperative_2ms": "صِدَّ",
+    "active_participle": "صَادّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ض ر ر:1:active": {
+    "imperative_2ms": "ضُرَّ",
+    "active_participle": "ضَارّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ض ل ل:1:active": {
+    "imperative_2ms": "ضِلَّ",
+    "active_participle": "ضَالّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ض م م:1:active": {
+    "imperative_2ms": "ضُمَّ",
+    "active_participle": "ضَامّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ظ ل ل:1:active": {
+    "imperative_2ms": "ظَلَّ",
+    "active_participle": "ظَالّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ع د د:1:active": {
+    "imperative_2ms": "عُدَّ",
+    "active_participle": "عَادّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ف ر ر:1:active": {
+    "imperative_2ms": "فِرَّ",
+    "active_participle": "فَارّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "ق ر ر:1:active": {
+    "imperative_2ms": "قَرَّ",
+    "active_participle": "قَارّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "م س س:1:active": {
+    "imperative_2ms": "مَسَّ",
+    "active_participle": "مَاسّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  },
+  "م ن ن:1:active": {
+    "imperative_2ms": "مُنَّ",
+    "active_participle": "مَانّ",
+    "comment": "Triple-validated مضعف (≥2 sources)"
+  }
+}

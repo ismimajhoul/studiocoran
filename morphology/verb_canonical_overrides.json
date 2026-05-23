@@ -551,5 +551,61 @@
   "ع ب ر:1:active": {
     "masdar": "عَبْر",
     "comment": "verbe عَبَرَ (traverser/interpréter) : masdar verbal عَبْر. Notre عِبَارَة = \"expression\"."
+  },
+  "م س س:1:active": {
+    "imperative_2ms": "مَسَّ",
+    "comment": "Form I géminé : impératif contracté. verbe مَسَّ (toucher) : impératif contracté مَسَّ."
+  },
+  "ض ل ل:1:active": {
+    "imperative_2ms": "ضِلَّ",
+    "comment": "Form I géminé : impératif contracté. verbe ضَلَّ (s'égarer) : impératif contracté ضِلَّ."
+  },
+  "ض ر ر:1:active": {
+    "imperative_2ms": "ضُرَّ",
+    "comment": "Form I géminé : impératif contracté. verbe ضَرَّ (nuire) : impératif contracté ضُرَّ."
+  },
+  "م ن ن:1:active": {
+    "imperative_2ms": "مُنَّ",
+    "comment": "Form I géminé : impératif contracté. verbe مَنَّ (favoriser) : impératif contracté مُنَّ."
+  },
+  "ر د د:1:active": {
+    "imperative_2ms": "رُدَّ",
+    "comment": "Form I géminé : impératif contracté. verbe رَدَّ (renvoyer) : impératif contracté رُدَّ."
+  },
+  "ظ ل ل:1:active": {
+    "imperative_2ms": "ظَلَّ",
+    "comment": "Form I géminé : impératif contracté. verbe ظَلَّ (rester) : impératif contracté ظَلَّ."
+  },
+  "ع د د:1:active": {
+    "imperative_2ms": "عُدَّ",
+    "comment": "Form I géminé : impératif contracté. verbe عَدَّ (compter) : impératif contracté عُدَّ."
+  },
+  "ف ر ر:1:active": {
+    "imperative_2ms": "فِرَّ",
+    "comment": "Form I géminé : impératif contracté. verbe فَرَّ (fuir) : impératif contracté فِرَّ."
+  },
+  "ص ب ب:1:active": {
+    "imperative_2ms": "صُبَّ",
+    "comment": "Form I géminé : impératif contracté. verbe صَبَّ (verser) : impératif contracté صُبَّ."
+  },
+  "ض م م:1:active": {
+    "imperative_2ms": "ضُمَّ",
+    "comment": "Form I géminé : impératif contracté. verbe ضَمَّ (joindre) : impératif contracté ضُمَّ."
+  },
+  "ج ن ن:1:active": {
+    "imperative_2ms": "جُنَّ",
+    "comment": "Form I géminé : impératif contracté. verbe جَنَّ (couvrir) : impératif contracté جُنَّ."
+  },
+  "ح ج ج:1:active": {
+    "imperative_2ms": "حُجَّ",
+    "comment": "Form I géminé : impératif contracté. verbe حَجَّ (pèleriner/contester) : impératif contracté حُجَّ."
+  },
+  "خ ط ط:1:active": {
+    "imperative_2ms": "خُطَّ",
+    "comment": "Form I géminé : impératif contracté. verbe خَطَّ (tracer) : impératif contracté خُطَّ."
+  },
+  "ش ط ط:1:active": {
+    "imperative_2ms": "شِطَّ",
+    "comment": "Form I géminé : impératif contracté. verbe شَطَّ (s'éloigner) : impératif contracté شِطَّ."
   }
 }

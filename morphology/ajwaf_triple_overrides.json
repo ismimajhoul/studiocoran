@@ -1,0 +1,73 @@
+{
+  "ا و ب:1:active": {
+    "present_3ms": "يَأُوبُ",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "ا و ي:1:active": {
+    "imperative_2ms": "اِيوِ",
+    "masdar": "إِوِيّ",
+    "passive_participle": "مَأْوِيّ",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "ت ي ه:1:active": {
+    "present_3ms": "يَتُوهُ",
+    "passive_participle": "مَتُوه",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "ز و د:1:active": {
+    "present_3ms": "يَزِيدُ",
+    "masdar": "زِيَادَة",
+    "passive_participle": "مَزِيد",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "س و ر:1:active": {
+    "present_3ms": "يَسِيرُ",
+    "masdar": "سَيْر",
+    "passive_participle": "مَسِير",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "س و غ:1:active": {
+    "present_3ms": "يَسِيغُ",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "س و ل:1:active": {
+    "present_3ms": "يَسْأَلُ",
+    "imperative_2ms": "اِسْأَلْ",
+    "masdar": "سُؤَال",
+    "passive_participle": "مَسْؤُول",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "س ي ل:1:active": {
+    "present_3ms": "يَسْأَلُ",
+    "imperative_2ms": "اِسْأَلْ",
+    "masdar": "سُؤَال",
+    "passive_participle": "مَسْؤُول",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "ص و ر:1:active": {
+    "present_3ms": "يَصِيرُ",
+    "masdar": "صَيْر",
+    "passive_participle": "مَصِير",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "غ و ث:1:active": {
+    "present_3ms": "يَغِيثُ",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "ف و ض:1:active": {
+    "present_3ms": "يَفِيضُ",
+    "masdar": "فَيْض",
+    "passive_participle": "مَفِيض",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "ك ي د:1:active": {
+    "present_3ms": "يَكَادُ",
+    "masdar": "كَوْد",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  },
+  "ك ي ن:1:active": {
+    "present_3ms": "يَكُونُ",
+    "masdar": "كَوْن",
+    "comment": "Triple-validated (≥2 sources d'accord)"
+  }
+}

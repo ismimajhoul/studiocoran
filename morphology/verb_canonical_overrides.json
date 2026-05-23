@@ -264,5 +264,12 @@
     "present_3ms": "يَلْوِي",
     "active_participle": "لَاوٍ",
     "comment": "Form I لَوَى (tordre, racine ل و ي lafif) : présent يَلْوِي (notre يَلْوُيُ broken)."
+  },
+  "ا و ي:1:active": {
+    "present_3ms": "يَأْوِي",
+    "masdar": "إِيَاء",
+    "active_participle": "آوٍ",
+    "passive_participle": "مَأْوِيّ",
+    "comment": "Form I lafif أَوَى (se réfugier, racine ا و ي R1=و R3=ي) : présent يَأْوِي (notre يَأْوُيُ broken), participe actif آوٍ, passif مَأْوِيّ. Sources : reverso + cooljugator d'accord."
   }
 }

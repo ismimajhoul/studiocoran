@@ -968,6 +968,16 @@ const WAZN_PRESENT_ABSTRACT = {
   10: 'يَسْتَفْعِلُ',
 };
 
+// Wazn passé : retourne le wazn abstrait approprié au nombre de lettres
+// de la racine. Trilitère = WAZN_PAST_ABSTRACT, quadrilitère = فَعْلَلَ (Form I).
+function computeWaznPast(formNum, rootAr) {
+  if (formNum === 1 && rootAr) {
+    const L = rootAr.split(/\s+/).filter(Boolean);
+    if (L.length === 4) return 'فَعْلَلَ';   // quadrilitère Form I
+  }
+  return WAZN_PAST_ABSTRACT[formNum];
+}
+
 // Wazn présent — pour Form I, on retourne le wazn ABSTRAIT (avec ف/ع/ل
 // visibles) plutôt que la forme surface. La voyelle opérative (fatha/damma/
 // kasra) est détectée depuis la forme présente réelle de Qutrub :
@@ -977,10 +987,13 @@ const WAZN_PRESENT_ABSTRACT = {
 //   ن ز ل → يَنْزِلُ : kasra sur R2 → wazn يَفْعِلُ
 //   ذ ه ب → يَذْهَبُ : fatha sur R2 → wazn يَفْعَلُ
 // Cas spéciaux : géminé (يَفُلُّ), défectueux (يَفْعِي/يَفْعُو), Lafif.
+// Quadrilitère Form I : يُفَعْلِلُ (وَسْوَسَ → يُوَسْوِسُ, زَلْزَلَ → يُزَلْزِلُ).
 function computeWaznPresent(formNum, rootAr, presentForm) {
   const abstract = WAZN_PRESENT_ABSTRACT[formNum];
   if (!rootAr) return abstract;
   const L = rootAr.split(/\s+/).filter(Boolean);
+  // Quadrilitère (4 lettres) → Form I = يُفَعْلِلُ
+  if (L.length === 4 && formNum === 1) return 'يُفَعْلِلُ';
   if (L.length !== 3) return abstract;
   const [r1, r2, r3] = L;
   const r2_weak = r2 === 'و' || r2 === 'ي';
@@ -1201,8 +1214,10 @@ function showEtymologyAnalysis(data) {
   const featuresAr = formatFeaturesAr(data.features);
   const featuresFr = formatFeaturesFr(data.features);
 
-  // Wazns du verbe CORANIQUE (la forme effectivement dans le verset)
-  const waznPast = WAZN_PAST_ABSTRACT[formNum];
+  // Wazns du verbe CORANIQUE (la forme effectivement dans le verset).
+  // computeWaznPast/Present prennent en compte le nombre de lettres de la
+  // racine (trilitère vs quadrilitère).
+  const waznPast = computeWaznPast(formNum, data.root_ar);
   const waznPres = computeWaznPresent(formNum, data.root_ar, data.present_3ms);
 
   // Masdar et participes : convention dictionnaire — tanwin damma ٌ pour
@@ -1231,8 +1246,8 @@ function showEtymologyAnalysis(data) {
         passive_participle: data.passive_participle }
     : (data.form1_base || null);
 
-  // Wazns de la Form I (toujours فَعَلَ - يَفْعُ/عِ/عَلُ selon la voyelle R2)
-  const waznPastF1 = WAZN_PAST_ABSTRACT[1];
+  // Wazns de la Form I (trilitère فَعَلَ — يَفْعُ/عِ/عَلُ, ou quadrilitère فَعْلَلَ — يُفَعْلِلُ)
+  const waznPastF1 = computeWaznPast(1, data.root_ar);
   const waznPresF1 = computeWaznPresent(1, data.root_ar, base ? base.present_3ms : null);
 
   // ─── LIGNE 1 : "جذر:" + racine + verbe trilitère + classification + wazn Form I ────

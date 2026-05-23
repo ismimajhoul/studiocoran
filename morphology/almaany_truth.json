@@ -1460,12 +1460,21 @@
     "occurrences": 63,
     "sample_loc": "2:37:6",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تابَ",
+      "present_3ms_almaany": "تابَ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "تائب",
+      "passive_participle_almaany": "مَتُوب",
+      "raw_head": "تابَ / تابَ إلى / تابَ على / تابَ عن يَتوب ، تُبْ ، تَوْبًا وتَوْبَةً ، فهو تائب ، والمفعول مَتُوب إليه",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "تاب",
       "variants_tried": [
         "تاب"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
     }
   },
   {
@@ -1479,12 +1488,24 @@
     "occurrences": 36,
     "sample_loc": "3:106:13",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ذاقَ",
+      "present_3ms_almaany": "يَذُوق",
+      "masdars_almaany": [
+        "ذَوْقًا",
+        "ذَوَاقًا"
+      ],
+      "active_participle_almaany": "ذائق",
+      "passive_participle_almaany": "مَذوق",
+      "raw_head": "ذاقَ يَذُوق ، ذُقْ ، ذَوْقًا وذَوَاقًا وذَوَقانًا ، فهو ذائق ، والمفعول مَذوق",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "ذاق",
       "variants_tried": [
         "ذاق"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -1498,12 +1519,25 @@
     "occurrences": 33,
     "sample_loc": "2:20:13",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "قامَ",
+      "present_3ms_almaany": "يَقُوم",
+      "masdars_almaany": [
+        "قَوْمًا",
+        "قِيامًا",
+        "قامةً"
+      ],
+      "active_participle_almaany": "قائم",
+      "passive_participle_almaany": "مَقوم",
+      "raw_head": "قامَ / قامَ إلى / قامَ بـ / قامَ على / قامَ لـ يَقُوم ، قُمْ ، قَوْمًا وقِيامًا وقامةً ، فهو قائم وقيِّم ، والمفعول مَقوم - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "قام",
       "variants_tried": [
         "قام"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 2
     }
   },
   {
@@ -1517,12 +1551,26 @@
     "occurrences": 33,
     "sample_loc": "2:132:13",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "مَاتَ",
+      "present_3ms_almaany": "يقال",
+      "masdars_almaany": [
+        "مَوْتًا",
+        "ماتت",
+        "مَوَاتًا",
+        "مَوَاتٌ"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "مَاتَ الحىُّ مَاتَ ُ مَوْتًا : فارقته الحياة. و مَاتَ الشئُ: هَمَدَ وسَكَن . يقال: ماتت الريحُ: سَكَنَتْ. و مَاتَ ا لنارُ: بردَتْ. و مَاتَ الطَّريقُ: انقطع سلوكُه. و مَاتَ فلانٌ: نام واستثقل في نومه. و مَاتَ الأَرضُ مَوَاتًا : خَلَت من العمارة والسُّكان. فهى مَوَاتٌ .",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "مات",
       "variants_tried": [
         "مات"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 7
     }
   },
   {
@@ -1536,12 +1584,21 @@
     "occurrences": 24,
     "sample_loc": "2:20:1",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "كادَ",
+      "present_3ms_almaany": "يَكِيد",
+      "masdars_almaany": [],
+      "active_participle_almaany": "كائِد",
+      "passive_participle_almaany": "مَكِيد",
+      "raw_head": "كادَ / كادَ لـ يَكِيد ، كِدْ ، كَيْدًا ، فهو كائِد ، والمفعول مَكِيد",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "كاد",
       "variants_tried": [
         "كاد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
     }
   },
   {
@@ -1555,12 +1612,23 @@
     "occurrences": 18,
     "sample_loc": "2:275:39",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "عادَ",
+      "present_3ms_almaany": "يَعود",
+      "masdars_almaany": [
+        "عَوْدةً"
+      ],
+      "active_participle_almaany": "عائدٌ",
+      "passive_participle_almaany": "مَعُودٌ",
+      "raw_head": "عادَ يَعود ، عُدْ ، عَوْدةً وعَوْدًا ، فهو عائدٌ والجمع : عُوَّاد ، وعُوَّدٌ وهنَّ عُوَّدٌ ، وعَوائدُ والمفعول مَعُودٌ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "عاد",
       "variants_tried": [
         "عاد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -1574,12 +1642,23 @@
     "occurrences": 11,
     "sample_loc": "2:62:5",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "هادَ",
+      "present_3ms_almaany": "يَهُود",
+      "masdars_almaany": [
+        "هَوْدًا"
+      ],
+      "active_participle_almaany": "هائد",
+      "passive_participle_almaany": "مَهُود",
+      "raw_head": "هادَ / هادَ في يَهُود ، هُدْ ، هَوْدًا ، فهو هائد ، والمفعول مَهُود فيه",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "هاد",
       "variants_tried": [
         "هاد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -1593,12 +1672,23 @@
     "occurrences": 10,
     "sample_loc": "2:67:15",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أعاذه",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "أعاذه به، حصَّنه ودعا له بالحِفْظ، رقاه",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'عُذْ'",
+      "status": "ok",
       "word_searched": "عذ",
       "variants_tried": [
         "عذ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 13
     }
   },
   {
@@ -1612,12 +1702,23 @@
     "occurrences": 9,
     "sample_loc": "4:140:19",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "خاضَ",
+      "present_3ms_almaany": "يَخوض",
+      "masdars_almaany": [
+        "خَوْضًا"
+      ],
+      "active_participle_almaany": "خائض",
+      "passive_participle_almaany": "مَخُوض",
+      "raw_head": "خاضَ / خاضَ في يَخوض ، خُضْ ، خَوْضًا ، فهو خائض ، والمفعول مَخُوض (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "خاض",
       "variants_tried": [
         "خاض"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 11
     }
   },
   {
@@ -1659,12 +1760,24 @@
     "occurrences": 46,
     "sample_loc": "2:10:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "زادَ",
+      "present_3ms_almaany": "يَزِيد",
+      "masdars_almaany": [
+        "زَوْدًا",
+        "مَزُود"
+      ],
+      "active_participle_almaany": "زائد",
+      "passive_participle_almaany": "مَزيد",
+      "raw_head": "زادَ / زادَ على / زادَ عن / زادَ في / زادَ من يَزِيد ، زِدْ ، زِيادَةٌ، زَيْدٌ، مَزيدٌ ، فهو زائد ، والمفعول مَزيد - للمتعدِّي : زادَ يَزوُد ، زُدْ ، زَوْدًا ، فهو زائد ، والمفعول مَزُود - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "زاد",
       "variants_tried": [
         "زاد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -1678,12 +1791,21 @@
     "occurrences": 16,
     "sample_loc": "3:137:6",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "سارَ",
+      "present_3ms_almaany": "يَسير",
+      "masdars_almaany": [],
+      "active_participle_almaany": "سائر",
+      "passive_participle_almaany": "مَسير",
+      "raw_head": "سارَ / سارَ إلى / سارَ على / سارَ في يَسير ، سِرْ ، سَيْرًا وسِيرَةً وتَسْيارًا ، فهو سائر ، والمفعول مَسير - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "سار",
       "variants_tried": [
         "سار"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -1697,12 +1819,23 @@
     "occurrences": 11,
     "sample_loc": "2:124:17",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أنالَ",
+      "present_3ms_almaany": "يُنيل",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُنِيل",
+      "passive_participle_almaany": "مُنَال",
+      "raw_head": "أنالَ يُنيل ، أَنِلْ ، إنالةً ، فهو مُنِيل ، والمفعول مُنَال",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَنَالُ'",
+      "status": "ok",
       "word_searched": "ينال",
       "variants_tried": [
         "ينال"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 14
     }
   },
   {
@@ -1716,12 +1849,21 @@
     "occurrences": 10,
     "sample_loc": "6:10:6",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "حاقَ",
+      "present_3ms_almaany": "يَحيق",
+      "masdars_almaany": [],
+      "active_participle_almaany": "حائِق",
+      "passive_participle_almaany": "مَحيق",
+      "raw_head": "حاقَ بـ يَحيق ، حِقْ ، حَيْقًا ، فهو حائِق ، والمفعول مَحيق به",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "حاق",
       "variants_tried": [
         "حاق"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -1735,12 +1877,25 @@
     "occurrences": 8,
     "sample_loc": "2:217:30",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "زَوَّلْتُ",
+      "present_3ms_almaany": "تَزْويلٌ",
+      "masdars_almaany": [
+        "زَوِّلْ"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "زَوَّلْتُ ، أُزَوِّلُ ، زَوِّلْ ، مصدر تَزْويلٌ",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'زَالَت'",
+      "status": "ok",
       "word_searched": "زالت",
       "variants_tried": [
         "زالت"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -1754,12 +1909,23 @@
     "occurrences": 7,
     "sample_loc": "7:195:24",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "كاده",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "كاده ؛ خدَعه ومكَر به.",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'كِيدُ'",
+      "status": "ok",
       "word_searched": "كيد",
       "variants_tried": [
         "كيد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -1773,12 +1939,24 @@
     "occurrences": 7,
     "sample_loc": "9:25:16",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ضاقَ",
+      "present_3ms_almaany": "يَضِيق",
+      "masdars_almaany": [
+        "ضَيْقًا",
+        "ضِيقًا"
+      ],
+      "active_participle_almaany": "ضائق",
+      "passive_participle_almaany": null,
+      "raw_head": "ضاقَ / ضاقَ بـ / ضاقَ على / ضاقَ عن يَضِيق ، ضِقْ ، ضَيْقًا وضِيقًا ، فهو ضائق وضَيّق . والجمع : ضَاقةٌ ،",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "ضاق",
       "variants_tried": [
         "ضاق"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 14
     }
   },
   {
@@ -1792,12 +1970,24 @@
     "occurrences": 6,
     "sample_loc": "9:117:17",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "زاغَ",
+      "present_3ms_almaany": "يَزوغ",
+      "masdars_almaany": [
+        "زَوْغًا",
+        "زاغَةٌ"
+      ],
+      "active_participle_almaany": "زائغ",
+      "passive_participle_almaany": "مزوغٌ",
+      "raw_head": "زاغَ / زاغَ عن / زاغَ في / زاغَ من يَزوغ ، زُغْ ، زَوْغًا وزَوَغانًا ، فهو زائغ ، والجمع : زاغَةٌ والمفعول مزوغٌ عنه",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "زاغ",
       "variants_tried": [
         "زاغ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -1811,12 +2001,21 @@
     "occurrences": 4,
     "sample_loc": "14:15:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "خابَ",
+      "present_3ms_almaany": "يَخيب",
+      "masdars_almaany": [],
+      "active_participle_almaany": "خائب",
+      "passive_participle_almaany": null,
+      "raw_head": "خابَ يَخيب ، خِبْ ، خَيْبَةً ، فهو خائب",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "خاب",
       "variants_tried": [
         "خاب"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -1830,12 +2029,23 @@
     "occurrences": 3,
     "sample_loc": "4:27:11",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أَمْيَال",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "أَمْيَال : جمع مِيْلُ",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَمِيلُ'",
+      "status": "ok",
       "word_searched": "يميل",
       "variants_tried": [
         "يميل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -1849,12 +2059,23 @@
     "occurrences": 3,
     "sample_loc": "9:120:34",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "الغَيْظ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "حمَله على الغَيْظ وأغضبه أشدّ الغضب.",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَغِيظُ'",
+      "status": "ok",
       "word_searched": "يغيظ",
       "variants_tried": [
         "يغيظ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
     }
   },
   {
@@ -1898,13 +2119,22 @@
     "occurrences": 38,
     "sample_loc": "2:120:2",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "رضا",
+      "past_3ms_almaany": "رضى",
+      "present_3ms_almaany": "يحكمهم،",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "فكرة أن معيار عدالة حكم ما رضى من يحكمهم، فالحكم تعبير عن إرادة الشعب. وهذه فكرة نجدها في كتابات منظرين عاشوا بين القرنين السابع عشر والتاسع عشر وخاصة منهم جون لوك وجون جاك روسو وجون ستيوت ميل. ولقد استلهم الأباء المؤسسون للأمة الأمريكية من عمل جون لوك فإعلان الاستقلال الأمريكي ينص على أن",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "رضى",
       "variants_tried": [
         "رضى",
         "رضا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -1918,13 +2148,22 @@
     "occurrences": 37,
     "sample_loc": "2:44:7",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "تلا",
+      "past_3ms_almaany": "تَلَّى",
+      "present_3ms_almaany": "تَلَّى",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "تَلَّى : انتصب للصلاَّةِ. و تَلَّى قَضَى نَذْرَه. و تَلَّى صارَ في آخر رَمَق من عُمره. و تَلَّى ماتَ. و تَلَّى الشيءَ: تَبعه. و تَلَّى الشيءَ شيئاً: أتبعه إياه. ومنه َ تلَّى الفريضة نافِلَةً.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
+      "word_searched": "تلى",
       "variants_tried": [
         "تلى",
         "تلا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 7
     }
   },
   {
@@ -1938,12 +2177,21 @@
     "occurrences": 26,
     "sample_loc": "2:52:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "عفا",
+      "present_3ms_almaany": "يَعفو",
+      "masdars_almaany": [],
+      "active_participle_almaany": "عافٍ",
+      "passive_participle_almaany": "مَعْفوّ",
+      "raw_head": "عفا / عفا عن يَعفو ، اعْفُ ،عَفْوٌ، عَفَاءٌ ، فهو عافٍ ، والمفعول مَعْفوّ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "عفا",
       "variants_tried": [
         "عفا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
     }
   },
   {
@@ -1957,12 +2205,24 @@
     "occurrences": 25,
     "sample_loc": "2:14:8",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "خلا",
+      "present_3ms_almaany": "يَخلُو",
+      "masdars_almaany": [
+        "خلاءً",
+        "خِلْو"
+      ],
+      "active_participle_almaany": "خالٍ",
+      "passive_participle_almaany": "مَخْلُوٌّ",
+      "raw_head": "خلا / خلا عن / خلا من يَخلُو ، اخْلُ ، خُلُوًّا وخلاءً ، فهو خالٍ وخلِيّ وخِلْو ، والمفعول مَخْلُوٌّ عنه",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "خلا",
       "variants_tried": [
         "خلا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
     }
   },
   {
@@ -1976,12 +2236,23 @@
     "occurrences": 22,
     "sample_loc": "2:218:11",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أرجى",
+      "present_3ms_almaany": "يُرجي",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُرْجٍ",
+      "passive_participle_almaany": "مُرْجًى",
+      "raw_head": "أرجى يُرجي ، أرْجِ ، إرجاءً ، فهو مُرْجٍ ، والمفعول مُرْجًى",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَرْجُوا@'",
+      "status": "ok",
       "word_searched": "يرجوا@",
       "variants_tried": [
         "يرجوا@"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -1995,13 +2266,22 @@
     "occurrences": 20,
     "sample_loc": "6:100:13",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "تعلا",
+      "past_3ms_almaany": "تعلَّى",
+      "present_3ms_almaany": "تعلَّى",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتعلٍّ",
+      "passive_participle_almaany": null,
+      "raw_head": "تعلَّى / تعلَّى في يتعلّى ، تَعَلَّ ، تعَلّيًا ، فهو مُتعلٍّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "تعلى",
       "variants_tried": [
         "تعلى",
         "تعلا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -2015,12 +2295,21 @@
     "occurrences": 19,
     "sample_loc": "2:155:1",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "بَلْو",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "بَلْو",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "بلو",
       "variants_tried": [
         "بلو"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -2034,12 +2323,24 @@
     "occurrences": 13,
     "sample_loc": "3:154:9",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "غُشِيَ",
+      "present_3ms_almaany": "يُغشَى",
+      "masdars_almaany": [
+        "غَشْيةً",
+        "غَشْيًا"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": "مَغْشِيٌّ",
+      "raw_head": "غُشِيَ على يُغشَى ، غَشْيةً وغَشْيًا وغَشَيانًا ، والمفعول مَغْشِيٌّ عليه",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "غشي",
       "variants_tried": [
         "غشي"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -2053,12 +2354,21 @@
     "occurrences": 9,
     "sample_loc": "3:118:16",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "بَدَا",
+      "present_3ms_almaany": "يقال",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "بَدَا بَدَا ُ بُدُوًّا، وبَداءً: ظهر. و بَدَا له في الأمر كذا: جَدَّ له فيه رأْي. يقال: فعَلَ كذا ثم بدا له. وفي المثَل:",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "بدا",
       "variants_tried": [
         "بدا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 5
     }
   },
   {
@@ -2072,12 +2382,23 @@
     "occurrences": 5,
     "sample_loc": "2:60:25",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "الشمع",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "حشرة تهاجم خلايا النحل لتتغذى على الشمع وتسبب فساده.",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'تَعْثَ'",
+      "status": "ok",
       "word_searched": "تعث",
       "variants_tried": [
         "تعث"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
     }
   },
   {
@@ -2091,12 +2412,21 @@
     "occurrences": 5,
     "sample_loc": "7:77:3",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "عَتَّ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "عَتَّ فلانًا عَتَّ ُ عَتًّا: رَدَّدَ عليه الكلام مرَّةً بعد مرَّة. ويقال: عَتَّهُ بالمسألة: ألحَّ عليه فيها. و عَتَّ فلانًا بالكلام: وبَّخه.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "عت",
       "variants_tried": [
         "عت"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 7
     }
   },
   {
@@ -2142,12 +2472,21 @@
     "occurrences": 57,
     "sample_loc": "2:25:9",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "جَرْي",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "جَرْي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "جري",
       "variants_tried": [
         "جري"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
     }
   },
   {
@@ -2161,13 +2500,24 @@
     "occurrences": 50,
     "sample_loc": "2:48:4",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "جزا",
+      "past_3ms_almaany": "جزَى",
+      "present_3ms_almaany": "يَجزي",
+      "masdars_almaany": [
+        "جزاءً"
+      ],
+      "active_participle_almaany": "جازٍ",
+      "passive_participle_almaany": "مَجْزيّ",
+      "raw_head": "جزَى يَجزي ، اجْزِ ، جزاءً ، فهو جازٍ ، والمفعول مَجْزيّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "جزى",
       "variants_tried": [
         "جزى",
         "جزا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -2181,13 +2531,22 @@
     "occurrences": 40,
     "sample_loc": "2:150:25",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "خشا",
+      "past_3ms_almaany": "خشَّى",
+      "present_3ms_almaany": "يخشّي",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُخَشٍّ",
+      "passive_participle_almaany": "مُخَشًّى",
+      "raw_head": "خشَّى يخشّي ، خَشِّ ، تخشيةً ، فهو مُخَشٍّ ، والمفعول مُخَشًّى",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "خشى",
       "variants_tried": [
         "خشى",
         "خشا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -2201,12 +2560,23 @@
     "occurrences": 36,
     "sample_loc": "2:117:5",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "قاضيًا",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "جَعَلَهُ قاضيًا .",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'قَضَىٰٓ'",
+      "status": "ok",
       "word_searched": "قضىٓ",
       "variants_tried": [
         "قضىٓ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
     }
   },
   {
@@ -2220,13 +2590,22 @@
     "occurrences": 34,
     "sample_loc": "2:44:4",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "نسا",
+      "past_3ms_almaany": "نسَّى",
+      "present_3ms_almaany": "يُنسِّي",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُنسٍّ",
+      "passive_participle_almaany": "مُنسًّى",
+      "raw_head": "نسَّى يُنسِّي ، نَسِّ ، تَنْسيةً ، فهو مُنسٍّ ، والمفعول مُنسًّى",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "نسى",
       "variants_tried": [
         "نسى",
         "نسا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -2240,13 +2619,24 @@
     "occurrences": 32,
     "sample_loc": "2:137:15",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "كفا",
+      "past_3ms_almaany": "كفَى",
+      "present_3ms_almaany": "يَكفِي",
+      "masdars_almaany": [
+        "كِفايَةً"
+      ],
+      "active_participle_almaany": "كافٍ",
+      "passive_participle_almaany": "مَكْفيّ",
+      "raw_head": "كفَى / كفَى بـ / كفَى لـ يَكفِي ، اكْفِ ، كِفايَةً ، فهو كافٍ وكَفِيّ ، والمفعول مَكْفيّ - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "كفى",
       "variants_tried": [
         "كفى",
         "كفا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
     }
   },
   {
@@ -2260,13 +2650,22 @@
     "occurrences": 30,
     "sample_loc": "2:216:7",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "عسا",
+      "past_3ms_almaany": "عَسَى",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "عَسَى",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "عسى",
       "variants_tried": [
         "عسى",
         "عسا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
     }
   },
   {
@@ -2280,12 +2679,21 @@
     "occurrences": 27,
     "sample_loc": "2:61:57",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "عَصًا",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "عَصًا",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "عصا",
       "variants_tried": [
         "عصا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -2299,13 +2707,24 @@
     "occurrences": 24,
     "sample_loc": "3:83:4",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "بغا",
+      "past_3ms_almaany": "بغَى",
+      "present_3ms_almaany": "يَبغِي",
+      "masdars_almaany": [
+        "بَغْيًا"
+      ],
+      "active_participle_almaany": "باغٍ",
+      "passive_participle_almaany": "مَبْغيٌّ",
+      "raw_head": "بغَى / بغَى على يَبغِي ، ابْغِ ، بَغْيًا ، فهو باغٍ ، والمفعول مَبْغيٌّ عليه",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "بغى",
       "variants_tried": [
         "بغى",
         "بغا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
     }
   },
   {
@@ -2319,13 +2738,22 @@
     "occurrences": 24,
     "sample_loc": "3:104:9",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "نها",
+      "past_3ms_almaany": "نهى",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "الأمور التي نهى الشَّرعُ عن فعلها أو إتيانها كشرب الخمر والسَّرقة والزِّنا ونحو ذلك.",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "نهى",
       "variants_tried": [
         "نهى",
         "نها"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -2339,12 +2767,21 @@
     "occurrences": 21,
     "sample_loc": "2:20:8",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "مِشّ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "مِشّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "مش",
       "variants_tried": [
         "مش"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -2386,12 +2823,26 @@
     "occurrences": 52,
     "sample_loc": "2:108:16",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ضلَّ",
+      "present_3ms_almaany": "يَضِلّ",
+      "masdars_almaany": [
+        "ضَلَلْتُ",
+        "ضَلاًّ",
+        "ضَلالاً",
+        "ضَلالةً"
+      ],
+      "active_participle_almaany": "ضالّ",
+      "passive_participle_almaany": "مضلول",
+      "raw_head": "ضلَّ / ضلَّ عن ضَلَلْتُ ، يَضِلّ ، اضْلِلْ / ضِلَّ ، ضَلاًّ وضَلالاً وضَلالةً ، فهو ضالّ ، والمفعول مضلول - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "ضل",
       "variants_tried": [
         "ضل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -2405,12 +2856,24 @@
     "occurrences": 47,
     "sample_loc": "2:46:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ظنَّ",
+      "present_3ms_almaany": "يَظُنّ",
+      "masdars_almaany": [
+        "ظَنَنْتُ",
+        "ظَنًّا"
+      ],
+      "active_participle_almaany": "ظانّ",
+      "passive_participle_almaany": "مَظْنون",
+      "raw_head": "ظنَّ / ظنَّ بـ ظَنَنْتُ ، يَظُنّ ، اظْنُنْ / ظُنَّ ، ظَنًّا ، فهو ظانّ ، والمفعول مَظْنون",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "ظن",
       "variants_tried": [
         "ظن"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -2424,12 +2887,21 @@
     "occurrences": 36,
     "sample_loc": "3:99:5",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "صدَّ",
+      "present_3ms_almaany": "يَصُدّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "صَادّ",
+      "passive_participle_almaany": "مَصْدود",
+      "raw_head": "صدَّ صَدَدْتُ ، يَصُدّ ، اصْدُدْ / صُدَّ ، مصدر صَدٌّ ، صُدُودٌ ، فهو صَادّ ، والمفعول مَصْدود",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "صد",
       "variants_tried": [
         "صد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -2443,12 +2915,23 @@
     "occurrences": 20,
     "sample_loc": "4:164:3",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "قَصَّ",
+      "present_3ms_almaany": "يَقُصّ",
+      "masdars_almaany": [
+        "قَصًّا"
+      ],
+      "active_participle_almaany": "قاصّ",
+      "passive_participle_almaany": "مَقْصوص",
+      "raw_head": "قَصَّ قَصَصْتُ ، يَقُصّ ، اقْصُصْ / قُصَّ ، قَصًّا قَصَصٌ ، فهو قاصّ ، والمفعول مَقْصوص",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "قص",
       "variants_tried": [
         "قص"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -2462,12 +2945,23 @@
     "occurrences": 19,
     "sample_loc": "2:102:54",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ضَرَّ",
+      "present_3ms_almaany": "يَضُرّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "ضارّ",
+      "passive_participle_almaany": "مَضْرور",
+      "raw_head": "ضَرَّ / ضَرَّ بـ ضَرَرْتُ ، يَضُرّ ، اضْرُرْ / ضُرَّ ، ضَرًّا وضُرًّا وضَرَرًا ، فهو ضارّ ، والمفعول مَضْرور",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَضُرَّ'",
+      "status": "ok",
       "word_searched": "يضر",
       "variants_tried": [
         "يضر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
     }
   },
   {
@@ -2481,12 +2975,21 @@
     "occurrences": 18,
     "sample_loc": "7:30:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "حقَّ",
+      "present_3ms_almaany": "يحِقّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "حقيق",
+      "passive_participle_almaany": "محقوق",
+      "raw_head": "حقَّ / حقَّ على / حقَّ لـ حَقَقْتُ ، يحِقّ ، احْقِقْ / حِقَّ ، حَقًّا وحَقّةً وحُقُوقًا ، فهو حقيق ، والمفعول محقوق عليه",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "حق",
       "variants_tried": [
         "حق"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
     }
   },
   {
@@ -2500,12 +3003,21 @@
     "occurrences": 17,
     "sample_loc": "2:96:9",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "وَدَّ",
+      "present_3ms_almaany": "يَوَدّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "وادّ",
+      "passive_participle_almaany": "مَوْدود",
+      "raw_head": "وَدَّ وَدِدْتُ / وَدَدْتُ ، يَوَدّ ، اوْدَدْ / وَدَّ ، وَدًّا ووُدًّا ووِدًّا ووَدَادةً ووَدادًا ووُدادًا ووِدادًا ، فهو وادّ ووديد ، والمفعول مَوْدود",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "ود",
       "variants_tried": [
         "ود"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -2519,12 +3031,8 @@
     "occurrences": 16,
     "sample_loc": "3:164:2",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "من",
-      "variants_tried": [
-        "من"
-      ],
-      "from_cache": true
+      "status": "exception",
+      "error": "empty separator"
     }
   },
   {
@@ -2538,12 +3046,23 @@
     "occurrences": 15,
     "sample_loc": "3:24:10",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "غَرَّ",
+      "present_3ms_almaany": "يقال",
+      "masdars_almaany": [
+        "غُرَّة"
+      ],
+      "active_participle_almaany": "أَغرُّ",
+      "passive_participle_almaany": null,
+      "raw_head": "غَرَّ غَرَّ َ غَرَرًا، وغَرارةً: كان ذا غُرَّة . و غَرَّ ابْيَّضَّ. يقال: غَرَّ وجهُه، وغَرَّ الفَرَسُ. و غَرَّ الرَّجلُ: سادَ وشَرُف. و غَرَّ كَرُمَتْ فِعالُه واتَّضحتْ. فهو أَغرُّ ، وهي غَرَّاءُ. والجمع : غُرٌّ . و غَرَّ الرجلُ: كان ذا غفلة وقلَّت فِطنتُه. فهو غِرٌّ .",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "غر",
       "variants_tried": [
         "غر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 6
     }
   },
   {
@@ -2557,12 +3076,23 @@
     "occurrences": 14,
     "sample_loc": "2:109:7",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ردَّ",
+      "present_3ms_almaany": "يَرُدّ",
+      "masdars_almaany": [
+        "رَدًّا"
+      ],
+      "active_participle_almaany": "رادّ",
+      "passive_participle_almaany": "مَرْدود",
+      "raw_head": "ردَّ / ردَّ على رَدَدْتُ ، يَرُدّ ، ارْدُدْ / رُدَّ ، رَدًّا و تَرْدَادًا، و رِدَّةٌ، فهو رادّ ، والمفعول مَرْدود وردّ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "رد",
       "variants_tried": [
         "رد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -2576,12 +3106,21 @@
     "occurrences": 14,
     "sample_loc": "2:228:7",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "حلَّلَ",
+      "present_3ms_almaany": "يحلِّل",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُحلِّل",
+      "passive_participle_almaany": "مُحلَّل",
+      "raw_head": "حلَّلَ يحلِّل ، تحليلاً وتَحِلَّةً ، فهو مُحلِّل ، والمفعول مُحلَّل",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "حلل",
       "variants_tried": [
         "حلل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -2628,12 +3167,21 @@
     "occurrences": 119,
     "sample_loc": "2:55:11",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أخَذَ",
+      "present_3ms_almaany": "يَأخُذ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "آخِذ",
+      "passive_participle_almaany": "مَأْخوذ",
+      "raw_head": "أخَذَ / أخَذَ بـ / أخَذَ على يَأخُذ ، اؤْخُذْ / خُذْ ، أَخْذًا ، فهو آخِذ ، والمفعول مَأْخوذ وأخيذ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "أخذ",
       "variants_tried": [
         "أخذ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 4
     }
   },
   {
@@ -2647,12 +3195,21 @@
     "occurrences": 93,
     "sample_loc": "2:35:7",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أكَلَ",
+      "present_3ms_almaany": "يَأكُل",
+      "masdars_almaany": [],
+      "active_participle_almaany": "آكِل",
+      "passive_participle_almaany": "مَأْكول",
+      "raw_head": "أكَلَ يَأكُل ، اؤْكُل / كُلْ ، أَكْلاً ، فهو آكِل ، والمفعول مَأْكول",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أكل",
       "variants_tried": [
         "أكل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -2666,12 +3223,21 @@
     "occurrences": 54,
     "sample_loc": "2:27:10",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أمر",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "(قص) أمر إلى بنك بعدم دفع شيك محرّر.",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "أمر",
       "variants_tried": [
         "أمر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
     }
   },
   {
@@ -2685,12 +3251,21 @@
     "occurrences": 20,
     "sample_loc": "2:196:35",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أمِنَ",
+      "present_3ms_almaany": "يَأمَن",
+      "masdars_almaany": [],
+      "active_participle_almaany": "آمن",
+      "passive_participle_almaany": "مأمون",
+      "raw_head": "أمِنَ ، أَمَنَ / أمِنَ من يَأمَن ، أمْنًا وأمانًا وأَمَنَةً وأَمْنةً وأمانةً ، فهو آمن وأمين ، والمفعول مأمون - للمتعدِّي وأمين - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "أمن",
       "variants_tried": [
         "أمن"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 4
     }
   },
   {
@@ -2704,12 +3279,21 @@
     "occurrences": 17,
     "sample_loc": "2:279:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أذِنَ",
+      "present_3ms_almaany": "يأذَن",
+      "masdars_almaany": [],
+      "active_participle_almaany": "آذِن",
+      "passive_participle_almaany": "مَأْذون",
+      "raw_head": "أذِنَ لـ1 يأذَن ، إِذْنًا ، فهو آذِن ، والمفعول مَأْذون له",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أذن",
       "variants_tried": [
         "أذن"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -2723,13 +3307,24 @@
     "occurrences": 13,
     "sample_loc": "2:34:9",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "أبا",
+      "past_3ms_almaany": "أبَى",
+      "present_3ms_almaany": "يَأبَى",
+      "masdars_almaany": [
+        "إباءً"
+      ],
+      "active_participle_almaany": "آبٍ",
+      "passive_participle_almaany": "مَأْبيّ",
+      "raw_head": "أبَى / أبَى على / أبَى عن / أبَى من يَأبَى ، ائْبَ ، إباءً وإباءةً ، فهو آبٍ وأبِيّ ، والمفعول مَأْبيّ - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "أبى",
       "variants_tried": [
         "أبى",
         "أبا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -2743,13 +3338,24 @@
     "occurrences": 5,
     "sample_loc": "11:43:2",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "أوا",
+      "past_3ms_almaany": "أوَى",
+      "present_3ms_almaany": "يَأوي",
+      "masdars_almaany": [
+        "إيوَاءً"
+      ],
+      "active_participle_almaany": "آوٍ",
+      "passive_participle_almaany": "مأويّ",
+      "raw_head": "أوَى / أوَى إلى يَأوي ، إيوَاءً ، ائْوِ ، أُوِيًّا ، فهو آوٍ ، والمفعول مأويّ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "أوى",
       "variants_tried": [
         "أوى",
         "أوا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
     }
   },
   {
@@ -2793,12 +3399,23 @@
     "occurrences": 87,
     "sample_loc": "2:61:36",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "سأَلَ",
+      "present_3ms_almaany": "يَسأَل",
+      "masdars_almaany": [
+        "سُؤالاً"
+      ],
+      "active_participle_almaany": "سائِل",
+      "passive_participle_almaany": "مَسْئول",
+      "raw_head": "سأَلَ يَسأَل ، اسْأَلْ / سَلْ ، سُؤالاً وتَسْآلاً ، فهو سائِل ، والمفعول مَسْئول",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "سأل",
       "variants_tried": [
         "سأل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
     }
   },
   {
@@ -2812,12 +3429,24 @@
     "occurrences": 40,
     "sample_loc": "2:90:1",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "بئِسَ",
+      "present_3ms_almaany": "يَبأَس",
+      "masdars_almaany": [
+        "بُؤْسًا",
+        "بَأْسًا"
+      ],
+      "active_participle_almaany": "بائِس",
+      "passive_participle_almaany": null,
+      "raw_head": "بئِسَ يَبأَس ، بُؤْسًا وبَأْسًا ، فهو بائِس",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "بئس",
       "variants_tried": [
         "بئس"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 10
     }
   },
   {
@@ -2831,12 +3460,21 @@
     "occurrences": 8,
     "sample_loc": "5:3:32",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "يئِس",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "يئِس ؛ قطع الأملَ منه",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "يئس",
       "variants_tried": [
         "يئس"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -2850,12 +3488,21 @@
     "occurrences": 4,
     "sample_loc": "2:111:14",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "هاتِ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "هاتِ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "هات",
       "variants_tried": [
         "هات"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
     }
   },
   {
@@ -2869,12 +3516,23 @@
     "occurrences": 3,
     "sample_loc": "2:282:79",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أنيس",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "أنيس",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَسْـ#َمُ'",
+      "status": "ok",
       "word_searched": "يس#م",
       "variants_tried": [
         "يس#م"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -2888,12 +3546,23 @@
     "occurrences": 3,
     "sample_loc": "6:26:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "النَّنُّ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "النَّنُّ : الشَّعْرُ الضَّعيف.",
+      "source_dico": "المعجم الوسيط",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'نَـ#َا'",
+      "status": "ok",
       "word_searched": "ن#ا",
       "variants_tried": [
         "ن#ا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 5
     }
   },
   {
@@ -2907,12 +3576,23 @@
     "occurrences": 3,
     "sample_loc": "16:53:12",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "توَّجَ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "مُطاوع توَّجَ",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَجْـ#َرُ'",
+      "status": "ok",
       "word_searched": "يج#ر",
       "variants_tried": [
         "يج#ر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
     }
   },
   {
@@ -2959,12 +3639,23 @@
     "occurrences": 236,
     "sample_loc": "2:20:15",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "شاءَ",
+      "present_3ms_almaany": "يَشاء",
+      "masdars_almaany": [],
+      "active_participle_almaany": "شاءٍ",
+      "passive_participle_almaany": "مَشِيء",
+      "raw_head": "شاءَ يَشاء ، شَأْ ، شيْئًا ، فهو شاءٍ ، والمفعول مَشِيء",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'شَآءَ'",
+      "status": "ok",
       "word_searched": "شآء",
       "variants_tried": [
         "شآء"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
     }
   },
   {
@@ -2978,12 +3669,23 @@
     "occurrences": 27,
     "sample_loc": "3:120:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ساءَه",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "ساءَه ؛ ضايقه.",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'سَآءَ'",
+      "status": "ok",
       "word_searched": "سآء",
       "variants_tried": [
         "سآء"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
     }
   },
   {
@@ -2997,12 +3699,24 @@
     "occurrences": 14,
     "sample_loc": "10:94:10",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "قرَأَ",
+      "present_3ms_almaany": "يَقرَأ",
+      "masdars_almaany": [
+        "قِراءةً",
+        "قُرْآنًا"
+      ],
+      "active_participle_almaany": "قارئ",
+      "passive_participle_almaany": "مَقْروء",
+      "raw_head": "قرَأَ يَقرَأ ، قِراءةً وقُرْآنًا ، فهو قارئ ، والمفعول مَقْروء",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "قرأ",
       "variants_tried": [
         "قرأ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -3016,12 +3730,24 @@
     "occurrences": 12,
     "sample_loc": "7:29:15",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "بدَأَ",
+      "present_3ms_almaany": "يَبدَأ",
+      "masdars_almaany": [
+        "بَدْأةً",
+        "بِدَايةً"
+      ],
+      "active_participle_almaany": "بادِئ",
+      "passive_participle_almaany": "مبدوء",
+      "raw_head": "بدَأَ / بدَأَ بـ يَبدَأ ، بَدْءًا وبَدْأةً وبِدَايةً ، فهو بادِئ ، والمفعول مبدوء - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "بدأ",
       "variants_tried": [
         "بدأ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -3035,12 +3761,25 @@
     "occurrences": 6,
     "sample_loc": "2:61:41",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "باءَ",
+      "present_3ms_almaany": "يَبُوء",
+      "masdars_almaany": [
+        "بَوْءًا"
+      ],
+      "active_participle_almaany": "باءٍ",
+      "passive_participle_almaany": "مبوء",
+      "raw_head": "باءَ بـ يَبُوء ، بُؤْ ، بَوْءًا وبَواءً ، فهو باءٍ ، والمفعول مبوء به",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'بَآءَ'",
+      "status": "ok",
       "word_searched": "بآء",
       "variants_tried": [
         "بآء"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 12
     }
   },
   {
@@ -3054,12 +3793,21 @@
     "occurrences": 6,
     "sample_loc": "6:136:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ذرَأَ",
+      "present_3ms_almaany": "يذرَأ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "ذارِئ",
+      "passive_participle_almaany": "مَذْروء",
+      "raw_head": "ذرَأَ يذرَأ ، ذرْءًا ، فهو ذارِئ ، والمفعول مَذْروء",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "ذرأ",
       "variants_tried": [
         "ذرأ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 11
     }
   },
   {
@@ -3073,12 +3821,23 @@
     "occurrences": 4,
     "sample_loc": "3:168:10",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "السِّيدَارَة",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "السِّيدَارَة : القلنسوة بلا أصْدَاغ، وهي. اليوم لباس الحضريِّين من أهل العراق.",
+      "source_dico": "المعجم الوسيط",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَدْرَؤُا@'",
+      "status": "ok",
       "word_searched": "يدرؤا@",
       "variants_tried": [
         "يدرؤا@"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 1
     }
   },
   {
@@ -3123,13 +3882,27 @@
     "occurrences": 8,
     "sample_loc": "2:87:22",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "هوا",
+      "past_3ms_almaany": "هوَى",
+      "present_3ms_almaany": "يَهوِي",
+      "masdars_almaany": [
+        "هُوِيًّا",
+        "هَوَيانًا",
+        "هُوَّةً",
+        "فهو"
+      ],
+      "active_participle_almaany": "هاوٍ",
+      "passive_participle_almaany": "مَهوِيّ",
+      "raw_head": "هوَى / هوَى إلى / هوَى على / هوَى في يَهوِي ، اهْوِ ، هُوِيًّا وهَوَيانًا و هُوَّةً ، فهو هاوٍ ، والمفعول مَهوِيّ إليه",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "هوى",
       "variants_tried": [
         "هوى",
         "هوا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
     }
   },
   {
@@ -3143,13 +3916,24 @@
     "occurrences": 7,
     "sample_loc": "7:25:3",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "حا",
+      "past_3ms_almaany": "الله",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "أبقاه، وأطال عمره ° حيَّاك الله",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'حَىَّ'",
+      "status": "ok",
+      "word_searched": "حى",
       "variants_tried": [
         "حى",
         "حا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -3163,12 +3947,21 @@
     "occurrences": 3,
     "sample_loc": "3:78:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "يَلَّ",
+      "present_3ms_almaany": "يَلَّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "أَيَلٌ",
+      "passive_participle_almaany": null,
+      "raw_head": "يَلَّ ، ويَلِلَ يَلَّ َ( يَيَلٌ ) يَلاَّ ، ويَلَلاً : كانت أَسنانُه قصيرةً ملتزقة مُقبلة على داخل الفم. فهو أَيَلٌ ، وهي يَلاَّءُ . والجمع : يُلٌ .",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "يل",
       "variants_tried": [
         "يل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 3
     }
   },
   {
@@ -3182,13 +3975,29 @@
     "occurrences": 3,
     "sample_loc": "20:121:15",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "غوا",
+      "past_3ms_almaany": "غَوَى",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [
+        "غَوَايَةً",
+        "غَوِيّ",
+        "غُوَاةٌ",
+        "غاوون",
+        "غاويةٌ",
+        "غاوياتٌ"
+      ],
+      "active_participle_almaany": "غاوٍ،",
+      "passive_participle_almaany": null,
+      "raw_head": "غَوَى غَوَى ِ غَيًّا، وغَوَايَةً : أَمعن في الضلال. وفي التنزيل العزيز: النجم آية 2مَا ضَلَّ صَاحِبُكُمْ وَمَا غَوَى ) ) . فهو غاوٍ، وغَوِيّ ، وغَيّانُ. والجمع : غُوَاةٌ ، وغاوون . وهي غاويةٌ . والجمع : غاوياتٌ . و غَوَى الرضيعُ: أَكثَرَ من الرَّضاع حتى اتَّخَم وفَسَدَ جوفُه. و غَوَى الشيطانُ فلانًا: أَضَلَّه وخيّبه.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
+      "word_searched": "غوى",
       "variants_tried": [
         "غوى",
         "غوا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 8
     }
   },
   {
@@ -3202,12 +4011,21 @@
     "occurrences": 2,
     "sample_loc": "46:33:10",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "عيِيَ",
+      "present_3ms_almaany": "يَعيا",
+      "masdars_almaany": [],
+      "active_participle_almaany": "عَيّ",
+      "passive_participle_almaany": "مَعِيّ",
+      "raw_head": "عيِيَ بـ / عيِيَ في يَعيا ، اعْيَ ، عِيًّا ، فهو عَيّ وعَيِيّ وعيّانُ / عيّانٌ ، والمفعول مَعِيّ به",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "عيي",
       "variants_tried": [
         "عيي"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -3315,13 +4133,22 @@
     "occurrences": 24,
     "sample_loc": "3:101:4",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "تلا",
+      "past_3ms_almaany": "تَلَّى",
+      "present_3ms_almaany": "تَلَّى",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "تَلَّى : انتصب للصلاَّةِ. و تَلَّى قَضَى نَذْرَه. و تَلَّى صارَ في آخر رَمَق من عُمره. و تَلَّى ماتَ. و تَلَّى الشيءَ: تَبعه. و تَلَّى الشيءَ شيئاً: أتبعه إياه. ومنه َ تلَّى الفريضة نافِلَةً.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
+      "word_searched": "تلى",
       "variants_tried": [
         "تلى",
         "تلا"
       ],
-      "from_cache": true
+      "from_cache": true,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 7
     }
   },
   {
@@ -3335,12 +4162,21 @@
     "occurrences": 23,
     "sample_loc": "2:68:23",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أمر",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "(قص) أمر إلى بنك بعدم دفع شيك محرّر.",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "أمر",
       "variants_tried": [
         "أمر"
       ],
-      "from_cache": true
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
     }
   },
   {
@@ -3354,12 +4190,23 @@
     "occurrences": 23,
     "sample_loc": "2:210:12",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "قاضيًا",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "جَعَلَهُ قاضيًا .",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'قَضَىٰٓ'",
+      "status": "ok",
       "word_searched": "قضىٓ",
       "variants_tried": [
         "قضىٓ"
       ],
-      "from_cache": true
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
     }
   },
   {
@@ -3401,13 +4248,24 @@
     "occurrences": 23,
     "sample_loc": "4:123:10",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "جزا",
+      "past_3ms_almaany": "جزَى",
+      "present_3ms_almaany": "يَجزي",
+      "masdars_almaany": [
+        "جزاءً"
+      ],
+      "active_participle_almaany": "جازٍ",
+      "passive_participle_almaany": "مَجْزيّ",
+      "raw_head": "جزَى يَجزي ، اجْزِ ، جزاءً ، فهو جازٍ ، والمفعول مَجْزيّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "جزى",
       "variants_tried": [
         "جزى",
         "جزا"
       ],
-      "from_cache": true
+      "from_cache": true,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -3421,12 +4279,23 @@
     "occurrences": 22,
     "sample_loc": "2:85:41",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "ردَّ",
+      "present_3ms_almaany": "يَرُدّ",
+      "masdars_almaany": [
+        "رَدًّا"
+      ],
+      "active_participle_almaany": "رادّ",
+      "passive_participle_almaany": "مَرْدود",
+      "raw_head": "ردَّ / ردَّ على رَدَدْتُ ، يَرُدّ ، ارْدُدْ / رُدَّ ، رَدًّا و تَرْدَادًا، و رِدَّةٌ، فهو رادّ ، والمفعول مَرْدود وردّ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "رد",
       "variants_tried": [
         "رد"
       ],
-      "from_cache": true
+      "from_cache": true,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -3500,12 +4369,21 @@
     "occurrences": 49,
     "sample_loc": "2:23:6",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "نزَّلَ",
+      "present_3ms_almaany": "ينزِّل",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُنزِّل",
+      "passive_participle_almaany": "مُنزَّل",
+      "raw_head": "نزَّلَ ينزِّل ، تنزيلاً ، فهو مُنزِّل ، والمفعول مُنزَّل",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "نزل",
       "variants_tried": [
         "نزل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -3519,12 +4397,21 @@
     "occurrences": 43,
     "sample_loc": "3:15:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "نبَّأَ",
+      "present_3ms_almaany": "ينبِّئ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُنبِّئ",
+      "passive_participle_almaany": "مُنبَّأ",
+      "raw_head": "نبَّأَ ينبِّئ ، تَنْبيئًا وتنْبِئةً ، فهو مُنبِّئ ، والمفعول مُنبَّأ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "نبأ",
       "variants_tried": [
         "نبأ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -3538,12 +4425,21 @@
     "occurrences": 42,
     "sample_loc": "2:30:19",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "سبَّحَ",
+      "present_3ms_almaany": "يُسبِّح",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُسبِّح",
+      "passive_participle_almaany": "مُسبَّح",
+      "raw_head": "سبَّحَ / سبَّحَ لـ يُسبِّح ، تسبيحًا ، فهو مُسبِّح ، والمفعول مُسبَّح (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "سبح",
       "variants_tried": [
         "سبح"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -3557,12 +4453,21 @@
     "occurrences": 41,
     "sample_loc": "2:284:21",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "عذَّبَ",
+      "present_3ms_almaany": "يُعذِّب",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُعذِّب",
+      "passive_participle_almaany": "مُعَذَّب",
+      "raw_head": "عذَّبَ يُعذِّب ، تعذيبًا ، فهو مُعذِّب ، والمفعول مُعَذَّب",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "عذب",
       "variants_tried": [
         "عذب"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -3604,13 +4509,22 @@
     "occurrences": 36,
     "sample_loc": "2:49:2",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "نجا",
+      "past_3ms_almaany": "نجَّى",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "مُطاوع نجَّى",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "نجى",
       "variants_tried": [
         "نجى",
         "نجا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -3624,12 +4538,21 @@
     "occurrences": 35,
     "sample_loc": "2:25:1",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "بشَّرَ",
+      "present_3ms_almaany": "يبشِّر",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُبشِّر",
+      "passive_participle_almaany": "مُبشَّر",
+      "raw_head": "بشَّرَ / بشَّرَ بـ يبشِّر ، تَبْشِيرًا ، فهو مُبشِّر ، والمفعول مُبشَّر",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "بشر",
       "variants_tried": [
         "بشر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -3643,12 +4566,21 @@
     "occurrences": 35,
     "sample_loc": "2:68:5",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "بيَّنَ",
+      "present_3ms_almaany": "يبيِّن",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُبيِّن",
+      "passive_participle_almaany": "مُبَيَّن",
+      "raw_head": "بيَّنَ يبيِّن ، تَبْيينًا وتِبيانًا ، فهو مُبيِّن ، والمفعول مُبَيَّن (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "بين",
       "variants_tried": [
         "بين"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -3662,12 +4594,21 @@
     "occurrences": 33,
     "sample_loc": "2:173:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "حرَّمَ",
+      "present_3ms_almaany": "يحرِّم",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُحرِّم",
+      "passive_participle_almaany": "مُحرَّم",
+      "raw_head": "حرَّمَ يحرِّم ، تحريمًا ، فهو مُحرِّم ، والمفعول مُحرَّم",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "حرم",
       "variants_tried": [
         "حرم"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
     }
   },
   {
@@ -3681,13 +4622,22 @@
     "occurrences": 30,
     "sample_loc": "2:115:5",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "ولا",
+      "past_3ms_almaany": "ولَّى",
+      "present_3ms_almaany": "يولِّي",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُولٍّ",
+      "passive_participle_almaany": "مُولًّى",
+      "raw_head": "ولَّى / ولَّى على / ولَّى عن يولِّي ، وَلِّ ، تَوْليةً ، فهو مُولٍّ ، والمفعول مُولًّى - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "ولى",
       "variants_tried": [
         "ولى",
         "ولا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -3701,12 +4651,21 @@
     "occurrences": 27,
     "sample_loc": "2:95:5",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "قدَّمَ",
+      "present_3ms_almaany": "يقدِّم",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُقدِّم",
+      "passive_participle_almaany": "مُقدَّم",
+      "raw_head": "قدَّمَ / قدَّمَ لـ يقدِّم ، تقديمًا وتقدمةً ، فهو مُقدِّم ، والمفعول مُقدَّم (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "قدم",
       "variants_tried": [
         "قدم"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
     }
   },
   {
@@ -3750,13 +4709,24 @@
     "occurrences": 37,
     "sample_loc": "3:39:1",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "نادا",
+      "past_3ms_almaany": "نادى",
+      "present_3ms_almaany": "ينادي",
+      "masdars_almaany": [
+        "مناداةً"
+      ],
+      "active_participle_almaany": "مُنادٍ",
+      "passive_participle_almaany": "مُنادًى",
+      "raw_head": "نادى ينادي ، نادِ ، نِداءً ومناداةً ، فهو مُنادٍ ، والمفعول مُنادًى",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "نادى",
       "variants_tried": [
         "نادى",
         "نادا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -3770,12 +4740,23 @@
     "occurrences": 27,
     "sample_loc": "2:218:6",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "جهَدَ",
+      "present_3ms_almaany": "يَجهَد",
+      "masdars_almaany": [
+        "جَهْدًا"
+      ],
+      "active_participle_almaany": "جاهد",
+      "passive_participle_almaany": "مجهود",
+      "raw_head": "جهَدَ يَجهَد ، جَهْدًا ، فهو جاهد ، والمفعول مجهود - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "جهد",
       "variants_tried": [
         "جهد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -3789,12 +4770,23 @@
     "occurrences": 25,
     "sample_loc": "4:107:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "جدَلَ",
+      "present_3ms_almaany": "يجدُل",
+      "masdars_almaany": [
+        "جَدْلاً"
+      ],
+      "active_participle_almaany": "جادِل",
+      "passive_participle_almaany": "مَجْدول",
+      "raw_head": "جدَلَ يجدُل ويَجدِل ، جَدْلاً ، فهو جادِل وجدِل ، والمفعول مَجْدول وجديل",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "جدل",
       "variants_tried": [
         "جدل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -3808,12 +4800,24 @@
     "occurrences": 16,
     "sample_loc": "2:218:5",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "هاجرَ",
+      "present_3ms_almaany": "يهاجر",
+      "masdars_almaany": [
+        "مُهاجرةً",
+        "هِجْرةً"
+      ],
+      "active_participle_almaany": "مُهاجِر",
+      "passive_participle_almaany": "مُهاجَر",
+      "raw_head": "هاجرَ / هاجرَ عن / هاجرَ من يهاجر ، مُهاجرةً وهِجْرةً ، فهو مُهاجِر ، والمفعول مُهاجَر - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "هاجر",
       "variants_tried": [
         "هاجر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -3827,12 +4831,23 @@
     "occurrences": 11,
     "sample_loc": "2:76:18",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "حاجَّ",
+      "present_3ms_almaany": "يحاجّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُحاجّ",
+      "passive_participle_almaany": "مُحاجّ",
+      "raw_head": "حاجَّ يحاجّ ، حاجِجْ / حاجَّ ، مُحاجَّةً وحِجاجًا ، فهو مُحاجّ ، والمفعول مُحاجّ (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'حَآجَّ'",
+      "status": "ok",
       "word_searched": "حآج",
       "variants_tried": [
         "حآج"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -3846,12 +4861,23 @@
     "occurrences": 11,
     "sample_loc": "2:100:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "عهِدَ",
+      "present_3ms_almaany": "يَعهَد",
+      "masdars_almaany": [
+        "عَهْدًا"
+      ],
+      "active_participle_almaany": "عاهِد",
+      "passive_participle_almaany": "مَعْهود",
+      "raw_head": "عهِدَ / عهِدَ إلى يَعهَد ، عَهْدًا ، فهو عاهِد ، والمفعول مَعْهود",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "عهد",
       "variants_tried": [
         "عهد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 6
     }
   },
   {
@@ -3865,12 +4891,23 @@
     "occurrences": 9,
     "sample_loc": "2:225:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "صديقًا",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "جعله صديقًا",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يُؤَاخِذُ'",
+      "status": "ok",
       "word_searched": "يؤاخذ",
       "variants_tried": [
         "يؤاخذ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -3905,7 +4942,7 @@
         "آتى",
         "آتا"
       ],
-      "from_cache": true
+      "from_cache": false
     }
   },
   {
@@ -3919,12 +4956,23 @@
     "occurrences": 137,
     "sample_loc": "2:26:25",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أرادَ",
+      "present_3ms_almaany": "يُريد",
+      "masdars_almaany": [
+        "إرادةً"
+      ],
+      "active_participle_almaany": "مُريد",
+      "passive_participle_almaany": "مُراد",
+      "raw_head": "أرادَ يُريد ، أَرِدْ ، إرادةً ، فهو مُريد ، والمفعول مُراد.",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أراد",
       "variants_tried": [
         "أراد"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -3938,12 +4986,23 @@
     "occurrences": 128,
     "sample_loc": "2:22:8",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أنزلَ",
+      "present_3ms_almaany": "يُنزل",
+      "masdars_almaany": [
+        "إنْزالاً"
+      ],
+      "active_participle_almaany": "مُنْزِل",
+      "passive_participle_almaany": "مُنْزَل",
+      "raw_head": "• أنزلَ يُنزل ، إنْزالاً ، فهو مُنْزِل ، والمفعول مُنْزَل .",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أنزل",
       "variants_tried": [
         "أنزل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -3957,12 +5016,23 @@
     "occurrences": 114,
     "sample_loc": "2:119:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أرسلَ",
+      "present_3ms_almaany": "يُرسل",
+      "masdars_almaany": [
+        "إرسالاً"
+      ],
+      "active_participle_almaany": "مُرسِل",
+      "passive_participle_almaany": "مُرسَل",
+      "raw_head": "أرسلَ / أرسلَ بـ يُرسل ، إرسالاً ، فهو مُرسِل ، والمفعول مُرسَل",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "أرسل",
       "variants_tried": [
         "أرسل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -3976,12 +5046,23 @@
     "occurrences": 86,
     "sample_loc": "2:22:12",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أخرجَ",
+      "present_3ms_almaany": "يُخرج",
+      "masdars_almaany": [
+        "إخراجًا"
+      ],
+      "active_participle_almaany": "مخرِج",
+      "passive_participle_almaany": "مخرَج",
+      "raw_head": "أخرجَ يُخرج ، إخراجًا ، فهو مخرِج ، والمفعول مخرَج",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أخرج",
       "variants_tried": [
         "أخرج"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -3995,12 +5076,21 @@
     "occurrences": 72,
     "sample_loc": "2:285:23",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أطاعَ",
+      "present_3ms_almaany": "يُطيع",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُطِيع",
+      "passive_participle_almaany": "مُطاع",
+      "raw_head": "أطاعَ يُطيع ، أَطِعْ ، إطاعةً ، فهو مُطِيع ، والمفعول مُطاع",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أطاع",
       "variants_tried": [
         "أطاع"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -4014,12 +5104,23 @@
     "occurrences": 68,
     "sample_loc": "2:3:8",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أنفقَ",
+      "present_3ms_almaany": "يُنفق",
+      "masdars_almaany": [
+        "إنفاقًا"
+      ],
+      "active_participle_almaany": "مُنفِق",
+      "passive_participle_almaany": "مُنفَق",
+      "raw_head": "أنفقَ / أنفقَ على يُنفق ، إنفاقًا ، فهو مُنفِق ، والمفعول مُنفَق - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أنفق",
       "variants_tried": [
         "أنفق"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -4033,12 +5134,23 @@
     "occurrences": 68,
     "sample_loc": "2:96:8",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أشركَ",
+      "present_3ms_almaany": "يُشرِك",
+      "masdars_almaany": [
+        "إشراكًا"
+      ],
+      "active_participle_almaany": "مُشرِك",
+      "passive_participle_almaany": "مُشرَك",
+      "raw_head": "أشركَ / أشركَ بـ يُشرِك ، إشراكًا ، فهو مُشرِك ، والمفعول مُشرَك - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أشرك",
       "variants_tried": [
         "أشرك"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -4052,12 +5164,23 @@
     "occurrences": 64,
     "sample_loc": "2:26:29",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أضلَّ",
+      "present_3ms_almaany": "يُضلّ",
+      "masdars_almaany": [
+        "إضلالاً"
+      ],
+      "active_participle_almaany": "مُضِلّ",
+      "passive_participle_almaany": "مُضَلّ",
+      "raw_head": "أضلَّ يُضلّ ، أضْلِلْ / أضِلَّ ، إضلالاً ، فهو مُضِلّ ، والمفعول مُضَلّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "أضل",
       "variants_tried": [
         "أضل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 8
     }
   },
   {
@@ -4071,12 +5194,24 @@
     "occurrences": 64,
     "sample_loc": "2:156:3",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أصابَ",
+      "present_3ms_almaany": "يُصيب",
+      "masdars_almaany": [
+        "إصابةً",
+        "صوابًا"
+      ],
+      "active_participle_almaany": "مُصيب",
+      "passive_participle_almaany": "مُصاب",
+      "raw_head": "أصابَ / أصابَ من يُصيب ، أصِبْ ، إصابةً وصوابًا ، فهو مُصيب ، والمفعول مُصاب - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "أصاب",
       "variants_tried": [
         "أصاب"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -4090,12 +5225,23 @@
     "occurrences": 64,
     "sample_loc": "2:165:9",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "يحبّه",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "جعله يحبّه .",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'أَحْبَبْ'",
+      "status": "ok",
       "word_searched": "أحبب",
       "variants_tried": [
         "أحبب"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -4138,12 +5284,21 @@
     "occurrences": 51,
     "sample_loc": "2:221:39",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تذكَّرَ",
+      "present_3ms_almaany": "يتذكَّر",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتذكِّر",
+      "passive_participle_almaany": "مُتذكَّر",
+      "raw_head": "تذكَّرَ يتذكَّر ، تذكُّرًا ، فهو مُتذكِّر ، والمفعول مُتذكَّر - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "تذكر",
       "variants_tried": [
         "تذكر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
     }
   },
   {
@@ -4157,12 +5312,21 @@
     "occurrences": 40,
     "sample_loc": "3:122:11",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "توكَّلَ",
+      "present_3ms_almaany": "توكَّلَ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتوكِّل",
+      "passive_participle_almaany": "مُتوكَّل",
+      "raw_head": "توكَّلَ / توكَّلَ بـ / توكَّلَ على / توكَّلَ في يتوكّل ، توكُّلاً ، فهو مُتوكِّل ، والمفعول مُتوكَّل به",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "توكل",
       "variants_tried": [
         "توكل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 10
     }
   },
   {
@@ -4176,13 +5340,22 @@
     "occurrences": 20,
     "sample_loc": "3:193:18",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "توفا",
+      "past_3ms_almaany": "توفَّى",
+      "present_3ms_almaany": "يتوفَّى",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتَوَفٍّ",
+      "passive_participle_almaany": "مُتَوَفًّى",
+      "raw_head": "توفَّى يتوفَّى ، توفَّ ، توفّيًا ، فهو مُتَوَفٍّ ، والمفعول مُتَوَفًّى - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "توفى",
       "variants_tried": [
         "توفى",
         "توفا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
     }
   },
   {
@@ -4196,12 +5369,21 @@
     "occurrences": 18,
     "sample_loc": "2:109:19",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تبيَّنَ",
+      "present_3ms_almaany": "يتبيَّن",
+      "masdars_almaany": [],
+      "active_participle_almaany": "متبيِّن",
+      "passive_participle_almaany": "مُتبيَّن",
+      "raw_head": "تبيَّنَ يتبيَّن ، تبيُّنًا ، فهو متبيِّن ، والمفعول مُتبيَّن - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "تبين",
       "variants_tried": [
         "تبين"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -4215,12 +5397,26 @@
     "occurrences": 17,
     "sample_loc": "2:219:26",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "الفكر",
+      "present_3ms_almaany": "تفسير",
+      "masdars_almaany": [
+        "الفكري",
+        "الأفكار"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "يعرف الفكر السياسي بأنه ذلك البنيان الفكري المجرد المرتبط بتصوير و تفسير الوجود السياسي و بذلك تكون الأفكار السياسية عبارة عن تصور عقلاني للظاهرة السياسية ، و تمثل صورة الظاهرة السياسية كما يتخيلها الإنسان في مختلف الأزمنة و الأمكنة ، و أنها تقوم على التأمل سواء كان فرديا أم جماعيا و تختلف عن كونها واقع قائم.",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'يَتَفَكَّرُ'",
+      "status": "ok",
       "word_searched": "يتفكر",
       "variants_tried": [
         "يتفكر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 13
     }
   },
   {
@@ -4234,12 +5430,21 @@
     "occurrences": 13,
     "sample_loc": "2:228:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تربَّصَ",
+      "present_3ms_almaany": "تربَّصَ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتربِّص",
+      "passive_participle_almaany": "مُتربَّصٌ",
+      "raw_head": "تربَّصَ / تربَّصَ بـ / تربَّصَ لـ يتربَّص ، تربُّصًا ، فهو مُتربِّص ، والمفعول مُتربَّصٌ",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "تربص",
       "variants_tried": [
         "تربص"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 5
     }
   },
   {
@@ -4253,12 +5458,21 @@
     "occurrences": 11,
     "sample_loc": "2:196:37",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تمتَّعَ",
+      "present_3ms_almaany": "تمتَّعَ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتمتِّع",
+      "passive_participle_almaany": "مُتمتَّع",
+      "raw_head": "تمتَّعَ بـ / تمتَّعَ في يتمتّع ، تمتُّعًا ، فهو مُتمتِّع ، والمفعول مُتمتَّع به",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "تمتع",
       "variants_tried": [
         "تمتع"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -4302,12 +5516,21 @@
     "occurrences": 9,
     "sample_loc": "7:54:29",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تباركَ",
+      "present_3ms_almaany": "تباركَ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُتبارِك",
+      "passive_participle_almaany": "مُتبارَك",
+      "raw_head": "تباركَ / تباركَ بـ يتبارك ، تبارُكًا ، فهو مُتبارِك ، والمفعول مُتبارَك به",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "تبارك",
       "variants_tried": [
         "تبارك"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 10
     }
   },
   {
@@ -4321,12 +5544,21 @@
     "occurrences": 7,
     "sample_loc": "3:152:11",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تَنَزَّعَ",
+      "present_3ms_almaany": "تسرع",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "تَنَزَّعَ إلى الشيء: تسرع إليه",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "تنزع",
       "variants_tried": [
         "تنزع"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 14
     }
   },
   {
@@ -4340,12 +5572,23 @@
     "occurrences": 5,
     "sample_loc": "51:53:1",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "وَصِيّهُ",
+      "present_3ms_almaany": "يتصرَّف",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "جَعَلَه وَصِيّهُ ، يتصرَّف في أمره وماله وعياله بعد موته، عَهِد إليه.",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'تَوَاصَ'",
+      "status": "ok",
       "word_searched": "تواص",
       "variants_tried": [
         "تواص"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 7
     }
   },
   {
@@ -4359,12 +5602,21 @@
     "occurrences": 4,
     "sample_loc": "2:70:11",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تَشَبَّهَ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "تَشَبَّهَ بغيره: ماثله وجاراه في العمل.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "تشبه",
       "variants_tried": [
         "تشبه"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 11
     }
   },
   {
@@ -4378,12 +5630,23 @@
     "occurrences": 4,
     "sample_loc": "58:8:13",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "نجَّى",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "مُطاوع نجَّى",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'تَنَٰجَيْ'",
+      "status": "ok",
       "word_searched": "تنجي",
       "variants_tried": [
         "تنجي"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -4427,12 +5690,23 @@
     "occurrences": 9,
     "sample_loc": "18:71:1",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "انطلقَ",
+      "present_3ms_almaany": "يَنطلِق",
+      "masdars_almaany": [
+        "انطلاقًا"
+      ],
+      "active_participle_almaany": "مُنطلِق",
+      "passive_participle_almaany": "مُنطَلقٌ",
+      "raw_head": "انطلقَ / انطلقَ في / انطلقَ لـ يَنطلِق ، انطلاقًا ، فهو مُنطلِق ، والمفعول مُنطَلقٌ فيه",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "انطلق",
       "variants_tried": [
         "انطلق"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 11
     }
   },
   {
@@ -4446,13 +5720,8 @@
     "occurrences": 6,
     "sample_loc": "19:92:2",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "ين[بغا",
-      "variants_tried": [
-        "ين[بغى",
-        "ين[بغا"
-      ],
-      "from_cache": true
+      "status": "exception",
+      "error": "empty separator"
     }
   },
   {
@@ -4466,12 +5735,21 @@
     "occurrences": 5,
     "sample_loc": "19:90:5",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "انشقَّ",
+      "present_3ms_almaany": "ينشقّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُنشقّ",
+      "passive_participle_almaany": null,
+      "raw_head": "انشقَّ ينشقّ ، انْشَقِقْ / انْشَقَّ ، انشقاقًا ، فهو مُنشقّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "انشق",
       "variants_tried": [
         "انشق"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -4485,12 +5763,21 @@
     "occurrences": 3,
     "sample_loc": "3:159:12",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "انفضَّ",
+      "present_3ms_almaany": "ينفضّ",
+      "masdars_almaany": [],
+      "active_participle_almaany": "مُنفضّ",
+      "passive_participle_almaany": null,
+      "raw_head": "انفضَّ ينفضّ ، انفَضِضْ / انفَضَّ ، انفضاضًا ، فهو مُنفضّ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "انفض",
       "variants_tried": [
         "انفض"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 17
     }
   },
   {
@@ -4535,12 +5822,23 @@
     "occurrences": 134,
     "sample_loc": "2:102:1",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "اتَّبعَ",
+      "present_3ms_almaany": "يتَّبع",
+      "masdars_almaany": [
+        "اتِّباعًا"
+      ],
+      "active_participle_almaany": "متَّبِع",
+      "passive_participle_almaany": "متَّبَع",
+      "raw_head": "اتَّبعَ / اتَّبعَ في يتَّبع ، اتِّباعًا ، فهو متَّبِع ، والمفعول متَّبَع",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "اتبع",
       "variants_tried": [
         "اتبع"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -4554,12 +5852,23 @@
     "occurrences": 124,
     "sample_loc": "2:51:7",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "اتَّخذَ",
+      "present_3ms_almaany": "يتَّخذ",
+      "masdars_almaany": [
+        "اتِّخاذًا"
+      ],
+      "active_participle_almaany": "مُتَّخِذ",
+      "passive_participle_almaany": "مُتَّخَذ",
+      "raw_head": "اتَّخذَ يتَّخذ ، اتِّخاذًا ، فهو مُتَّخِذ ، والمفعول مُتَّخَذ",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "اتخذ",
       "variants_tried": [
         "اتخذ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -4573,13 +5882,24 @@
     "occurrences": 48,
     "sample_loc": "3:24:15",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "افترا",
+      "past_3ms_almaany": "افترى",
+      "present_3ms_almaany": "يفتري",
+      "masdars_almaany": [
+        "افتراءً"
+      ],
+      "active_participle_almaany": "مُفْترٍ",
+      "passive_participle_almaany": "مُفترًى",
+      "raw_head": "افترى يفتري ، افترِ ، افتراءً ، فهو مُفْترٍ ، والمفعول مُفترًى - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
+      "word_searched": "افترى",
       "variants_tried": [
         "افترى",
         "افترا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -4593,13 +5913,24 @@
     "occurrences": 40,
     "sample_loc": "2:53:7",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "اهتدا",
+      "past_3ms_almaany": "اهتدى",
+      "present_3ms_almaany": "يهتدي",
+      "masdars_almaany": [
+        "اهتداءً"
+      ],
+      "active_participle_almaany": "مُهتدٍ",
+      "passive_participle_almaany": "مُهتدًي",
+      "raw_head": "اهتدى / اهتدى إلى / اهتدى بـ يهتدي ويَهِدِّي ، اهْتَدِ ، اهتداءً ، فهو مُهتدٍ ، والمفعول مُهتدًي - للمتعدِّي",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "اهتدى",
       "variants_tried": [
         "اهتدى",
         "اهتدا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   },
   {
@@ -4613,12 +5944,23 @@
     "occurrences": 35,
     "sample_loc": "2:29:10",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "تساويا",
+      "present_3ms_almaany": "يَفضُل",
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "تساويا ولم يَفضُل أحدُهما الآخرَ",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'ٱسْتَوَىٰٓ'",
+      "status": "ok",
       "word_searched": "استوىٓ",
       "variants_tried": [
         "استوىٓ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 9
     }
   },
   {
@@ -4632,13 +5974,24 @@
     "occurrences": 34,
     "sample_loc": "2:187:26",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "ابتغا",
+      "past_3ms_almaany": "ابتغى",
+      "present_3ms_almaany": "يبتغي",
+      "masdars_almaany": [
+        "ابتِغاءً"
+      ],
+      "active_participle_almaany": "مُبتغٍ",
+      "passive_participle_almaany": "مُبتغًى",
+      "raw_head": "ابتغى يبتغي ، ابتغِ ، ابتِغاءً ، فهو مُبتغٍ ، والمفعول مُبتغًى",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "ابتغى",
       "variants_tried": [
         "ابتغى",
         "ابتغا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -4652,12 +6005,23 @@
     "occurrences": 33,
     "sample_loc": "2:113:31",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "اختلفَ",
+      "present_3ms_almaany": "يختلف",
+      "masdars_almaany": [
+        "اختلافًا"
+      ],
+      "active_participle_almaany": "مختلِف",
+      "passive_participle_almaany": "مُخْتَلَف",
+      "raw_head": "اختلفَ / اختلفَ إلى / اختلفَ على / اختلفَ عن / اختلفَ في يختلف ، اختلافًا ، فهو مختلِف ، والمفعول مُخْتَلَف ( للمتعدِّي )",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "اختلف",
       "variants_tried": [
         "اختلف"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 10
     }
   },
   {
@@ -4671,13 +6035,24 @@
     "occurrences": 21,
     "sample_loc": "2:16:3",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "اشترا",
+      "past_3ms_almaany": "اشترى",
+      "present_3ms_almaany": "يشتري",
+      "masdars_almaany": [
+        "اشتراءً"
+      ],
+      "active_participle_almaany": "مُشترٍ",
+      "passive_participle_almaany": "مُشترًى",
+      "raw_head": "اشترى يشتري ، اشْتَرِ ، اشتراءً ، فهو مُشترٍ ، والمفعول مُشترًى",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "اشترى",
       "variants_tried": [
         "اشترى",
         "اشترا"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 5
     }
   },
   {
@@ -4691,13 +6066,24 @@
     "occurrences": 16,
     "sample_loc": "2:192:2",
     "almaany": {
-      "status": "not_found",
-      "word_searched": "انتها",
+      "past_3ms_almaany": "انتهى",
+      "present_3ms_almaany": "يَنتهي",
+      "masdars_almaany": [
+        "انتِهاءً"
+      ],
+      "active_participle_almaany": "مُنتهٍ",
+      "passive_participle_almaany": "مُنتهًى",
+      "raw_head": "انتهى / انتهى إلى / انتهى بـ / انتهى عن / انتهى من يَنتهي ، انْتَهِ ، انتِهاءً ، فهو مُنتهٍ ، والمفعول مُنتهًى إليه",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
+      "word_searched": "انتهى",
       "variants_tried": [
         "انتهى",
         "انتها"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 6
     }
   },
   {
@@ -4741,12 +6127,23 @@
     "occurrences": 2,
     "sample_loc": "3:106:4",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "سادَ",
+      "present_3ms_almaany": "يَسُود",
+      "masdars_almaany": [],
+      "active_participle_almaany": "سائد",
+      "passive_participle_almaany": "مَسُود",
+      "raw_head": "سادَ / سادَ على / سادَ في يَسُود ، سُدْ ، سيادةً وسُؤدَدًا وسُؤْدُدًا ، فهو سائد وسيِّد ، والمفعول مَسُود (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'ٱسْوَدَّتْ'",
+      "status": "ok",
       "word_searched": "اسودت",
       "variants_tried": [
         "اسودت"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 9
     }
   },
   {
@@ -4788,12 +6185,23 @@
     "occurrences": 40,
     "sample_loc": "2:34:10",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "استكبرَ",
+      "present_3ms_almaany": "يستكبر",
+      "masdars_almaany": [
+        "استكبارًا"
+      ],
+      "active_participle_almaany": "مُسْتكبِر",
+      "passive_participle_almaany": "مُسْتكبَر",
+      "raw_head": "استكبرَ / استكبرَ على / استكبرَ عن يستكبر ، استكبارًا ، فهو مُسْتكبِر ، والمفعول مُسْتكبَر - للمتعدِّي",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "استكبر",
       "variants_tried": [
         "استكبر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 15
     }
   },
   {
@@ -4807,12 +6215,23 @@
     "occurrences": 40,
     "sample_loc": "2:199:7",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "استغفرَ",
+      "present_3ms_almaany": "يستغفر",
+      "masdars_almaany": [
+        "استغفارًا"
+      ],
+      "active_participle_almaany": "مُستغفِر",
+      "passive_participle_almaany": "مُستغفَر",
+      "raw_head": "استغفرَ يستغفر ، استغفارًا ، فهو مُستغفِر ، والمفعول مُستغفَر",
+      "source_dico": "عربي عامة",
+      "status": "ok",
       "word_searched": "استغفر",
       "variants_tried": [
         "استغفر"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 11
     }
   },
   {
@@ -4826,12 +6245,24 @@
     "occurrences": 27,
     "sample_loc": "2:186:12",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "استجابَ",
+      "present_3ms_almaany": "يستجيب",
+      "masdars_almaany": [
+        "اسْتَجِبْ",
+        "استجابةً"
+      ],
+      "active_participle_almaany": "مُستجيب",
+      "passive_participle_almaany": "مُستجابٌ",
+      "raw_head": "استجابَ لـ يستجيب ، اسْتَجِبْ ، استجابةً ، فهو مُستجيب ، والمفعول مُستجابٌ له",
+      "source_dico": "اللغة العربية المعاصر",
+      "status": "ok",
       "word_searched": "استجاب",
       "variants_tried": [
         "استجاب"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 4
     }
   },
   {
@@ -4845,12 +6276,23 @@
     "occurrences": 19,
     "sample_loc": "6:57:12",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "اسْتَعْجَلَ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [
+        "عَجِلَ"
+      ],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "اسْتَعْجَلَ : عَجِلَ . و اسْتَعْجَلَ فلانا: استحثَّهُ.",
+      "source_dico": "المعجم الوسيط",
+      "status": "ok",
       "word_searched": "استعجل",
       "variants_tried": [
         "استعجل"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "المعجم الوسيط",
+      "n_entries_found": 10
     }
   },
   {
@@ -4864,12 +6306,23 @@
     "occurrences": 17,
     "sample_loc": "2:15:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "هزَأ",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "هزَأ به، سخِر به أو منه",
+      "source_dico": "عربي عامة",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'ٱسْتُهْزِئَ'",
+      "status": "ok",
       "word_searched": "استهزئ",
       "variants_tried": [
         "استهزئ"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "عربي عامة",
+      "n_entries_found": 8
     }
   },
   {
@@ -4883,12 +6336,23 @@
     "occurrences": 12,
     "sample_loc": "9:44:2",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "أَذان",
+      "present_3ms_almaany": null,
+      "masdars_almaany": [],
+      "active_participle_almaany": null,
+      "passive_participle_almaany": null,
+      "raw_head": "أَذان",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'ٱسْتَـ#ْذَنَ'",
+      "status": "ok",
       "word_searched": "است#ذن",
       "variants_tried": [
         "است#ذن"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 11
     }
   },
   {
@@ -4902,12 +6366,27 @@
     "occurrences": 10,
     "sample_loc": "9:7:16",
     "almaany": {
-      "status": "not_found",
+      "past_3ms_almaany": "قامَ",
+      "present_3ms_almaany": "يَقُوم",
+      "masdars_almaany": [
+        "قَوْمًا",
+        "قِيامًا",
+        "قامةً"
+      ],
+      "active_participle_almaany": "قائم",
+      "passive_participle_almaany": "مَقوم",
+      "raw_head": "قامَ / قامَ إلى / قامَ بـ / قامَ على / قامَ لـ يَقُوم ، قُمْ ، قَوْمًا وقِيامًا وقامةً ، فهو قائم وقيِّم ، والمفعول مَقوم (للمتعدِّي)",
+      "source_dico": "اللغة العربية المعاصر",
+      "match_quality": "fallback_first_entry",
+      "match_warning": "no skeleton match for expected 'ٱسْتَقَٰمُ'",
+      "status": "ok",
       "word_searched": "استقم",
       "variants_tried": [
         "استقم"
       ],
-      "from_cache": true
+      "from_cache": false,
+      "dico": "اللغة العربية المعاصر",
+      "n_entries_found": 7
     }
   }
 ]

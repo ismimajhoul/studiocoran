@@ -1,6 +1,5 @@
 {
   "_comment": "Overrides post-Qutrub. Surcharge les sorties générées par Qutrub pour des verbes spécifiques quand Qutrub se trompe ou ne couvre pas un cas particulier. Clé: 'root_ar:verb_form:voice' où root_ar utilise des espaces (ex: 'و ق ي'), verb_form est 1-10, voice est 'active'|'passive'. Seuls les champs présents dans l'override écrasent. Le champ 'comment' est documentaire. Les clés commençant par '_' sont ignorées.",
-
   "_overridable_fields": [
     "past_3ms",
     "present_3ms",
@@ -9,33 +8,28 @@
     "active_participle",
     "passive_participle"
   ],
-
   "_examples": {
     "ك ت ب:1:active": {
       "masdar": "كِتَابَة",
       "comment": "Exemple : forcer un masdar particulier"
     }
   },
-
   "و ق ي:8:active": {
     "masdar": "اِتِّقَاء",
     "active_participle": "مُتَّقٍ",
     "passive_participle": "مُتَّقًى",
     "comment": "Form VIII de وقي : assimilation و+ت → تّ partout (Qutrub donne مُوْتَقٍ/مُوْتَقًى/اِوْتِقَاء — incorrect). Source : Almaany."
   },
-
   "ا ت ي:1:active": {
     "masdar": "إِتْيَان",
     "active_participle": "آتٍ",
     "comment": "Form I défectueux أتى : masdar correct = إتيان (notre أَتْي est non-standard) ; participe = آتٍ (fusion ءا → آ, Qutrub donne أَاتٍ)."
   },
-
   "ج ي ا:1:active": {
     "active_participle": "جَاءٍ",
     "passive_participle": "مَجِيء",
     "comment": "Form I de جاء (R2=ي R3=ء) : participes mal formés par Qutrub (جَائِأ/مَجِيأ). Source : Almaany."
   },
-
   "ل ي س:1:active": {
     "past_3ms": "لَيْسَ",
     "present_3ms": null,
@@ -45,43 +39,129 @@
     "passive_participle": null,
     "comment": "Verbe défectif unique (négation existentielle) — pas de conjugaison régulière. Qutrub génère لَاسَ ce qui est faux."
   },
-
   "د ع و:1:active": {
     "masdar": "دُعَاء",
     "comment": "Masdar correct de دَعَا = دُعَاء (notre دَعْو est non-standard, fréquence quranique très haute pour دُعَاء)."
   },
-
   "س م ع:1:active": {
     "masdar": "سَمْع",
     "comment": "Masdar = سَمْع. Notre lexique avait pris أسْمَاع qui est le PLURIEL (oreilles), pas le masdar verbal."
   },
-
   "ع ق ل:1:active": {
     "masdar": "عَقْل",
     "comment": "Masdar = عَقْل. Notre lexique avait pris عُقُول qui est le PLURIEL."
   },
-
   "ح م ل:1:active": {
     "masdar": "حَمْل",
     "comment": "Masdar = حَمْل. Notre lexique avait pris حَمَلات qui est le PLURIEL."
   },
-
   "ح ك م:1:active": {
     "masdar": "حُكْم",
     "comment": "Masdar = حُكْم (jugement). Notre lexique avait pris حِكْمَة qui est un nom dérivé (sagesse), pas le masdar verbal."
   },
-
   "و ل ي:5:active": {
     "active_participle": "مُتَوَلٍّ",
     "passive_participle": "مُتَوَلًّى",
     "comment": "Form V défectif تَوَلَّى : participes défectifs avec tanwin (مُتَوَلٍّ / مُتَوَلًّى). Qutrub donne مُتَوَلِّي / مُتَوَلَّي (forme non-défective, faux)."
   },
-
   "ر ا ي:1:active": {
     "present_3ms": "يَرَى",
     "imperative_2ms": "رَ",
     "masdar": "رُؤْيَة",
     "passive_participle": "مَرْئِيّ",
     "comment": "Verbe رأى (voir) — irrégulier classique : la hamza tombe au présent (يَرَى, pas يَرْئِي) et à l'impératif (رَ, forme très courte). Qutrub conjugue régulièrement la hamza, ce qui est faux pour ce verbe spécifique."
+  },
+  "و ع د:3:active": {
+    "masdar": "وِعَاد",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ن ج و:4:active": {
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2) — champs retirés : ['past_3ms']"
+  },
+  "ح ي ي:10:active": {
+    "masdar": "اسْتِحْيَاء",
+    "passive_participle": "مُسْتَحْيَا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ن ج و:2:active": {
+    "active_participle": "مُنَجٍّ",
+    "passive_participle": "مُنَجًّا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2) — champs retirés : ['masdar']"
+  },
+  "ا ت ي:4:active": {
+    "passive_participle": "مُؤْتًا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2) — champs retirés : ['past_3ms']"
+  },
+  "ش ر ي:8:active": {
+    "passive_participle": "مُشْتَرًا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "و ف ي:4:active": {
+    "masdar": "إِيْفَاء",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2) — champs retirés : ['active_participle', 'passive_participle']"
+  },
+  "ل ق ي:5:active": {
+    "active_participle": "مُتَلَقٍّ",
+    "passive_participle": "مُتَلَقًّا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ب د و:4:active": {
+    "passive_participle": "مُبْدًا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "س و ي:8:active": {
+    "passive_participle": "مُسْتَوًا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ح ي ي:4:active": {
+    "imperative_2ms": "أَحْيِي",
+    "masdar": "إِحْيَاء",
+    "active_participle": "مُحْيٍ",
+    "passive_participle": "مُحْيًا",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ض ل ل:4:active": {
+    "active_participle": "مُضِلّ",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2) — champs retirés : ['passive_participle']"
+  },
+  "ض و ا:4:active": {
+    "masdar": "إِضْوَاء",
+    "active_participle": "مُضِيْء",
+    "passive_participle": "مُضَاء",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ك و د:1:active": {
+    "present_3ms": "يَكَادُ",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "و ق د:10:active": {
+    "masdar": "اسْتِيْقَاد",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ه ز ا:10:active": {
+    "past_3ms": "اِسْتَهْزَءَ",
+    "masdar": "اِسْتِهْزَاء",
+    "active_participle": "مُسْتَهْزِء",
+    "passive_participle": "مُسْتَهْزَء",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "خ د ع:3:active": {
+    "masdar": "خِدَاع",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ز ك و:2:active": {
+    "active_participle": "مُزَكٍّ",
+    "passive_participle": "مُزَكًّى",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "و ح ي:4:active": {
+    "masdar": "إِيْحَاء",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2) — champs retirés : ['passive_participle']"
+  },
+  "ي ق ن:4:active": {
+    "imperative_2ms": "أَوْقِنْ",
+    "active_participle": "مُوْقِن",
+    "passive_participle": "مُوْقَن",
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
   }
 }

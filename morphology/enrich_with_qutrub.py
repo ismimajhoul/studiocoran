@@ -612,6 +612,35 @@ def compute_form4_r2hamza_r3weak(root_letters, voice):
 # ─────────────────────────────────────────────────────────────────────
 # Conjugaison via Qutrub
 # ─────────────────────────────────────────────────────────────────────
+def compute_quadrilateral_form1(root_letters, voice):
+    """Conjugaison Form I quadrilitère (الفعل الرباعي).
+    Pattern actif : فَعْلَلَ — يُفَعْلِلُ — مَصْدَر فَعْلَلَة.
+    Pattern passif : فُعْلِلَ — يُفَعْلَلُ.
+    Ex pour و س و س → وَسْوَسَ — يُوَسْوِسُ — وَسْوَسَة — مُوَسْوِس — مُوَسْوَس.
+    """
+    if len(root_letters) != 4:
+        return None
+    r1, r2, r3, r4 = root_letters
+    if voice == 'active':
+        return {
+            'past_3ms':           f'{r1}َ{r2}ْ{r3}َ{r4}َ',   # وَسْوَسَ
+            'present_3ms':        f'يُ{r1}َ{r2}ْ{r3}ِ{r4}ُ', # يُوَسْوِسُ
+            'imperative_2ms':     f'{r1}َ{r2}ْ{r3}ِ{r4}ْ',   # وَسْوِسْ
+            'masdar':             f'{r1}َ{r2}ْ{r3}َ{r4}َة',  # وَسْوَسَة
+            'active_participle':  f'مُ{r1}َ{r2}ْ{r3}ِ{r4}',  # مُوَسْوِس
+            'passive_participle': f'مُ{r1}َ{r2}ْ{r3}َ{r4}',  # مُوَسْوَس
+        }
+    else:  # passive
+        return {
+            'past_3ms':           f'{r1}ُ{r2}ْ{r3}ِ{r4}َ',   # وُسْوِسَ
+            'present_3ms':        f'يُ{r1}َ{r2}ْ{r3}َ{r4}ُ', # يُوَسْوَسُ
+            'imperative_2ms':     None,
+            'masdar':             f'{r1}َ{r2}ْ{r3}َ{r4}َة',
+            'active_participle':  None,
+            'passive_participle': None,
+        }
+
+
 def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
     """Renvoie un dict des 6 champs canoniques pour ce (root, form, voice)."""
     out = {'past_3ms': None, 'present_3ms': None, 'imperative_2ms': None,
@@ -619,6 +648,13 @@ def conjugate_with_qutrub(root_ar, verb_form, voice, lemma_buck):
            '_error': None}
 
     root_letters = root_ar.split()
+    # ─── Quadrilitère (4 lettres) : Qutrub ne gère pas → handler manuel ───
+    if len(root_letters) == 4:
+        quad = compute_quadrilateral_form1(root_letters, voice)
+        if quad:
+            return {**out, **quad, '_error': None}
+        out['_error'] = 'quadrilitère non géré'
+        return out
     if len(root_letters) < 3:
         out['_error'] = 'racine non-trilitère, ignorée en V1'
         return out

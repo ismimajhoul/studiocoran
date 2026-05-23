@@ -1045,6 +1045,13 @@ function computeWaznPresent(formNum, rootAr, presentForm) {
 function classifyVerb(rootAr) {
   if (!rootAr) return null;
   const L = rootAr.split(/\s+/).filter(Boolean);
+  // ─── Racine quadrilitère (4 lettres) — branche رباعي ────────────────
+  if (L.length === 4) {
+    const [a, b, c, d] = L;
+    // مضعف رباعي : R1=R3 et R2=R4 (وَسْوَسَ, زَلْزَلَ, دَمْدَمَ)
+    if (a === c && b === d) return { branch: 'صحيح', sub: 'مضعف رباعي' };
+    return { branch: 'صحيح', sub: 'رباعي' };
+  }
   if (L.length !== 3) return null;
   const [r1, r2, r3] = L;
   // و, ي = vraies lettres faibles. ا en position racine = encodage de hamza
@@ -1366,6 +1373,21 @@ function bindContextDetection() {
       // morphologique. Le panneau est mis à jour quand la réponse arrive.
       const wp = wordPositionFromIndex(target.verseText, target.index);
       if (wp) {
+        // Ajustement basmala : pour les sourates ≠ 1 et ≠ 9, le verset 1 est
+        // affiché préfixé par "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ" (4 mots),
+        // mais le corpus n'inclut pas cette basmala dans le compte des mots.
+        // → décalage de -4 sur la position quand le verset commence par "بِسْمِ".
+        let corpusWordPos = wp.wordPos;
+        if (target.aya === 1 && target.sura !== 1 && target.sura !== 9) {
+          const trimmed = (target.verseText || '').trim();
+          if (trimmed.startsWith('بِسْمِ') || trimmed.startsWith('بسم')) {
+            corpusWordPos -= 4;
+            if (corpusWordPos < 1) {
+              // Clic dans la basmala elle-même → on n'envoie pas la requête
+              return;
+            }
+          }
+        }
         // Style vert pour différencier visuellement étymologie (vert) du
         // tajwid (rouge). wrapTajweedLetters exige obligatoirement hit.style.
         const etymologyStyle = { color: '#2e7d32', weight: 'bold' };
@@ -1382,8 +1404,8 @@ function bindContextDetection() {
         if (ruleDiv) ruleDiv.textContent = '';
         if (txtDiv)  txtDiv.textContent  = '… recherche de la racine …';
         updateClearAnalysisBtnVisibility();
-        // Lookup asynchrone
-        fetchEtymology(target.sura, target.aya, wp.wordPos)
+        // Lookup asynchrone (avec position ajustée pour la basmala)
+        fetchEtymology(target.sura, target.aya, corpusWordPos)
           .then(showEtymologyAnalysis);
       }
       return;

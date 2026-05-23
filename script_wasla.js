@@ -1144,18 +1144,13 @@ function formatFeaturesAr(features) {
   return parts.join(' · ');
 }
 
-// Construit la phrase TTS : lit la LIGNE 1 EN ENTIER, puis la LIGNE 2 EN ENTIER.
-// Chaque ligne est lue dans l'ordre où elle apparaît visuellement.
-//
-// LIGNE 1 : "جذر [racine]. [trilitère]. [classification]. [wazn Form I]"
-// LIGNE 2 : "الفعل. [wazn coranique]. الماضي [...]. المضارع [...]. الأمر [...].
-//           المصدر [...]. اسم الفاعل [...]. اسم المفعول [...]. [مشتق من X]"
-function buildRootSpeech(rootAr, data, waznPast, waznPres, base, cls,
-                         waznPastF1, waznPresF1, isFormIActive) {
+// Construction du TTS en 2 segments distincts (ligne 1 / ligne 2) pour
+// permettre un highlight visuel synchronisé : chaque segment correspond
+// à un bloc DOM dans le panneau d'analyse.
+
+function buildRootSpeechLine1(rootAr, base, cls, waznPastF1, waznPresF1) {
   const letters = rootAr.split(/\s+/).filter(Boolean);
   const names = letters.map(l => (typeof LETTER_NAMES !== 'undefined' && LETTER_NAMES[l]) || l);
-
-  // ─── LIGNE 1 (lue EN ENTIER) ─────────────────────────────────────────
   let phrase = `جذر ${names.join(' ')}`;
   if (base && base.past_3ms) {
     const tri = [base.past_3ms, base.present_3ms].filter(Boolean).join(' — ');
@@ -1164,13 +1159,13 @@ function buildRootSpeech(rootAr, data, waznPast, waznPres, base, cls,
   if (cls && cls.branch && cls.sub) {
     phrase += `. فعل ${cls.branch} ${cls.sub}`;
   }
-  // Wazn Form I (END de la ligne 1) — TOUJOURS lu, comme à l'écran
   if (waznPastF1) phrase += `. وزن الماضي ${waznPastF1}`;
   if (waznPresF1) phrase += `. وزن المضارع ${waznPresF1}`;
+  return phrase;
+}
 
-  // ─── LIGNE 2 (lue EN ENTIER, après la ligne 1) ───────────────────────
-  phrase += `. الفعل`;
-  // Wazn du verbe coranique (différent de Form I pour les Forms II-X)
+function buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive) {
+  let phrase = `الفعل`;
   if (waznPast) phrase += `. وزن الماضي ${waznPast}`;
   if (waznPres) phrase += `. وزن المضارع ${waznPres}`;
   if (data) {
@@ -1187,11 +1182,25 @@ function buildRootSpeech(rootAr, data, waznPast, waznPres, base, cls,
     if (actP)   phrase += `. اسم الفاعل ${actP}`;
     if (passP)  phrase += `. اسم المفعول ${passP}`;
   }
-  // "مشتق من X" pour les Forms II-X (cohérent avec le visuel)
   if (!isFormIActive && base && base.past_3ms) {
     phrase += `. مشتق من ${base.past_3ms}`;
   }
   return phrase;
+}
+
+// Lit une séquence [{text, el}] : chaque élément DOM reçoit la classe
+// `ety-reading` pendant que son texte associé est en cours de lecture TTS,
+// puis la classe est retirée à la fin du segment.
+async function speakLinesWithHighlight(segments) {
+  for (const seg of segments) {
+    if (!seg.text) continue;
+    if (seg.el) seg.el.classList.add('ety-reading');
+    try {
+      await speakText(seg.text);
+    } finally {
+      if (seg.el) seg.el.classList.remove('ety-reading');
+    }
+  }
 }
 
 function showEtymologyAnalysis(data) {
@@ -1312,17 +1321,30 @@ function showEtymologyAnalysis(data) {
 
   ruleDiv.innerHTML = line1Html + line2Html;
 
-  // analysisText : features morpho arabe + sous-ligne FR plus petite
-  let html = featuresAr || '';
+  // analysisText : features morpho arabe (préfixées par "اعراب:")
+  // + sous-ligne FR plus petite
+  let html = '';
+  if (featuresAr) {
+    html = `<span class="ety-header">اعراب:</span> ${featuresAr}`;
+  }
   if (featuresFr) {
     html += `<span class="ety-fr-line">${featuresFr}</span>`;
   }
   txtDiv.innerHTML = html;
   updateClearAnalysisBtnVisibility();
 
-  // TTS arabe des lettres de la racine (à affiner avec l'aide d'arabophone)
-  speakText(buildRootSpeech(data.root_ar, data, waznPast, waznPres, base, cls,
-                            waznPastF1, waznPresF1, isFormIActive));
+  // TTS : 3 segments avec highlight ligne par ligne
+  // Segment 1 = ligne 1 (جذر), Segment 2 = ligne 2 (الفعل), Segment 3 = اعراب
+  const speech1 = buildRootSpeechLine1(data.root_ar, base, cls, waznPastF1, waznPresF1);
+  const speech2 = buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive);
+  const speech3 = featuresAr ? `اعراب. ${featuresAr}` : '';
+  const line1Div = ruleDiv.querySelector('.ety-line-root');
+  const line2Div = ruleDiv.querySelector('.ety-line-verb');
+  speakLinesWithHighlight([
+    { text: speech1, el: line1Div },
+    { text: speech2, el: line2Div },
+    { text: speech3, el: txtDiv },
+  ]);
 }
 
 /**

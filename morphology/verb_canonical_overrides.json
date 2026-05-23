@@ -107,7 +107,8 @@
   "ل ق ي:5:active": {
     "active_participle": "مُتَلَقٍّ",
     "passive_participle": "مُتَلَقًّا",
-    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+    "comment": "Auto-généré depuis studyquranarabic.com (Phase 2) | Masdar Form V défectif تَلَقَّى = تَلَقٍّ (forme défective classique). Source : reverso + studyquran d'accord.",
+    "masdar": "تَلَقٍّ"
   },
   "ب د و:4:active": {
     "passive_participle": "مُبْدًا",
@@ -167,5 +168,20 @@
     "active_participle": "مُوْقِن",
     "passive_participle": "مُوْقَن",
     "comment": "Auto-généré depuis studyquranarabic.com (Phase 2)"
+  },
+  "ن ب ا:4:active": {
+    "masdar": "إِنْبَاء",
+    "active_participle": "مُنْبِئ",
+    "comment": "Form IV de نبأ : masdar إِنْبَاء (Qutrub donne إِنْبَاأ avec hamza isolée) ; participe actif مُنْبِئ (hamza sur ي). Source : reverso + studyquran."
+  },
+  "ن ب ا:1:active": {
+    "active_participle": "نَابِئ",
+    "passive_participle": "مَنْبُوء",
+    "comment": "Form I de نبأ : participes نَابِئ / مَنْبُوء (Qutrub donne hamza isolée نَابِأ / مَنْبُوأ). Pattern Form I hamza R3."
+  },
+  "ا م ن:1:active": {
+    "masdar": "أَمْن",
+    "active_participle": "آمِن",
+    "comment": "Form I de أَمَنَ (être en sécurité) : masdar = أَمْن (et non إيمَان qui est le masdar Form IV) ; participe actif = آمِن (fusion ءا → آ). Source : reverso. Bug de confusion Form I/IV avant."
   }
 }

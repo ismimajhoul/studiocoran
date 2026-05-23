@@ -451,5 +451,105 @@
   "و س ع:1:active": {
     "present_3ms": "يَسَعُ",
     "comment": "Form I mithal وَسِعَ (être large, étendre) : pres يَسَعُ. Source : cooljugator."
+  },
+  "ك ف ر:1:active": {
+    "masdar": "كُفْر",
+    "comment": "verbe كَفَرَ (mécroire) : masdar verbal كُفْر (cf. سورة الكافرون). Notre كُفْرَان aussi valide mais moins courant."
+  },
+  "ن ص ر:1:active": {
+    "masdar": "نَصْر",
+    "comment": "verbe نَصَرَ (secourir) : masdar نَصْر (cf. سورة النصر)."
+  },
+  "ش ع ر:1:active": {
+    "masdar": "شُعُور",
+    "comment": "verbe شَعَرَ (sentir/percevoir) : masdar verbal شُعُور. Notre شَعَر signifie \"cheveux\" — pas un masdar."
+  },
+  "ر ف ع:1:active": {
+    "masdar": "رَفْع",
+    "comment": "verbe رَفَعَ (élever) : masdar رَفْع. Notre رِفْعَة = \"élévation\" comme nom abstrait."
+  },
+  "ع د ل:1:active": {
+    "masdar": "عَدْل",
+    "comment": "verbe عَدَلَ (être juste) : masdar verbal عَدْل (cf. 5:8 وَلَا يَجْرِمَنَّكُمْ ; nom verbal). Notre عَدَالَة = abstraction de la justice."
+  },
+  "ظ ه ر:1:active": {
+    "masdar": "ظُهُور",
+    "comment": "verbe ظَهَرَ (apparaître) : masdar verbal ظُهُور. Notre ظَهْر signifie \"dos\"."
+  },
+  "ف ط ر:1:active": {
+    "masdar": "فَطْر",
+    "comment": "verbe فَطَرَ (créer) : masdar verbal فَطْر (cf. سورة فاطر). Notre فَطُور = \"petit-déjeuner\"."
+  },
+  "ن ز ع:1:active": {
+    "masdar": "نَزْع",
+    "comment": "verbe نَزَعَ (arracher) : masdar verbal نَزْع. Notre نِزَاع = \"dispute\" (Form III مُنَازَعَة forme)."
+  },
+  "ر ك ب:1:active": {
+    "masdar": "رُكُوب",
+    "comment": "verbe رَكَبَ (monter sur) : masdar رُكُوب. Notre رَكْب signifie \"caravane/cavalcade\"."
+  },
+  "ط ب ع:1:active": {
+    "masdar": "طَبْع",
+    "comment": "verbe طَبَعَ (marquer du sceau) : masdar طَبْع. Notre طِبَاعَة = \"imprimerie\" (concept moderne)."
+  },
+  "ن ف خ:1:active": {
+    "masdar": "نَفْخ",
+    "comment": "verbe نَفَخَ (souffler) : masdar verbal نَفْخ. Notre نَفْخَة = \"un souffle\" (nom unitaire)."
+  },
+  "ش ر ح:1:active": {
+    "masdar": "شَرْح",
+    "comment": "verbe شَرَحَ (expliquer) : masdar verbal شَرْح. Notre شُرُوح est le PLURIEL."
+  },
+  "س ر ق:1:active": {
+    "masdar": "سَرْق",
+    "comment": "verbe سَرَقَ (voler) : masdar verbal سَرْق. Notre سَرِقَة = nom du vol."
+  },
+  "ع م ر:1:active": {
+    "masdar": "عَمْر",
+    "comment": "verbe عَمَرَ (vivre longtemps) : masdar عَمْر. Notre عِمَارَة = \"construction\"."
+  },
+  "ر ب ط:1:active": {
+    "masdar": "رَبْط",
+    "comment": "verbe رَبَطَ (lier) : masdar verbal رَبْط. Notre رَبَاطَة = nom abstrait."
+  },
+  "ن ذ ر:1:active": {
+    "masdar": "نَذْر",
+    "comment": "verbe نَذَرَ (faire vœu/avertir) : masdar نَذْر (cf. 76:7 يُوفُونَ بِالنَّذْرِ)."
+  },
+  "ز ر ع:1:active": {
+    "masdar": "زَرْع",
+    "comment": "verbe زَرَعَ (semer) : masdar verbal زَرْع (cf. 26:148 وَزُرُوعٍ)."
+  },
+  "ر ه ب:1:active": {
+    "masdar": "رَهَب",
+    "comment": "verbe رَهَبَ (avoir peur de) : masdar رَهَب. Notre رُهْبَان = pluriel de راهب (moine)."
+  },
+  "ق ب ل:1:active": {
+    "masdar": "قَبُول",
+    "comment": "verbe قَبِلَ (accepter) : masdar قَبُول (cf. 3:37 فَتَقَبَّلَهَا)."
+  },
+  "س ب ح:1:active": {
+    "masdar": "سَبْح",
+    "comment": "verbe سَبَحَ (nager/louer) : masdar verbal سَبْح. Notre سِبَاحَة = \"nage\" comme activité."
+  },
+  "ف ق د:1:active": {
+    "masdar": "فَقْد",
+    "comment": "verbe فَقَدَ (perdre) : masdar verbal فَقْد. Notre فُقْدَان aussi valide."
+  },
+  "ل ح ق:1:active": {
+    "masdar": "لَحْق",
+    "comment": "verbe لَحِقَ (atteindre) : masdar verbal لَحْق."
+  },
+  "س ك ت:1:active": {
+    "masdar": "سَكْت",
+    "comment": "verbe سَكَتَ (se taire) : masdar verbal سَكْت."
+  },
+  "ض ر ع:1:active": {
+    "masdar": "ضَرَاعَة",
+    "comment": "verbe ضَرَعَ (s'humilier en supplication) : masdar ضَرَاعَة. Notre ضَرْع = \"mamelle\"."
+  },
+  "ع ب ر:1:active": {
+    "masdar": "عَبْر",
+    "comment": "verbe عَبَرَ (traverser/interpréter) : masdar verbal عَبْر. Notre عِبَارَة = \"expression\"."
   }
 }

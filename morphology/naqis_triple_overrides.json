@@ -1,0 +1,70 @@
+{
+  "ا ب ي:1:active": {
+    "masdar": "إِبَاء",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ا س و:1:active": {
+    "imperative_2ms": "اُوسُ",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ب د و:1:active": {
+    "present_3ms": "يَبْدَأُ",
+    "imperative_2ms": "اِبْدَأْ",
+    "active_participle": "بَادِئ",
+    "passive_participle": "مَبْدُوء",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ت ل و:1:active": {
+    "masdar": "تُلُوّ",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ج ز ي:1:active": {
+    "masdar": "جَزَاء",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "د ر ي:1:active": {
+    "masdar": "دِرَايَة",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ذ ر و:1:active": {
+    "present_3ms": "يَذْرَأُ",
+    "imperative_2ms": "اِذْرَأْ",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ر ج و:1:active": {
+    "masdar": "رَجَاء",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ر ع ي:1:active": {
+    "present_3ms": "يَرْعَى",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ر ق ي:1:active": {
+    "present_3ms": "يَرْقِي",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ش ر ي:1:active": {
+    "masdar": "شِرًى",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ش ف ي:1:active": {
+    "masdar": "شِفَاء",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ع ل و:1:active": {
+    "masdar": "عُلُوّ",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "ك ف ي:1:active": {
+    "masdar": "كِفَايَة",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "م ض ي:1:active": {
+    "masdar": "مُضِيّ",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  },
+  "و ف ي:1:active": {
+    "masdar": "وَفَاء",
+    "comment": "Triple-validated ناقص (≥2 sources)"
+  }
+}

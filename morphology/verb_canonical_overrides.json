@@ -271,5 +271,53 @@
     "active_participle": "آوٍ",
     "passive_participle": "مَأْوِيّ",
     "comment": "Form I lafif أَوَى (se réfugier, racine ا و ي R1=و R3=ي) : présent يَأْوِي (notre يَأْوُيُ broken), participe actif آوٍ, passif مَأْوِيّ. Sources : reverso + cooljugator d'accord."
+  },
+  "ج ز ي:1:active": {
+    "masdar": "جَزَاء",
+    "comment": "Form I défectueux جَزَى (récompenser) : masdar جَزَاء (Coran fréquent). Triple-validated."
+  },
+  "ت ل و:1:active": {
+    "masdar": "تُلُوّ",
+    "comment": "Form I défectueux تَلَا (réciter) : masdar تُلُوّ. Triple-validated."
+  },
+  "ك ف ي:1:active": {
+    "masdar": "كِفَايَة",
+    "comment": "Form I défectueux كَفَى (suffire) : masdar كِفَايَة. Triple-validated."
+  },
+  "ر ج و:1:active": {
+    "masdar": "رَجَاء",
+    "comment": "Form I défectueux رَجَا (espérer) : masdar رَجَاء. Triple-validated."
+  },
+  "ع ل و:1:active": {
+    "masdar": "عُلُوّ",
+    "comment": "Form I défectueux عَلَا (être élevé) : masdar عُلُوّ (cf. سورة الإسراء 4 عُلُوًّا). Triple-validated."
+  },
+  "ا ب ي:1:active": {
+    "masdar": "إِبَاء",
+    "comment": "Form I défectueux+hamza R1 أَبَى (refuser) : masdar إِبَاء. Triple-validated."
+  },
+  "د ر ي:1:active": {
+    "masdar": "دِرَايَة",
+    "comment": "Form I défectueux دَرَى (savoir) : masdar دِرَايَة. Triple-validated."
+  },
+  "ش ر ي:1:active": {
+    "masdar": "شِرًى",
+    "comment": "Form I défectueux شَرَى (vendre/acheter) : masdar شِرًى (forme défective). Triple-validated."
+  },
+  "م ض ي:1:active": {
+    "masdar": "مُضِيّ",
+    "comment": "Form I défectueux مَضَى (passer, s'écouler) : masdar مُضِيّ. Triple-validated."
+  },
+  "ش ف ي:1:active": {
+    "masdar": "شِفَاء",
+    "comment": "Form I défectueux شَفَى (guérir) : masdar شِفَاء (cf. سورة الإسراء 82). Triple-validated."
+  },
+  "و ف ي:1:active": {
+    "masdar": "وَفَاء",
+    "comment": "Form I défectueux وَفَى (être fidèle) : masdar وَفَاء. Triple-validated."
+  },
+  "ر ع ي:1:active": {
+    "present_3ms": "يَرْعَى",
+    "comment": "Form I défectueux رَعَى (paître) : présent يَرْعَى (notre يَرْعِي serait pour \"enchanter\" verbe homographe). Triple-validated."
   }
 }

@@ -57,6 +57,10 @@ async function loadPageWithButton(ruleId, useOptionA = true) {
   const pageNumber = Number(document.getElementById('pageNumberInput').value);
   if (!pageNumber) { alert('Veuillez entrer un numéro de page'); return; }
 
+  // Reset du contexte chat : le mot précédent n'est plus dans la nouvelle page
+  window._chatContext = null;
+  if (typeof updateChatContextLabel === 'function') updateChatContextLabel();
+
   const ruleDetails = buttonRuleFunctions[ruleId];
   if (!ruleDetails) { console.error(`Pas de règle pour ${ruleId}`); return; }
 
@@ -1001,19 +1005,30 @@ function computeWaznPresent(formNum, rootAr, presentForm) {
 
   if (formNum === 1) {
     if (r2 === r3)          return 'يَفُلُّ';                      // géminé
-    if (r2_weak && r3_weak) return r3 === 'ي' ? 'يَفْعِي' : 'يَفْعُو'; // Lafif
-    // Sain, creux, défectueux : détection commune de la voyelle opérative
-    // depuis la forme surface. On retourne TOUJOURS le wazn abstrait
-    // (يَفْعُلُ/يَفْعِلُ/يَفْعَلُ avec ل visible), pas une variante surface.
+    if (r2_weak && r3_weak) return r3 === 'ي' ? 'يَفْعِي' : 'يَفْعُو'; // Lafif مقرون
+    // Sain, creux, défectueux, مثال, لفيف مفروق : détection commune de la
+    // voyelle opérative depuis la forme surface. On retourne TOUJOURS le
+    // wazn abstrait (يَفْعُلُ/يَفْعِلُ/يَفْعَلُ avec ل visible).
     if (presentForm) {
       // R1 peut apparaître sous variantes hamza (ا/أ/إ/آ) dans la forme
       // surface alors que la racine du corpus a la version "abstraite"
       // (souvent ا). On normalise pour la recherche.
       const hamzas = new Set(['ا', 'أ', 'إ', 'آ']);
       const sameLetter = (a, b) => a === b || (hamzas.has(a) && hamzas.has(b));
+      const r1_weak = r1 === 'و' || r1 === 'ي';
+      // Essai 1 : ancrer sur R1 (cas usuels où R1 est visible au présent).
       let idx = -1;
       for (let i = 1; i < presentForm.length; i++) {
         if (sameLetter(presentForm[i], r1)) { idx = i; break; }
+      }
+      // Essai 2 : si R1 introuvable ET R1 faible (chute typique des مثال
+      // و ج د → ي ج د, et des لفيف مفروق و ح ي → ي ح ي), on bascule sur R2.
+      // La 1ère voyelle trouvée après R2 est alors directement la voyelle
+      // opérative cherchée (يَفْعِلُ pour يَحِي, يَفْعِلُ pour يَجِدُ, etc.).
+      if (idx < 0 && r1_weak) {
+        for (let i = 1; i < presentForm.length; i++) {
+          if (sameLetter(presentForm[i], r2)) { idx = i; break; }
+        }
       }
       if (idx >= 0) {
         for (let i = idx + 1; i < presentForm.length; i++) {
@@ -1268,6 +1283,14 @@ function showEtymologyAnalysis(data) {
   const txtDiv  = document.getElementById('analysisText');
   if (!ruleDiv || !txtDiv) return;
 
+  // Stash morpho pour le chat (utilisé comme contexte fiable par Claude)
+  if (data && !data.error && !data.notVerb) {
+    window._chatContext = window._chatContext || {};
+    window._chatContext.morpho = data;
+    if (data.word_ar) window._chatContext.word = data.word_ar;
+    if (typeof updateChatContextLabel === 'function') updateChatContextLabel();
+  }
+
   if (!data || data.error || data.notVerb) {
     ruleDiv.textContent = '';
     txtDiv.textContent  = data && data.notVerb
@@ -1501,6 +1524,18 @@ function bindContextDetection() {
         if (ruleDiv) ruleDiv.textContent = '';
         if (txtDiv)  txtDiv.textContent  = '… recherche de la racine …';
         updateClearAnalysisBtnVisibility();
+        // Stash contexte (sourate/verset/mot) pour le chat. Le mot exact est
+        // extrait depuis verseText via wordPos. Morpho sera rempli au retour.
+        const wordText = (target.verseText || '')
+          .split(/\s+/).filter(Boolean)[wp.wordPos - 1] || '';
+        window._chatContext = {
+          sourate_num:  target.sura,
+          verset_num:   target.aya,
+          verset_text:  target.verseText || '',
+          word:         wordText,
+          morpho:       null,
+        };
+        if (typeof updateChatContextLabel === 'function') updateChatContextLabel();
         // Lookup asynchrone (avec position ajustée pour la basmala)
         fetchEtymology(target.sura, target.aya, corpusWordPos)
           .then(showEtymologyAnalysis);
@@ -3672,6 +3707,9 @@ function getPageVerses(pageNumber) {
 }
 
 function loadPage() {
+  // Reset du contexte chat : le mot précédent n'est plus dans la nouvelle page
+  window._chatContext = null;
+  if (typeof updateChatContextLabel === 'function') updateChatContextLabel();
   const pageNumberInput = document.getElementById('pageNumberInput');
   const pageNumber = pageNumberInput.value;
   const quranContent = document.getElementById('quranContent');
@@ -3996,3 +4034,250 @@ document.querySelectorAll('#buttonGrid button').forEach(btn => {
     }
   });
 });
+
+// ─── CHAT LINGUISTIQUE ─────────────────────────────────────────────────────
+// Panneau latéral qui appelle chat.php (proxy Claude API) avec le contexte
+// du verset/mot courant. Historique conservé en mémoire (perdu au reload).
+
+const _chatState = {
+  history: [],      // [{role, content}, ...] — tours réels (sans le contexte injecté)
+  busy:    false,
+};
+
+function _hasValidChatContext() {
+  const ctx = window._chatContext;
+  return !!(ctx && ctx.sourate_num && ctx.verset_num && ctx.word);
+}
+
+function _hasValidChatContext() {
+  const ctx = window._chatContext;
+  return !!(ctx && ctx.sourate_num && ctx.verset_num && ctx.word);
+}
+
+function _updateChatEnabledState() {
+  const ok = _hasValidChatContext();
+  const sendBtn = document.getElementById('chatSendBtn');
+  const input   = document.getElementById('chatInput');
+  if (sendBtn) sendBtn.disabled = !ok || _chatState.busy;
+  if (input) {
+    input.placeholder = ok
+      ? 'Pose ta question linguistique…'
+      : 'Clique d\'abord sur un mot du Coran…';
+  }
+}
+
+function updateChatContextLabel() {
+  const lbl = document.getElementById('chatContextLabel');
+  if (lbl) {
+    const ctx = window._chatContext;
+    if (!ctx || !ctx.sourate_num || !ctx.word) {
+      lbl.textContent = 'Clique sur un mot du Coran pour le sélectionner';
+    } else {
+      lbl.textContent = `Sourate ${ctx.sourate_num} · v.${ctx.verset_num} · « ${ctx.word} »`;
+    }
+  }
+  _updateChatEnabledState();
+}
+
+// ─── Sélection au clic dans le Coran quand le chat est ouvert ─────────────
+// Capture sourate/verset/mot depuis n'importe quel clic gauche dans une
+// .verse, indépendamment du mode (Détection/Étymologie). Si le mot est un
+// verbe connu, on enrichit le contexte avec les données morpho en arrière-
+// plan pour que Claude s'appuie dessus.
+function _chatPickClickHandler(e) {
+  if (e.button !== 0) return;
+  const verseDiv = e.target.closest('.verse');
+  if (!verseDiv) return;
+  if (typeof pickCharacterAt !== 'function' || typeof wordPositionFromIndex !== 'function') return;
+  const target = pickCharacterAt(e.clientX, e.clientY);
+  if (!target || !target.verseText) return;
+  const wp = wordPositionFromIndex(target.verseText, target.index);
+  if (!wp) return;
+
+  // Ajustement basmala (idem flow étymologie)
+  let corpusWordPos = wp.wordPos;
+  if (target.aya === 1 && target.sura !== 1 && target.sura !== 9) {
+    const trimmed = (target.verseText || '').trim();
+    if (trimmed.startsWith('بِسْمِ') || trimmed.startsWith('بسم')) {
+      corpusWordPos -= 4;
+      if (corpusWordPos < 1) return;
+    }
+  }
+
+  const words = (target.verseText || '').split(/\s+/).filter(Boolean);
+  const wordText = words[wp.wordPos - 1] || '';
+
+  window._chatContext = {
+    sourate_num:  target.sura,
+    verset_num:   target.aya,
+    verset_text:  target.verseText || '',
+    word:         wordText,
+    morpho:       null,
+  };
+  updateChatContextLabel();
+
+  // Enrichissement best-effort : si le mot est un verbe connu, on récupère
+  // les données morpho pour les passer à Claude. Échec silencieux sinon.
+  if (typeof fetchEtymology === 'function') {
+    fetchEtymology(target.sura, target.aya, corpusWordPos)
+      .then(data => {
+        if (data && !data.error && !data.notVerb && window._chatContext
+            && window._chatContext.word === wordText) {
+          window._chatContext.morpho = data;
+        }
+      })
+      .catch(() => {});
+  }
+}
+
+let _chatPickInstalled = false;
+function _installChatPickMode() {
+  if (_chatPickInstalled) return;
+  const content = document.getElementById('quranContent');
+  if (!content) return;
+  content.addEventListener('click', _chatPickClickHandler);
+  content.classList.add('chat-pick-active');
+  _chatPickInstalled = true;
+}
+function _uninstallChatPickMode() {
+  if (!_chatPickInstalled) return;
+  const content = document.getElementById('quranContent');
+  if (!content) return;
+  content.removeEventListener('click', _chatPickClickHandler);
+  content.classList.remove('chat-pick-active');
+  _chatPickInstalled = false;
+}
+
+// Rendu markdown minimal (escape HTML d'abord, puis bold/italic/inline-code).
+// Les retours à la ligne sont gérés par CSS `white-space: pre-wrap`.
+function _renderMarkdown(text) {
+  const escaped = String(text)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  return escaped
+    .replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(?<![*\w])\*([^*\n]+)\*(?!\*)/g, '<em>$1</em>')
+    .replace(/`([^`\n]+)`/g, '<code>$1</code>');
+}
+
+function _appendChatMsg(role, content, cls) {
+  const hist = document.getElementById('chatHistory');
+  if (!hist) return null;
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + (cls || role);
+  // Pour les messages utilisateur (qu'ils ont tapé) et les erreurs : texte brut.
+  // Pour les réponses de l'assistant : rendu markdown minimal (bold/italic/code).
+  if ((cls || role) === 'assistant') {
+    div.innerHTML = _renderMarkdown(content);
+  } else {
+    div.textContent = content;
+  }
+  hist.appendChild(div);
+  hist.scrollTop = hist.scrollHeight;
+  return div;
+}
+
+async function _sendChatMessage(question) {
+  if (_chatState.busy || !question.trim()) return;
+  if (!_hasValidChatContext()) {
+    _appendChatMsg('error',
+      'Clique d\'abord sur un mot du Coran pour le sélectionner. ' +
+      'Le chat répondra ensuite aux questions sur ce mot.',
+      'error');
+    return;
+  }
+  _chatState.busy = true;
+  _updateChatEnabledState();
+
+  _appendChatMsg('user', question);
+  const loadingDiv = _appendChatMsg('assistant', '…réflexion en cours…', 'loading');
+
+  // Construit le payload (contexte courant + historique réel)
+  const ctx = window._chatContext || {};
+  const payload = {
+    question,
+    history: _chatState.history.slice(-10), // garde max 10 derniers tours
+    context: {
+      sourate_num:  ctx.sourate_num  || null,
+      sourate_name: ctx.sourate_name || null,
+      verset_num:   ctx.verset_num   || null,
+      verset_text:  ctx.verset_text  || null,
+      verset_fr:    ctx.verset_fr    || null,
+      word:         ctx.word         || null,
+      morpho:       ctx.morpho       || null,
+    },
+  };
+
+  try {
+    const resp = await fetch('chat.php', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(payload),
+    });
+    const data = await resp.json();
+    if (loadingDiv && loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
+    if (!resp.ok || data.error) {
+      _appendChatMsg('error', 'Erreur : ' + (data.error || `HTTP ${resp.status}`), 'error');
+    } else {
+      const reply = data.reply || '(réponse vide)';
+      _appendChatMsg('assistant', reply);
+      _chatState.history.push({ role: 'user',      content: question });
+      _chatState.history.push({ role: 'assistant', content: reply    });
+    }
+  } catch (err) {
+    if (loadingDiv && loadingDiv.parentNode) loadingDiv.parentNode.removeChild(loadingDiv);
+    _appendChatMsg('error', 'Erreur réseau : ' + err.message, 'error');
+  } finally {
+    _chatState.busy = false;
+    _updateChatEnabledState();
+    const input = document.getElementById('chatInput');
+    if (input) input.focus();
+  }
+}
+
+function initChatPanel() {
+  const toggleBtn = document.getElementById('chatToggleBtn');
+  const panel     = document.getElementById('chatPanel');
+  const closeBtn  = document.getElementById('chatCloseBtn');
+  const resetBtn  = document.getElementById('chatResetBtn');
+  const input     = document.getElementById('chatInput');
+  const sendBtn   = document.getElementById('chatSendBtn');
+  if (!toggleBtn || !panel) return;
+
+  const open  = () => { panel.classList.add('open');  toggleBtn.classList.add('open');
+                        toggleBtn.textContent = '✕'; updateChatContextLabel();
+                        _installChatPickMode();
+                        setTimeout(() => input && input.focus(), 50); };
+  const close = () => { panel.classList.remove('open'); toggleBtn.classList.remove('open');
+                        toggleBtn.textContent = '💬';
+                        _uninstallChatPickMode(); };
+
+  toggleBtn.addEventListener('click', () => {
+    if (panel.classList.contains('open')) close(); else open();
+  });
+  if (closeBtn) closeBtn.addEventListener('click', close);
+
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    _chatState.history = [];
+    const hist = document.getElementById('chatHistory');
+    if (hist) hist.innerHTML = '';
+  });
+
+  const send = () => {
+    const q = (input.value || '').trim();
+    if (!q) return;
+    input.value = '';
+    _sendChatMessage(q);
+  };
+  if (sendBtn) sendBtn.addEventListener('click', send);
+  if (input) {
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    });
+  }
+
+  updateChatContextLabel();
+}
+
+document.addEventListener('DOMContentLoaded', initChatPanel);

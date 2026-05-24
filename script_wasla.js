@@ -1271,6 +1271,15 @@ function buildRootSpeechLine1(rootAr, base, cls, waznPastF1, waznPresF1) {
   return phrase;
 }
 
+// Pour les champs qui peuvent contenir plusieurs variantes séparées par "/"
+// (masdar, participes), on ne lit que la 1re au TTS — sinon Google prononcerait
+// le slash. L'affichage visuel montre toutes les variantes.
+const _firstVariant = (s) => {
+  if (!s) return s;
+  if (!s.includes('/')) return s;
+  return s.split(/\s*\/\s*/)[0].trim();
+};
+
 function buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive, isPassive) {
   let phrase = isPassive ? `الفعل المبني للمجهول` : `الفعل`;
   if (waznPast) phrase += `. وزن الماضي ${waznPast}`;
@@ -1279,13 +1288,13 @@ function buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive, isP
     const past   = data.past_3ms       || data.lemma_ar || null;
     const pres   = data.present_3ms    || null;
     const impv   = data.imperative_2ms || null;
-    const masdar = data.masdar         || null;
+    const masdar = _firstVariant(data.masdar) || null;
     if (past)   phrase += `. الماضي ${past}`;
     if (pres)   phrase += `. المضارع ${pres}`;
     if (impv)   phrase += `. الأمر ${impv}`;
     if (masdar) phrase += `. المصدر ${masdar}`;
-    const actP  = data.active_participle  || null;
-    const passP = data.passive_participle || null;
+    const actP  = _firstVariant(data.active_participle)  || null;
+    const passP = _firstVariant(data.passive_participle) || null;
     if (actP)   phrase += `. اسم الفاعل ${actP}`;
     if (passP)  phrase += `. اسم المفعول ${passP}`;
   }
@@ -1408,8 +1417,15 @@ function showEtymologyAnalysis(data) {
   // Masdar et participes : convention dictionnaire — tanwin damma ٌ pour
   // marquer l'indéfini nominatif. Mais on N'ajoute PAS de tanwin si la
   // forme est défectueuse (déjà se termine en ٍ/ً/ى).
+  // Ajoute le tanwin damma (convention dictionnaire). Si la chaîne contient
+  // plusieurs alternatives séparées par "/", traite chaque variante séparément.
+  // Ex: "وِقَايَة / وَقْي" → "وِقَايَةٌ / وَقْيٌ"
   const withTanwin = (s) => {
     if (!s) return null;
+    if (/\s*\/\s*/.test(s) && s.includes('/')) {
+      return s.split(/\s*\/\s*/).filter(Boolean)
+              .map(p => withTanwin(p)).join(' / ');
+    }
     if (/[ًٌٍ]$/.test(s)) return s;
     if (s.endsWith('ى')) return s;
     return s + 'ٌ';

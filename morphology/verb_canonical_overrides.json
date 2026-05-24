@@ -20,6 +20,18 @@
     "passive_participle": "مُتَّقًى",
     "comment": "Form VIII de وقي : assimilation و+ت → تّ partout (Qutrub donne مُوْتَقٍ/مُوْتَقًى/اِوْتِقَاء — incorrect). Source : Almaany."
   },
+  "و ق ي:1:active": {
+    "masdar": "وِقَايَة / وَقْي",
+    "comment": "Form I وَقَى — Qutrub donnait seulement وَقْي (forme minimale rare). La forme standard et la plus courante est وِقَايَة (Almaany, reverso). Format multi-variantes 'A / B' supporté : tanwin appliqué à chaque, TTS lit la 1re."
+  },
+  "س ا ل:1:active": {
+    "masdar": "سُؤَال / مَسْأَلَة",
+    "comment": "Form I سَأَلَ — Qutrub n'a pas généré de masdar (NULL). Ajout des 2 formes standard : سُؤَال (le plus courant) et مَسْأَلَة. Sources : Almaany, reverso."
+  },
+  "و ل ي:1:active": {
+    "masdar": "وِلَايَة / وَلْي",
+    "comment": "Form I وَلَى — Qutrub donnait seulement وَلْي. Ajout de وِلَايَة (autorité, tutelle) qui apparaît directement dans le Coran (8:72 وَلَايَتِهِم, 18:44 الْوَلَايَةُ). Sources : Almaany, reverso."
+  },
   "ا ت ي:1:active": {
     "masdar": "إِتْيَان",
     "active_participle": "آتٍ",

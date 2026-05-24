@@ -11,5 +11,30 @@
     "imperative_2ms": "طُعْ",
     "passive_participle": "مَطُوع",
     "comment": "يُطَاعُ — idem 4:64:6"
+  },
+
+  "_comment_dual_imperatives": "15 impératifs duels (2D) où le corpus n'a tagué que 'IMPV' sans le 2D. Vérifiés un par un : tous adressent 2 personnes (Adam+Eve, Moïse+Aaron, etc.).",
+
+  "2:125:17":  { "features": "IMPV|2D", "comment": "طَهِّرَا — Abraham+Ismaël : 'purifiez (vous deux) ma Maison'" },
+  "5:24:13":   { "features": "IMPV|2D", "comment": "قَاتِلَا — 'va toi et ton Seigneur et combattez (vous deux)'" },
+  "7:19:6":    { "features": "IMPV|2D", "comment": "كُلَا — Adam+Eve : 'mangez (vous deux) du jardin'" },
+  "10:87:6":   { "features": "IMPV|2D", "comment": "تَبَوَّآ — Moïse+Aaron : 'établissez (vous deux) pour votre peuple'" },
+  "10:89:5":   { "features": "IMPV|2D", "comment": "اِسْتَقِيمَا — Moïse+Aaron : 'restez (vous deux) droits'" },
+  "20:43:1":   { "features": "IMPV|2D", "comment": "اِذْهَبَا — Moïse+Aaron : 'allez (vous deux) vers Pharaon'" },
+  "20:47:1":   { "features": "IMPV|2D", "comment": "اِئْتِيَا — Moïse+Aaron : 'venez (vous deux) à lui'" },
+  "20:123:2":  { "features": "IMPV|2D", "comment": "اِهْبِطَا — Adam+Eve : 'descendez (vous deux) du jardin'" },
+  "25:36:2":   { "features": "IMPV|2D", "comment": "اِذْهَبَا — Moïse+Aaron" },
+  "26:15:3":   { "features": "IMPV|2D", "comment": "اِذْهَبَا — Moïse+Aaron" },
+  "26:16:1":   { "features": "IMPV|2D", "comment": "اِئْتِيَا — Moïse+Aaron" },
+  "41:11:10":  { "features": "IMPV|2D", "comment": "اِئْتِيَا — ciel+terre : 'venez (vous deux) de gré ou de force'" },
+  "50:24:1":   { "features": "IMPV|2D", "comment": "أَلْقِيَا — 'jetez (vous deux) en enfer tout mécréant rebelle'" },
+  "50:26:7":   { "features": "IMPV|2D", "comment": "أَلْقِيَا — idem 50:24" },
+  "66:10:24":  { "features": "IMPV|2D", "comment": "اُدْخُلَا — 'entrez (vous deux) au feu avec ceux qui y entrent'" },
+
+  "_comment_mistagged": "Cas mal tagués par le corpus (à corriger).",
+
+  "2:186:11": {
+    "features": "PERF|3MS",
+    "comment": "دَعَانِ ('quand il m'appelle') — past 3MS + pronom 1S, pas un impératif. Le corpus avait IMPV sans personne, qui était une erreur."
   }
 }

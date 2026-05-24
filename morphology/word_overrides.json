@@ -1,0 +1,15 @@
+{
+  "_comment": "Overrides au niveau du mot quranique (sura:aya:word_position). Surcharge les champs renvoyés par morphology.php avant calcul du form1_base. Sert pour les cas où le tag du Quranic Corpus est défendable mais nous préférons une autre lecture (ambiguïté morphologique réelle), ou pour ajouter des compléments pédagogiques (ex: impératif manquant sur un verbe passif). Les champs présents écrasent, les autres sont laissés tels quels. Le champ 'comment' est documentaire et n'est pas appliqué.",
+
+  "4:64:6": {
+    "imperative_2ms": "طُعْ",
+    "passive_participle": "مَطُوع",
+    "comment": "لِيُطَاعَ — Form I passive (tag du Quranic Corpus conservé, le verbe se conjugue comme قال). Ajout pédagogique de l'impératif طُعْ et du participe مَطُوع — tirés de la forme active puisque le passif n'a pas d'impératif en arabe classique."
+  },
+
+  "40:18:15": {
+    "imperative_2ms": "طُعْ",
+    "passive_participle": "مَطُوع",
+    "comment": "يُطَاعُ — idem 4:64:6"
+  }
+}

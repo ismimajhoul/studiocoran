@@ -25,6 +25,19 @@
     "active_participle": "آتٍ",
     "comment": "Form I défectueux أتى : masdar correct = إتيان (notre أَتْي est non-standard) ; participe = آتٍ (fusion ءا → آ, Qutrub donne أَاتٍ)."
   },
+  "ب غ ي:1:active": {
+    "present_3ms": "يَبْغِي",
+    "imperative_2ms": "اِبْغِ",
+    "comment": "Form I بَغَى — Qutrub a sorti يَبْغُيُ / اُبْغُ (pattern damma au lieu du pattern kasra). Sources : Almaany, reverso. Forme correcte : يَبْغِي / اِبْغِ."
+  },
+  "ا م ن:1:active": {
+    "past_3ms": "أَمِنَ",
+    "comment": "Form I أَمِنَ ('être en sécurité') — Qutrub a sorti أَمَنَ (fatha R2) mais le Quranic Corpus utilise systématiquement le lemma أَمِنَ (kasra R2, verbe stative). Sources : 20+ occurrences coraniques + Almaany."
+  },
+  "ا خ ذ:1:active": {
+    "masdar": "أَخْذ",
+    "comment": "Form I أَخَذَ — Qutrub stockait le masdar comme أخْذٌ (alif sans fatha + tanwin pré-attaché). Forme correcte : أَخْذ (le tanwin est ajouté à l'affichage par la fonction withTanwin)."
+  },
   "ج ي ا:1:active": {
     "active_participle": "جَاءٍ",
     "passive_participle": "مَجِيء",

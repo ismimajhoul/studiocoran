@@ -518,6 +518,19 @@
       padding-top: 0.4rem;
       border-top: 1px dashed rgba(192,57,43,0.25);
     }
+    /* Badge de voix passive — distingue المبني للمجهول du مبني للمعلوم */
+    #analysisRule .ety-voice {
+      display: inline-block;
+      padding: 0.1rem 0.6rem;
+      border-radius: 0.5rem;
+      font-size: 0.85em;
+      margin: 0 0.4rem;
+      vertical-align: middle;
+    }
+    #analysisRule .ety-voice-passive {
+      background: #8e44ad;
+      color: #fff;
+    }
     /* En-tête de ligne (جذر / الفعل) — plus gros, en gras, sert de titre */
     #analysisRule .ety-header {
       display: inline-block;
@@ -858,8 +871,8 @@
       <div id="quranContent"></div>
       <div id="analysisPanel">
         <button id="clearAnalysisBtn" type="button" title="Effacer la règle détectée">✕</button>
-        <button id="copyAnalysisBtn" type="button" title="Copier le verbe au passé (pour Almaany/Google)">📋</button>
-        <button id="copyAnalysisFullBtn" type="button" title="Copier toutes les infos (pour notes)">📄</button>
+        <button id="copyAnalysisBtn" type="button" title="Copier juste le verbe au passé (pour coller dans Almaany / Google)">🔎</button>
+        <button id="copyAnalysisFullBtn" type="button" title="Copier toute l'analyse multi-lignes (pour notes / transmission)">📋</button>
         <div class="analysis-toggles">
           <button id="detectionToggleBtn" type="button" role="switch" aria-pressed="false"
                   title="Activer la détection au clic">

@@ -62,6 +62,22 @@ try {
   $row = $result->fetch_assoc();
 
   if ($row) {
+    // Overrides au niveau du mot quranique (sura:aya:word_position) — pour
+    // les cas où le tag du Quranic Corpus est défendable mais nous préférons
+    // une autre lecture (ambiguïté morphologique réelle). Cf.
+    // morphology/word_overrides.json pour la liste et la motivation.
+    $wordOverridesFile = __DIR__ . '/morphology/word_overrides.json';
+    if (file_exists($wordOverridesFile)) {
+      $woOverrides = json_decode(file_get_contents($wordOverridesFile), true);
+      $woKey = "$sura:$aya:$word";
+      if (is_array($woOverrides) && isset($woOverrides[$woKey]) && is_array($woOverrides[$woKey])) {
+        foreach ($woOverrides[$woKey] as $field => $value) {
+          if ($field === 'comment' || $field[0] === '_') continue;
+          $row[$field] = $value;
+        }
+      }
+    }
+
     // Si le verbe coranique n'est pas une Form I active, on récupère aussi
     // la Form I active de la racine (le verbe trilitère "de base") — utilisée
     // dans l'UI pour afficher la racine sur la 1re ligne avec ses wazns

@@ -972,12 +972,70 @@ const WAZN_PRESENT_ABSTRACT = {
   10: 'يَسْتَفْعِلُ',
 };
 
+// Wazns au passif (المبني للمجهول). Pour Form I, les patrons varient selon
+// la catégorie morphologique (sain/creux/défectueux/géminé) — détectés depuis
+// la racine. Pour les Formes II-X, on retourne le patron abstrait standard.
+const WAZN_PAST_PASSIVE_ABSTRACT = {
+  1:  'فُعِلَ',          2:  'فُعِّلَ',          3:  'فُوعِلَ',
+  4:  'أُفْعِلَ',         5:  'تُفُعِّلَ',         6:  'تُفُوعِلَ',
+  7:  'اُنْفُعِلَ',        8:  'اُفْتُعِلَ',        9:  'اِفْعَلَّ',
+  10: 'اُسْتُفْعِلَ',
+};
+const WAZN_PRESENT_PASSIVE_ABSTRACT = {
+  1:  'يُفْعَلُ',         2:  'يُفَعَّلُ',         3:  'يُفَاعَلُ',
+  4:  'يُفْعَلُ',          5:  'يُتَفَعَّلُ',        6:  'يُتَفَاعَلُ',
+  7:  'يُنْفَعَلُ',         8:  'يُفْتَعَلُ',         9:  'يُفْعَلُّ',
+  10: 'يُسْتَفْعَلُ',
+};
+
 // Wazn passé : retourne le wazn abstrait approprié au nombre de lettres
 // de la racine. Trilitère = WAZN_PAST_ABSTRACT, quadrilitère = فَعْلَلَ (Form I).
-function computeWaznPast(formNum, rootAr) {
+// Si isPassive=true, retourne le patron passif (avec variantes Form I selon
+// la catégorie : فِيلَ pour creux, فُعِيَ pour défectueux, فُلَّ pour géminé).
+function computeWaznPast(formNum, rootAr, isPassive, pastForm) {
+  if (isPassive) {
+    if (formNum === 1 && rootAr) {
+      const L = rootAr.split(/\s+/).filter(Boolean);
+      if (L.length === 3) {
+        const [, r2, r3] = L;
+        if (r2 === r3)                       return 'فُلَّ';   // géminé passif
+        if (r2 === 'و' || r2 === 'ي')        return 'فِيلَ';   // creux passif
+        if (r3 === 'و' || r3 === 'ي')        return 'فُعِيَ';  // défectueux passif
+      }
+    }
+    return WAZN_PAST_PASSIVE_ABSTRACT[formNum] || WAZN_PAST_ABSTRACT[formNum];
+  }
   if (formNum === 1 && rootAr) {
     const L = rootAr.split(/\s+/).filter(Boolean);
     if (L.length === 4) return 'فَعْلَلَ';   // quadrilitère Form I
+    // Form I trilitère actif : 3 patterns possibles selon la voyelle de R2
+    //   كَتَبَ → فَعَلَ (fatha)   — actif transitif typique
+    //   عَلِمَ → فَعِلَ (kasra)   — stative ("savoir", "être en X")
+    //   حَسُنَ → فَعُلَ (damma)   — qualité intrinsèque (rare)
+    // Détection depuis la forme passé : 2e voyelle courte après R1.
+    if (L.length === 3 && pastForm) {
+      const r1 = L[0];
+      const hamzas = new Set(['ا', 'أ', 'إ', 'آ']);
+      const sameLetter = (a, b) => a === b || (hamzas.has(a) && hamzas.has(b));
+      let idx = -1;
+      for (let i = 0; i < pastForm.length; i++) {
+        if (sameLetter(pastForm[i], r1)) { idx = i; break; }
+      }
+      if (idx >= 0) {
+        let vowelCount = 0;
+        for (let i = idx + 1; i < pastForm.length; i++) {
+          const c = pastForm[i];
+          if (c === 'َ' || c === 'ُ' || c === 'ِ') {
+            vowelCount++;
+            if (vowelCount === 2) {
+              if (c === 'َ') return 'فَعَلَ';
+              if (c === 'ُ') return 'فَعُلَ';
+              if (c === 'ِ') return 'فَعِلَ';
+            }
+          }
+        }
+      }
+    }
   }
   return WAZN_PAST_ABSTRACT[formNum];
 }
@@ -992,7 +1050,19 @@ function computeWaznPast(formNum, rootAr) {
 //   ذ ه ب → يَذْهَبُ : fatha sur R2 → wazn يَفْعَلُ
 // Cas spéciaux : géminé (يَفُلُّ), défectueux (يَفْعِي/يَفْعُو), Lafif.
 // Quadrilitère Form I : يُفَعْلِلُ (وَسْوَسَ → يُوَسْوِسُ, زَلْزَلَ → يُزَلْزِلُ).
-function computeWaznPresent(formNum, rootAr, presentForm) {
+function computeWaznPresent(formNum, rootAr, presentForm, isPassive) {
+  if (isPassive) {
+    if (formNum === 1 && rootAr) {
+      const L = rootAr.split(/\s+/).filter(Boolean);
+      if (L.length === 3) {
+        const [, r2, r3] = L;
+        if (r2 === r3)                       return 'يُفَلُّ';   // géminé passif
+        if (r2 === 'و' || r2 === 'ي')        return 'يُفَالُ';   // creux passif
+        if (r3 === 'و' || r3 === 'ي')        return 'يُفْعَى';   // défectueux passif
+      }
+    }
+    return WAZN_PRESENT_PASSIVE_ABSTRACT[formNum] || WAZN_PRESENT_ABSTRACT[formNum];
+  }
   const abstract = WAZN_PRESENT_ABSTRACT[formNum];
   if (!rootAr) return abstract;
   const L = rootAr.split(/\s+/).filter(Boolean);
@@ -1004,7 +1074,29 @@ function computeWaznPresent(formNum, rootAr, presentForm) {
   const r3_weak = r3 === 'و' || r3 === 'ي';
 
   if (formNum === 1) {
-    if (r2 === r3)          return 'يَفُلُّ';                      // géminé
+    if (r2 === r3) {
+      // Géminé : 3 patterns possibles selon la voyelle opérative
+      //   مَدَّ — يَمُدُّ → يَفُلُّ (damma)
+      //   حَلَّ — يَحِلُّ → يَفِلُّ (kasra)
+      //   عَضَّ — يَعَضُّ → يَفَلُّ (fatha)
+      // Détection depuis la forme surface : voyelle sous R1 (juste après lui).
+      if (presentForm) {
+        const hamzas = new Set(['ا', 'أ', 'إ', 'آ']);
+        const sameLetter = (a, b) => a === b || (hamzas.has(a) && hamzas.has(b));
+        for (let i = 1; i < presentForm.length; i++) {
+          if (sameLetter(presentForm[i], r1)) {
+            for (let j = i + 1; j < presentForm.length; j++) {
+              const c = presentForm[j];
+              if (c === 'َ') return 'يَفَلُّ';
+              if (c === 'ُ') return 'يَفُلُّ';
+              if (c === 'ِ') return 'يَفِلُّ';
+            }
+            break;
+          }
+        }
+      }
+      return 'يَفُلُّ'; // défaut si présent indisponible
+    }
     if (r2_weak && r3_weak) return r3 === 'ي' ? 'يَفْعِي' : 'يَفْعُو'; // Lafif مقرون
     // Sain, creux, défectueux, مثال, لفيف مفروق : détection commune de la
     // voyelle opérative depuis la forme surface. On retourne TOUJOURS le
@@ -1179,8 +1271,8 @@ function buildRootSpeechLine1(rootAr, base, cls, waznPastF1, waznPresF1) {
   return phrase;
 }
 
-function buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive) {
-  let phrase = `الفعل`;
+function buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive, isPassive) {
+  let phrase = isPassive ? `الفعل المبني للمجهول` : `الفعل`;
   if (waznPast) phrase += `. وزن الماضي ${waznPast}`;
   if (waznPres) phrase += `. وزن المضارع ${waznPres}`;
   if (data) {
@@ -1308,9 +1400,10 @@ function showEtymologyAnalysis(data) {
 
   // Wazns du verbe CORANIQUE (la forme effectivement dans le verset).
   // computeWaznPast/Present prennent en compte le nombre de lettres de la
-  // racine (trilitère vs quadrilitère).
-  const waznPast = computeWaznPast(formNum, data.root_ar);
-  const waznPres = computeWaznPresent(formNum, data.root_ar, data.present_3ms);
+  // racine (trilitère vs quadrilitère), la voix (actif/passif), et la
+  // forme surface (pour détecter la voyelle opérative de R2).
+  const waznPast = computeWaznPast(formNum, data.root_ar, isPassive, data.past_3ms);
+  const waznPres = computeWaznPresent(formNum, data.root_ar, data.present_3ms, isPassive);
 
   // Masdar et participes : convention dictionnaire — tanwin damma ٌ pour
   // marquer l'indéfini nominatif. Mais on N'ajoute PAS de tanwin si la
@@ -1339,7 +1432,7 @@ function showEtymologyAnalysis(data) {
     : (data.form1_base || null);
 
   // Wazns de la Form I (trilitère فَعَلَ — يَفْعُ/عِ/عَلُ, ou quadrilitère فَعْلَلَ — يُفَعْلِلُ)
-  const waznPastF1 = computeWaznPast(1, data.root_ar);
+  const waznPastF1 = computeWaznPast(1, data.root_ar, false, base ? base.past_3ms : null);
   const waznPresF1 = computeWaznPresent(1, data.root_ar, base ? base.present_3ms : null);
 
   // ─── LIGNE 1 : "جذر:" + racine + verbe trilitère + classification + wazn Form I ────
@@ -1396,9 +1489,14 @@ function showEtymologyAnalysis(data) {
     subLines.push(`<span class="ety-derived">مشتق من ${base.past_3ms}</span>`);
   }
 
+  // Badge de voix : marque visuellement le passif. L'actif est implicite
+  // (la grande majorité des verbes) — on ne l'affiche pas pour éviter le bruit.
+  const voiceBadge = isPassive
+    ? `<span class="ety-voice ety-voice-passive">المبني للمجهول</span>`
+    : '';
   const line2Html =
     `<div class="ety-line ety-line-verb">` +
-      `<span class="ety-header">الفعل:</span> ` +
+      `<span class="ety-header">الفعل:</span>${voiceBadge} ` +
       subLines.map(s => `<span class="ety-morph-line">${s}</span>`).join('') +
     `</div>`;
 
@@ -1419,7 +1517,7 @@ function showEtymologyAnalysis(data) {
   // TTS : 3 segments avec highlight ligne par ligne
   // Segment 1 = ligne 1 (جذر), Segment 2 = ligne 2 (الفعل), Segment 3 = اعراب
   const speech1 = buildRootSpeechLine1(data.root_ar, base, cls, waznPastF1, waznPresF1);
-  const speech2 = buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive);
+  const speech2 = buildRootSpeechLine2(data, waznPast, waznPres, base, isFormIActive, isPassive);
   const speech3 = featuresAr ? `اعراب. ${featuresAr}` : '';
   const line1Div = ruleDiv.querySelector('.ety-line-root');
   const line2Div = ruleDiv.querySelector('.ety-line-verb');
@@ -3824,6 +3922,13 @@ document.addEventListener('DOMContentLoaded', () => {
           // on les sépare par newline pour rester lisible dans VS Code/Notion.
           const subs = div.querySelectorAll('.ety-morph-line');
           if (subs.length) {
+            // Badge de voix (المبني للمجهول) — extrait avant les conjugaisons
+            // pour qu'il apparaisse clairement dans le copy.
+            const voice = div.querySelector('.ety-voice');
+            if (voice) {
+              const v = voice.textContent.trim();
+              if (v) lines.push(`[${v}]`);
+            }
             subs.forEach(sp => {
               const t = sp.textContent.trim();
               if (t) lines.push(t);

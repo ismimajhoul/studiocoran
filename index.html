@@ -361,6 +361,131 @@
       font-style: italic;
     }
 
+    /* MODE CONTROLS — sélecteur 2D Discipline × Scope (Étape 1).
+       Pour le moment : juste un widget visuel + classe sur body. Le layout
+       des modes Mot+X et Page+Sarf sera traité aux étapes 3-5. */
+    .mode-controls {
+      display: flex;
+      gap: .5rem;
+      margin-bottom: .5rem;
+      flex-wrap: wrap;
+    }
+    .mode-segmented {
+      display: flex;
+      gap: .25rem;
+      padding: .2rem;
+      background: inherit;
+      border-radius: .5rem;
+      box-shadow: inset 2px 2px 5px #a1b0b9, inset -2px -2px 5px #ffffff;
+    }
+    .mode-tab {
+      padding: .3rem .7rem;
+      border: none;
+      background: transparent;
+      border-radius: .35rem;
+      cursor: pointer;
+      font-size: .9rem;
+      color: #5a6570;
+      transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+    }
+    .mode-tab:hover { background: rgba(255,255,255,0.4); }
+    .mode-tab.active {
+      background: #fffaea;
+      color: #2c1810;
+      font-weight: 600;
+      box-shadow: 2px 2px 4px #a1b0b9, -2px -2px 4px #ffffff;
+    }
+    .mode-tab span {
+      font-size: 0.72rem;
+      color: #6d7a85;
+      margin-inline-start: 0.3rem;
+      font-weight: normal;
+    }
+    .mode-tab.active span { color: #826f4b; }
+    @media (max-width: 600px) {
+      .mode-tab span { display: none; }
+      .mode-tab { padding: .3rem .55rem; }
+    }
+
+    /* ─── LAYOUT MODES NON-DÉFAUT (Étapes 3-5) ─────────────────────────
+       La grille des 25 règles de tajwid n'est utile QU'en mode Page+Tajwid
+       (= défaut). Pour les 3 autres modes, on cache uniquement le grid
+       — la sidebar reste visible avec la recherche, le clavier et le
+       sélecteur de voix qui sont utiles dans tous les modes.
+       Le panneau d'analyse reste au bas de l'écran dans tous les modes
+       (la version "panneau à gauche" demande un déplacement de la
+       recherche en top-bar, à faire dans une étape suivante). */
+    body.scope-mot #buttonGrid,
+    body.discipline-sarf.scope-page #buttonGrid { display: none; }
+    /* Le titre h2 "أحكام التجويد / Tajwid" perd son sens hors mode Tajwid.
+       On le cache aussi dans ces modes. */
+    body.scope-mot #sidebar > h2,
+    body.discipline-sarf.scope-page #sidebar > h2 { display: none; }
+    /* Sans toggles, on récupère de l'espace à gauche du panneau. Il reste
+       quand même 4 boutons icônes empilés à gauche (✕, 🔎, 📋, 🔊) — le
+       mute est à left:3rem donc le content doit démarrer après ~5.5rem.
+       (La règle .analysis-toggles { display: none } est définie plus bas
+       pour écraser la définition originale, sinon la cascade CSS la perd.) */
+    #analysisPanel { padding-left: 5.5rem; }
+
+    /* Mode Page+Sarf : panneau de stats DANS la sidebar (sous la recherche
+       et le sélecteur de voix). Le panneau bas est masqué dans ce mode. */
+    #sarfStatsPanel { display: none; }
+    body.discipline-sarf.scope-page #sarfStatsPanel {
+      display: block;
+      padding: 0.6rem 0.4rem;
+      margin-top: 0.5rem;
+      border-radius: 0.5rem;
+      background: rgba(255, 251, 230, 0.6);
+      box-shadow: inset 3px 3px 6px #a1b0b9, inset -3px -3px 6px #ffffff;
+      max-height: calc(100vh - 22rem);
+      overflow-y: auto;
+    }
+    body.discipline-sarf.scope-page #analysisPanel {
+      display: none;  /* le panneau du bas est inutile en Sarf+Page */
+    }
+    #sarfStatsHeader {
+      font-size: 0.9rem;
+      color: #2c1810;
+      margin-bottom: 0.4rem;
+      padding-bottom: 0.3rem;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    #sarfStatsHeader strong { color: #c0392b; }
+    /* Liste détaillée des verbes : groupes par temps (Passé / Présent / Impératif) */
+    .vstat-group {
+      display: block;
+      margin: 0.25rem 0;
+      font-family: 'Scheherazade', serif;
+      font-size: 1.3rem;
+      line-height: 1.6;
+    }
+    .vstat-tense {
+      display: inline-block;
+      min-width: 5.5rem;
+      padding: 0.05rem 0.5rem;
+      background: #ece4cf;
+      color: #2c1810;
+      border-radius: 0.4rem;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      vertical-align: middle;
+      margin-inline-end: 0.4rem;
+    }
+    .vstat-item {
+      display: inline-block;
+      margin: 0 0.1rem;
+      padding: 0 0.2rem;
+    }
+    .vstat-item strong { color: #2c1810; font-weight: bold; }
+    .vstat-root {
+      color: #888;
+      font-size: 0.7em;
+      font-family: 'Scheherazade', serif;
+    }
+    .vstat-item em { color: #8e44ad; font-style: italic; font-size: 0.7em; }
+
     /* NAVIGATION CONTROLS — sélecteur Page/Sourate + inputs */
     .nav-controls {
       display: flex;
@@ -628,15 +753,11 @@
     }
     #muteAudioBtn:hover { background: #fff; }
     #muteAudioBtn[aria-pressed="true"] { background: #c0392b; color: #fff; }
+    /* Toggles Détection/Étymologie : totalement remplacés par le sélecteur
+       de mode global (Tajwid/Sarf × Page/Mot). Cachés dans TOUS les modes.
+       Le DOM reste pour ne pas casser le JS qui référence ces boutons. */
     .analysis-toggles {
-      position: absolute;
-      left: 3rem;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      pointer-events: auto;
+      display: none;
     }
     .analysis-toggles button {
       min-width: 7.5rem;
@@ -1091,6 +1212,12 @@
       <select id="voiceSelect" title="Voix arabe (TTS)" style="width:100%; padding:.4rem; margin-bottom:.5rem; border:none; border-radius:.5rem; background:inherit; box-shadow: inset 4px 4px 8px #a1b0b9, inset -4px -4px 8px #ffffff; font-size: .9rem;">
         <option value="">— Voix automatique —</option>
       </select>
+      <!-- Panneau de stats verbales (mode Sarf+Page uniquement).
+           Caché par défaut, peuplé par _renderVerbStats() au chargement de page. -->
+      <div id="sarfStatsPanel">
+        <div id="sarfStatsHeader"></div>
+        <div id="sarfStatsList"></div>
+      </div>
       <div id="buttonGrid">
         <h3>ن noun</h3>
         <button id="kalkala">القلقلة <span>Al qalqalah</span></button>
@@ -1133,6 +1260,19 @@
         <div class="header-right">
           <span>Studio Coran</span>
           <button id="qrShareBtn" type="button" title="Partager l'application" aria-label="Partager">📱</button>
+        </div>
+      </div>
+      <!-- Sélecteur de mode 2D : Discipline (Tajwid|Sarf) × Scope (Page|Mot).
+           Persisté dans localStorage. La classe correspondante est appliquée
+           sur <body> pour piloter le layout des futures étapes. -->
+      <div class="mode-controls">
+        <div class="mode-segmented" data-axis="discipline" role="tablist" aria-label="Discipline">
+          <button type="button" class="mode-tab" data-value="tajwid">تجويد <span>Tajwid</span></button>
+          <button type="button" class="mode-tab" data-value="sarf">صرف <span>Sarf</span></button>
+        </div>
+        <div class="mode-segmented" data-axis="scope" role="tablist" aria-label="Granularité d'analyse">
+          <button type="button" class="mode-tab" data-value="page">صفحة <span>Page</span></button>
+          <button type="button" class="mode-tab" data-value="mot">كلمة <span>Mot</span></button>
         </div>
       </div>
       <div class="nav-controls">

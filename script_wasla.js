@@ -4029,6 +4029,16 @@ function loadPage() {
       // Reset des modes (détection / étymologie) à chaque changement de page.
       setDetectionMode(false);
       setEtymologyMode(false);
+      // Puis on ré-applique le mode courant : si l'utilisateur est en
+      // Mot+Tajwid ou en Sarf, le clic doit immédiatement déclencher la
+      // détection ou l'analyse, sans qu'il ait à toggler quoi que ce soit.
+      if (typeof _syncModeToBehavior === 'function') _syncModeToBehavior(false);
+      // En Page+Sarf : fetch les stats verbales de la page chargée
+      const isPageSarf = !document.body.classList.contains('scope-mot')
+                      && document.body.classList.contains('discipline-sarf');
+      if (isPageSarf && typeof loadAndRenderPageVerbStats === 'function') {
+        loadAndRenderPageVerbStats(parseInt(pageNumber, 10));
+      }
     })
     .catch((error) => {
       console.error('Une erreur s\'est produite lors de la récupération des données:', error);
@@ -4067,6 +4077,8 @@ function positionAnalysisPanel() {
   const panel   = document.getElementById('analysisPanel');
   const content = document.getElementById('content');
   if (!panel || !content) return;
+  // Le panneau reste flottant en bas dans tous les modes. Son left/width
+  // s'aligne sur la colonne #content (sans déborder sous la sidebar).
   const rect = content.getBoundingClientRect();
   const inset = 16; // 1rem de marge intérieure
   panel.style.left  = (rect.left + inset) + 'px';
@@ -4512,10 +4524,185 @@ function setupArabicKeyboard() {
   });
 }
 
+// ─── MODE UI 2D : Discipline × Scope ─────────────────────────────────────
+// Étape 1 (foundation) : on persiste le choix de l'utilisateur dans
+// localStorage et on applique une classe sur <body> du type
+// "discipline-tajwid" / "discipline-sarf" / "scope-page" / "scope-mot".
+// Les étapes 2-5 utiliseront ces classes pour adapter le layout.
+const _MODE_DEFAULTS = { discipline: 'tajwid', scope: 'page' };
+const _MODE_VALUES   = { discipline: ['tajwid','sarf'], scope: ['page','mot'] };
+
+function _readMode(axis) {
+  try {
+    const v = localStorage.getItem(`ui.${axis}`);
+    if (v && _MODE_VALUES[axis].includes(v)) return v;
+  } catch (_) {}
+  return _MODE_DEFAULTS[axis];
+}
+
+function _applyMode(axis, value) {
+  _MODE_VALUES[axis].forEach(v => document.body.classList.remove(`${axis}-${v}`));
+  document.body.classList.add(`${axis}-${value}`);
+}
+
+// ─── ÉTAPE 5 : MODE PAGE+SARF — stats verbales sur la page courante ──────
+// Fetch les verbes d'une page (via morphology_page.php) et affiche un récap
+// dans le panneau d'analyse : total + breakdown par temps + liste détaillée.
+async function loadAndRenderPageVerbStats(pageNum) {
+  if (!pageNum || !_pagesData) return;
+  const range = _pagesData.find(e => e.p === pageNum);
+  if (!range) return;
+  const url = `morphology_page.php?sura=${range.s}&first_aya=${range.a}`
+            + `&last_sura=${range.ls}&last_aya=${range.la}`;
+  try {
+    const resp = await fetch(url);
+    const data = await resp.json();
+    if (data.error) { console.warn('morphology_page error:', data.error); return; }
+    _renderVerbStats(data.verbs || [], pageNum);
+  } catch (e) {
+    console.error('Verb stats fetch error:', e);
+  }
+}
+
+function _tenseLabel(features) {
+  if (!features) return { ar: 'autre', fr: 'autre' };
+  if (features.includes('PERF')) return { ar: 'ماضي',  fr: 'Passé' };
+  if (features.includes('IMPF')) return { ar: 'مضارع', fr: 'Présent' };
+  if (features.includes('IMPV')) return { ar: 'أمر',   fr: 'Impératif' };
+  return { ar: 'autre', fr: 'autre' };
+}
+
+function _renderVerbStats(verbs, pageNum) {
+  // Cible : nouveau panneau dans la sidebar (#sarfStatsPanel) — visible
+  // uniquement en mode Page+Sarf via CSS. Le panneau du bas (#analysisPanel)
+  // est masqué dans ce mode (voir CSS).
+  const headerDiv = document.getElementById('sarfStatsHeader');
+  const listDiv   = document.getElementById('sarfStatsList');
+  if (!headerDiv || !listDiv) return;
+
+  // Regroupe par temps (ماضي / مضارع / أمر)
+  const groups = { 'Passé': [], 'Présent': [], 'Impératif': [], 'autre': [] };
+  let passive = 0;
+  verbs.forEach(v => {
+    const t = _tenseLabel(v.features).fr;
+    groups[t] = groups[t] || [];
+    groups[t].push(v);
+    if ((v.features || '').includes('PASS')) passive++;
+  });
+
+  const total = verbs.length;
+  // En-tête : total + breakdown par temps + voix
+  const recapParts = [`<strong>${total}</strong> verbes (page ${pageNum})`];
+  ['Passé','Présent','Impératif'].forEach(t => {
+    const n = (groups[t] || []).length;
+    if (n) recapParts.push(`${t}: <strong>${n}</strong>`);
+  });
+  if (passive) recapParts.push(`Passif: <strong>${passive}</strong>`);
+  headerDiv.innerHTML = recapParts.join(' · ');
+
+  // Liste détaillée groupée par temps
+  const out = [];
+  ['Passé','Présent','Impératif'].forEach(t => {
+    const list = groups[t] || [];
+    if (!list.length) return;
+    const items = list.map(v => {
+      const root = v.root_ar || '';
+      const isPass = (v.features || '').includes('PASS') ? ' <em>(passif)</em>' : '';
+      return `<span class="vstat-item" data-sura="${v.sura}" data-aya="${v.aya}" data-word="${v.word_position}">`
+           + `<strong>${v.form_ar}</strong>`
+           + (root ? ` <span class="vstat-root">[${root}]</span>` : '')
+           + `${isPass}</span>`;
+    }).join(' · ');
+    out.push(`<div class="vstat-group"><span class="vstat-tense">${t}</span> ${items}</div>`);
+  });
+  listDiv.innerHTML = out.join('');
+}
+
+// Réinitialise les effets persistants quand l'utilisateur change de mode :
+// surlignages tajwid en page, panneau d'analyse, marqueur de lettre, compteurs
+// de règle, audio en cours. Empêche les artefacts d'un mode précédent de
+// rester visibles dans le nouveau mode.
+function _resetOnModeSwitch() {
+  if (typeof clearAnalysisAndHighlights === 'function') clearAnalysisAndHighlights();
+  const fr = document.getElementById('frenchCount');
+  const ar = document.getElementById('arabicCount');
+  if (fr) fr.textContent = '';
+  if (ar) ar.textContent = '';
+}
+
+// Synchronise le comportement de l'app avec le mode courant (axes
+// discipline + scope). Appelée à chaque changement de toggle de mode et
+// au démarrage (depuis la persistance localStorage).
+// Règles :
+//  - discipline=Sarf (Page+Sarf et Mot+Sarf) → force etymologyMode=true
+//    (clic sur un verbe → analyse étymologique)
+//  - Mot+Tajwid → force detectionMode=true (clic sur une lettre →
+//    détection de la règle de tajwid qui s'applique à cette lettre)
+//  - Page+Tajwid (défaut) → reset les 2 modes (comportement classique,
+//    on clique sur une règle dans la sidebar)
+function _syncModeToBehavior(isUserAction) {
+  const isMot  = document.body.classList.contains('scope-mot');
+  const isSarf = document.body.classList.contains('discipline-sarf');
+  if (typeof setEtymologyMode === 'function'
+   && typeof setDetectionMode === 'function') {
+    if (isSarf) {
+      // Page+Sarf ET Mot+Sarf : étymologie au clic
+      if (!etymologyMode) setEtymologyMode(true);
+    } else if (isMot) {
+      // Mot+Tajwid : détection au clic
+      if (!detectionMode) setDetectionMode(true);
+    } else {
+      // Page+Tajwid (défaut) : ni détection ni étymologie forcées
+      if (etymologyMode) setEtymologyMode(false);
+      if (detectionMode) setDetectionMode(false);
+    }
+  }
+  // Reset des effets persistants UNIQUEMENT sur action utilisateur (pas au
+  // chargement initial, où il n'y a rien à reset).
+  if (isUserAction) _resetOnModeSwitch();
+  if (typeof positionAnalysisPanel === 'function') positionAnalysisPanel();
+  // Si on est (ou on vient de basculer) en Page+Sarf et qu'une page est
+  // déjà chargée, on (re)affiche les stats verbales sans recharger.
+  const isPageSarf = !isMot && isSarf;
+  if (isPageSarf && lastLoadedPageNumber
+      && typeof loadAndRenderPageVerbStats === 'function') {
+    loadAndRenderPageVerbStats(parseInt(lastLoadedPageNumber, 10));
+  }
+}
+
+function setupModeSelector() {
+  document.querySelectorAll('.mode-segmented').forEach(seg => {
+    const axis = seg.dataset.axis;
+    if (!axis || !_MODE_VALUES[axis]) return;
+    const current = _readMode(axis);
+    _applyMode(axis, current);
+    seg.querySelectorAll('.mode-tab').forEach(btn => {
+      const active = btn.dataset.value === current;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-selected', active ? 'true' : 'false');
+      btn.addEventListener('click', () => {
+        const v = btn.dataset.value;
+        if (!_MODE_VALUES[axis].includes(v)) return;
+        _applyMode(axis, v);
+        try { localStorage.setItem(`ui.${axis}`, v); } catch (_) {}
+        seg.querySelectorAll('.mode-tab').forEach(b => {
+          const a = b.dataset.value === v;
+          b.classList.toggle('active', a);
+          b.setAttribute('aria-selected', a ? 'true' : 'false');
+        });
+        _syncModeToBehavior(true); // action utilisateur → reset des effets persistants
+      });
+    });
+  });
+  // Sync initial (lecture localStorage) — pas de reset puisque rien à effacer
+  _syncModeToBehavior(false);
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   populateSuraSelect();
   setupNavSegmented();
   setupArabicKeyboard();
+  setupModeSelector();
 });
 
 // 🪟 Rendre les fonctions globales (accessibles depuis le HTML)

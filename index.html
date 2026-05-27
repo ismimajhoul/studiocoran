@@ -428,6 +428,51 @@
        pour écraser la définition originale, sinon la cascade CSS la perd.) */
     #analysisPanel { padding-left: 5.5rem; }
 
+    /* Mode scope-mot : le #analysisPanel est déplacé dans la sidebar par JS.
+       Quand il y est, on neutralise son positionnement fixed et on remet les
+       4 boutons icônes en flow horizontal au-dessus du contenu (au lieu
+       d'être absolute-positioned sur le côté gauche). */
+    body.scope-mot #analysisPanel {
+      position: static;
+      width: auto;
+      max-width: none;
+      min-height: 0;
+      padding: 0.6rem 0.4rem;
+      margin-top: 0.5rem;
+      background: rgba(255, 251, 230, 0.6);
+      border-radius: 0.5rem;
+      box-shadow: inset 3px 3px 6px #a1b0b9, inset -3px -3px 6px #ffffff;
+      pointer-events: auto;
+      /* On laisse le panneau prendre toute la hauteur dont il a besoin —
+         pas de max-height. Le scroll, s'il faut, se fait au niveau du
+         #sidebar entier (overflow-y: auto sur la sidebar en scope-mot). */
+    }
+    /* La sidebar prend toute la hauteur disponible et scroll si besoin */
+    body.scope-mot #sidebar {
+      max-height: calc(100vh - 2rem);
+      overflow-y: auto;
+    }
+    /* En scope-mot, les boutons d'action redeviennent inline (toolbar au top
+       du panneau) au lieu d'absolute sur le côté gauche. */
+    body.scope-mot #analysisPanel #clearAnalysisBtn,
+    body.scope-mot #analysisPanel #copyAnalysisBtn,
+    body.scope-mot #analysisPanel #copyAnalysisFullBtn,
+    body.scope-mot #analysisPanel #muteAudioBtn {
+      position: static;
+      left: auto;
+      right: auto;
+      top: auto;
+      bottom: auto;
+      transform: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.7rem;
+      height: 1.7rem;
+      margin-right: 0.2rem;
+      vertical-align: middle;
+    }
+
     /* Mode Page+Sarf : panneau de stats DANS la sidebar (sous la recherche
        et le sélecteur de voix). Le panneau bas est masqué dans ce mode. */
     #sarfStatsPanel { display: none; }

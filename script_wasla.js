@@ -4073,12 +4073,34 @@ function initRuleButtons(useOptionA = true) {
  * au bord gauche et droit de la colonne de contenu, sans déborder sous
  * la sidebar. À appeler au chargement et à chaque redimensionnement.
  */
+// Déplace #analysisPanel dans la sidebar quand on est en scope-mot (le
+// panneau passe en flow statique dans la colonne de gauche, sous la
+// recherche), et le remet sous #content sinon (flottant en bas par défaut).
+// Garde un repère sur le parent d'origine pour pouvoir le restaurer.
+function _placeAnalysisPanelByMode() {
+  const panel   = document.getElementById('analysisPanel');
+  const sidebar = document.getElementById('sidebar');
+  const content = document.getElementById('content');
+  if (!panel || !sidebar || !content) return;
+  const isMot = document.body.classList.contains('scope-mot');
+  if (isMot && panel.parentElement !== sidebar) {
+    sidebar.appendChild(panel);
+  } else if (!isMot && panel.parentElement !== content) {
+    content.appendChild(panel);
+  }
+}
+
 function positionAnalysisPanel() {
   const panel   = document.getElementById('analysisPanel');
   const content = document.getElementById('content');
   if (!panel || !content) return;
-  // Le panneau reste flottant en bas dans tous les modes. Son left/width
-  // s'aligne sur la colonne #content (sans déborder sous la sidebar).
+  // En scope-mot, le panneau est dans la sidebar (en flow statique), pas
+  // de positionnement à faire — on retire les inline styles éventuels.
+  if (document.body.classList.contains('scope-mot')) {
+    panel.style.left  = '';
+    panel.style.width = '';
+    return;
+  }
   const rect = content.getBoundingClientRect();
   const inset = 16; // 1rem de marge intérieure
   panel.style.left  = (rect.left + inset) + 'px';
@@ -4660,6 +4682,9 @@ function _syncModeToBehavior(isUserAction) {
   // Reset des effets persistants UNIQUEMENT sur action utilisateur (pas au
   // chargement initial, où il n'y a rien à reset).
   if (isUserAction) _resetOnModeSwitch();
+  // Déplace le panneau d'analyse dans la sidebar en scope-mot, le remet
+  // sous #content sinon.
+  if (typeof _placeAnalysisPanelByMode === 'function') _placeAnalysisPanelByMode();
   if (typeof positionAnalysisPanel === 'function') positionAnalysisPanel();
   // Si on est (ou on vient de basculer) en Page+Sarf et qu'une page est
   // déjà chargée, on (re)affiche les stats verbales sans recharger.

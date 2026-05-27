@@ -246,8 +246,57 @@ const COLOR_MAD_ARID      = '#FF8C00'; // orange: mad ʿarid lis-sukoun
 const COLOR_GHUNNA        = '#1E7A1E'; // vert  : règles avec nasillement
 const COLOR_QALQALA       = '#001F5F'; // bleu marine
 const COLOR_EMPHATIC      = '#4169E1'; // bleu foncé (différencié du marine)
+const COLOR_SILENT        = '#999999'; // gris  : hamza al-wasla (ٱ) + lam shamsi (lettres non prononcées)
 
 const ALWAYS_EMPHATIC_SET = new Set(['خ','ص','ض','غ','ط','ق','ظ']);
+const SUN_LETTERS_SET     = new Set(['ت','ث','د','ذ','ر','ز','س','ش','ص','ض','ط','ظ','ل','ن']);
+const DIACRITICS_SET      = new Set(['ً','ٌ','ٍ','َ','ُ','ِ','ّ','ْ','ٰ','ـ']);
+
+// Hamza al-wasla : le caractère ٱ (U+0671) est l'alif-wasla classique du
+// mushaf. Il marque une hamza qui chute en lecture continue.
+function findHamzaWasla(verseText) {
+  const hits = [];
+  for (let i = 0; i < verseText.length; i++) {
+    if (verseText[i] === 'ٱ') hits.push({ index: i, length: 1 });
+  }
+  return hits;
+}
+
+// Lam shamsi : le ل de l'article ال quand il est suivi d'une "lettre solaire"
+// (ت ث د ذ ر ز س ش ص ض ط ظ ل ن). Dans ce cas le ل n'est pas prononcé : il
+// est assimilé en gémination sur la lettre suivante (شَدّة). Caractéristiques :
+//  - le ل n'a PAS de sukoon (sinon ce serait un lam qamari, prononcé)
+//  - la lettre suivante a une شَدّة
+//  - précédé d'un alif/wasla (article défini ال)
+function findLamShamsi(verseText) {
+  const hits = [];
+  for (let i = 0; i < verseText.length; i++) {
+    if (verseText[i] !== 'ل') continue;
+    // Lettre précédente doit être ا ou ٱ (article défini)
+    let prev = i - 1;
+    while (prev >= 0 && DIACRITICS_SET.has(verseText[prev])) prev--;
+    if (prev < 0 || (verseText[prev] !== 'ا' && verseText[prev] !== 'ٱ')) continue;
+    // Saute les diacritiques après le ل (il ne doit pas avoir de sukoon)
+    let j = i + 1;
+    let hasSukoonOnLam = false;
+    while (j < verseText.length && DIACRITICS_SET.has(verseText[j])) {
+      if (verseText[j] === 'ْ') hasSukoonOnLam = true;
+      j++;
+    }
+    if (hasSukoonOnLam) continue; // c'est un lam qamari, prononcé
+    if (j >= verseText.length || !SUN_LETTERS_SET.has(verseText[j])) continue;
+    // La lettre solaire suivante doit avoir une شَدّة
+    let hasShadda = false;
+    let k = j + 1;
+    while (k < verseText.length && DIACRITICS_SET.has(verseText[k])) {
+      if (verseText[k] === 'ّ') hasShadda = true;
+      k++;
+    }
+    if (!hasShadda) continue;
+    hits.push({ index: i, length: 1 });
+  }
+  return hits;
+}
 
 /**
  * Calcule la couleur de chaque position du verseText selon les règles
@@ -299,6 +348,13 @@ function computeBaseColors(verseText) {
       colorAt[i] = COLOR_EMPHATIC;
     }
   }
+
+  // 5) Lettres muettes en gris : hamza al-wasla (ٱ) + lam shamsi (ال + lettre
+  // solaire). Pédagogiquement : ces lettres existent à l'écrit mais ne sont
+  // pas prononcées en lecture. Priorité la plus basse — n'écrase aucune
+  // règle de tajwid existante.
+  applyHits(findHamzaWasla(verseText), COLOR_SILENT);
+  applyHits(findLamShamsi(verseText),  COLOR_SILENT);
 
   return colorAt;
 }
@@ -403,6 +459,65 @@ function renderVerseWithHighlight(verse, hits) {
  * Lie le click sur chaque .tajweed-overlay pour jouer
  * soit le segment audio mot-à-mot, soit tout le verset en fallback.
  */
+// Lit l'audio d'UN mot précis du Coran (récitation, voix du lecteur) en
+// utilisant l'alignement mot-à-mot existant. Renvoie une Promise qui se
+// résout quand le segment se termine, pour permettre l'enchaînement avec
+// d'autres lectures (TTS du panneau étymo, par ex.). wordIdx est 0-indexé.
+async function playWordAudio(sura, aya, wordIdx, useOptionA = true) {
+  // Coupe tout audio Coran en cours
+  if (window._currentQuranAudio) {
+    clearTimeout(window._currentQuranAudio._pauseTimer);
+    window._currentQuranAudio.pause();
+    window._currentQuranAudio = null;
+  }
+  if (window._audioMuted) return; // mode muet → pas de récitation
+  if (!alignmentData) return; // alignement pas encore chargé → skip silencieux
+  const va = alignmentData.find(v => v.surah === sura && v.ayah === aya);
+  if (!va) return;
+  const seg = va.segments.find(s => wordIdx >= s[0] && wordIdx < s[1]);
+  const audioUrl = useOptionA
+    ? await getVerseAudioUrl(sura, aya)
+    : buildVerseAudioCdnUrl(sura, aya);
+
+  return new Promise((resolve) => {
+    const a = new Audio(audioUrl);
+    window._currentQuranAudio = a;
+    if (!seg) {
+      // pas de segment → lit tout le verset, résout à la fin
+      a.onended = () => { window._currentQuranAudio = null; resolve(); };
+      a.onerror = () => { window._currentQuranAudio = null; resolve(); };
+      a.play().catch(() => resolve());
+      return;
+    }
+    const startMs = seg[2], endMs = seg[3];
+    a.currentTime = startMs / 1000;
+    a.play().catch(() => resolve());
+    a._pauseTimer = setTimeout(() => {
+      a.pause();
+      window._currentQuranAudio = null;
+      resolve();
+    }, endMs - startMs);
+  });
+}
+
+// Scroll le contenu coranique pour que le verset cliqué soit visible
+// au-dessus du panneau d'analyse (sinon le panneau recouvre la ligne).
+// IMPORTANT : c'est `#quranContent` qui est scrollable (overflow-y: auto),
+// pas la window. Il faut donc scroller à l'intérieur de ce conteneur.
+// Pour les derniers versets de la page, le padding-bottom ajouté à
+// #quranContent garantit qu'on peut toujours scroller assez pour dégager
+// la ligne cliquée.
+function scrollVerseAbovePanel(verseDiv) {
+  const panel = document.getElementById('analysisPanel');
+  const content = document.getElementById('quranContent');
+  if (!panel || !verseDiv || !content) return;
+  const panelRect = panel.getBoundingClientRect();
+  const verseRect = verseDiv.getBoundingClientRect();
+  const gap = 20;
+  const overlap = verseRect.bottom - (panelRect.top - gap);
+  if (overlap > 0) content.scrollBy({ top: overlap, behavior: 'smooth' });
+}
+
 function bindAudioOnOverlay(useOptionA = true) {
   document.querySelectorAll('.tajweed-overlay').forEach(span => {
     span.onclick = async () => {
@@ -1379,7 +1494,7 @@ async function speakLinesWithHighlight(segments) {
   }
 }
 
-function showEtymologyAnalysis(data) {
+function showEtymologyAnalysis(data, ctx) {
   const ruleDiv = document.getElementById('analysisRule');
   const txtDiv  = document.getElementById('analysisText');
   if (!ruleDiv || !txtDiv) return;
@@ -1537,11 +1652,26 @@ function showEtymologyAnalysis(data) {
   const speech3 = featuresAr ? `اعراب. ${featuresAr}` : '';
   const line1Div = ruleDiv.querySelector('.ety-line-root');
   const line2Div = ruleDiv.querySelector('.ety-line-verb');
-  speakLinesWithHighlight([
+  // Démarrage audio : on est dans le chemin "verbe détecté" (les early-returns
+  // pour data.error / data.notVerb ont déjà filtré au-dessus). Donc on lit le
+  // mot avec la voix du lecteur Coran ICI, après confirmation que c'est bien
+  // un verbe, puis on enchaîne sur le TTS du panneau à la fin de la récitation.
+  const startTts = () => speakLinesWithHighlight([
     { text: speech1, el: line1Div },
     { text: speech2, el: line2Div },
     { text: speech3, el: txtDiv },
   ]);
+  if (ctx && typeof ctx.sura === 'number' && typeof ctx.wordIdx === 'number'
+      && typeof playWordAudio === 'function') {
+    const audioP = playWordAudio(ctx.sura, ctx.aya, ctx.wordIdx);
+    if (audioP && typeof audioP.then === 'function') {
+      audioP.then(startTts, startTts);
+    } else {
+      startTts();
+    }
+  } else {
+    startTts();
+  }
 }
 
 /**
@@ -1650,9 +1780,17 @@ function bindContextDetection() {
           morpho:       null,
         };
         if (typeof updateChatContextLabel === 'function') updateChatContextLabel();
-        // Lookup asynchrone (avec position ajustée pour la basmala)
+        // Scroll le verset au-dessus du panneau pour qu'il reste visible.
+        scrollVerseAbovePanel(verseDiv);
+        // Lookup asynchrone (avec position ajustée pour la basmala). On passe
+        // sura/aya/wordIdx pour que showEtymologyAnalysis puisse lire le mot
+        // SEULEMENT si c'est bien un verbe (sinon pas d'audio).
         fetchEtymology(target.sura, target.aya, corpusWordPos)
-          .then(showEtymologyAnalysis);
+          .then(data => showEtymologyAnalysis(data, {
+            sura:    target.sura,
+            aya:     target.aya,
+            wordIdx: corpusWordPos - 1,
+          }));
       }
       return;
     }
@@ -2155,6 +2293,15 @@ function toArabicDigits(n) {
 function speakText(arabicText, opts) {
   console.log('speakText :', arabicText);
   const onProgress = (opts && typeof opts.onProgress === 'function') ? opts.onProgress : null;
+  // Mode muet : on coupe aussi tout audio en cours et on résout immédiatement.
+  if (window._audioMuted) {
+    if (window._currentTTSAudio) {
+      try { window._currentTTSAudio.pause(); } catch (_) {}
+      window._currentTTSAudio = null;
+    }
+    if (onProgress) { try { onProgress(1); } catch (_) {} }
+    return Promise.resolve();
+  }
 
   return new Promise((resolve) => {
     // Stop tout audio TTS en cours
@@ -2239,8 +2386,22 @@ function speakText(arabicText, opts) {
   });
 }
 
+// Hook de normalisation de la query de recherche (vide pour le moment).
+// Attention : le corpus utilise plusieurs formes orthographiques distinctes
+// que les claviers modernes ne distinguent pas — c'est INTENTIONNEL de ne
+// PAS normaliser automatiquement, car cela ferait matcher des formes que
+// l'utilisateur n'a pas demandées. Exemples :
+//   - آ (U+0622 précomposé) → 0 occurrence dans le corpus
+//   - ٓ (U+0653 maddah above) → madd lazim 6 temps (3051 versets)
+//   - ءَا → long-ā initial après hamza (933 versets, ≠ madd lazim)
+// L'utilisateur compose donc la forme exacte via le mini-clavier.
+function _normalizeSearchQuery(q) {
+  return q;
+}
+
 function search() {
-  const searchValue = document.getElementById('searchInput').value;
+  const rawValue = document.getElementById('searchInput').value;
+  const searchValue = _normalizeSearchQuery(rawValue);
   const tajweedContent = document.getElementById('quranContent');
   const frenchOccurrences = document.getElementById('frenchCount');
   const arabicOccurrences = document.getElementById('arabicCount');
@@ -2264,16 +2425,18 @@ function search() {
 
           let count = 0;
           results.forEach((result) => {
-              for(let i = 0; i < result.text.length; i++) {
-                console.log('Current letter: ', result.text[i], ', Unicode: ', result.text[i].charCodeAt(0).toString(16));
-              }
               const verseDiv = document.createElement('div');
+              verseDiv.className = 'search-result';
+              verseDiv.dataset.sura = result.sura;
+              verseDiv.dataset.aya  = result.aya;
+              verseDiv.title = `Cliquer pour ouvrir la page contenant ce verset (${result.sura}:${result.aya})`;
               // Highlight the search term in the result text
               const highlightedText = result.text.replace(regex, (match) => {
                 count++;
                 return `<span class="highlight">${match}</span>`;
               });
               verseDiv.innerHTML = `Sura : ${result.sura}, Aya : ${result.aya}, ${highlightedText}`;
+              verseDiv.addEventListener('click', () => openPageForVerse(result.sura, result.aya));
               tajweedContent.appendChild(verseDiv);
           });
 
@@ -4034,6 +4197,39 @@ document.addEventListener('DOMContentLoaded', () => {
     if (text) await copyToClipboard(text, copyFullBtn);
   });
 
+  // 🔊 / 🔇 Bouton mute : coupe récitation Coran + TTS panneau d'analyse.
+  // Préférence persistée dans localStorage pour la session suivante.
+  const muteBtn = document.getElementById('muteAudioBtn');
+  if (muteBtn) {
+    const applyMuteUI = () => {
+      muteBtn.textContent = window._audioMuted ? '🔇' : '🔊';
+      muteBtn.setAttribute('aria-pressed', window._audioMuted ? 'true' : 'false');
+    };
+    try {
+      window._audioMuted = localStorage.getItem('etyAudioMuted') === '1';
+    } catch (_) { window._audioMuted = false; }
+    applyMuteUI();
+    muteBtn.addEventListener('click', () => {
+      window._audioMuted = !window._audioMuted;
+      try { localStorage.setItem('etyAudioMuted', window._audioMuted ? '1' : '0'); } catch (_) {}
+      // Coupe immédiatement tout audio en cours si on active le mute
+      if (window._audioMuted) {
+        if (window._currentTTSAudio) {
+          try { window._currentTTSAudio.pause(); } catch (_) {}
+          window._currentTTSAudio = null;
+        }
+        if (window._currentQuranAudio) {
+          try {
+            clearTimeout(window._currentQuranAudio._pauseTimer);
+            window._currentQuranAudio.pause();
+          } catch (_) {}
+          window._currentQuranAudio = null;
+        }
+      }
+      applyMuteUI();
+    });
+  }
+
   // Toggle "Détection" : active/désactive le mode où un clic gauche sur une
   // lettre lance directement l'analyse de règle de tajwid.
   const detectionBtn = document.getElementById('detectionToggleBtn');
@@ -4133,10 +4329,175 @@ function LoadPageAfter() {
     loadPage();
   }
 }
+// ─── NAVIGATION PAR SOURATE ──────────────────────────────────────────────
+// Charge pages.json (mapping page → première+dernière sourate/verset) au
+// démarrage. Permet de trouver à quelle page se trouve un (sura, aya) donné.
+let _pagesData = null;
+fetch('pages.json')
+  .then(r => r.json())
+  .then(data => { _pagesData = data; })
+  .catch(e => console.warn('pages.json non chargé', e));
+
+// Trouve le n° de page qui contient le couple (sura, aya).
+// Algorithme : on cherche la dernière entrée dont (s, a) <= cible.
+function findPageForSuraAya(sura, aya) {
+  if (!_pagesData) return null;
+  aya = aya || 1;
+  let best = null;
+  for (const e of _pagesData) {
+    // L'entrée e démarre à (e.s, e.a) et finit à (e.ls, e.la)
+    const startsBeforeOrAt = (e.s < sura) || (e.s === sura && e.a <= aya);
+    if (!startsBeforeOrAt) break; // tableau ordonné par page
+    const endsAfterOrAt = (e.ls > sura) || (e.ls === sura && e.la >= aya);
+    if (endsAfterOrAt) best = e.p;
+  }
+  return best;
+}
+
+// Peuple le <select id="suraSelect"> avec les 114 sourates au format
+// "N° - الفاتحة (Al-Fatiha)". Appelé une seule fois au DOMContentLoaded.
+function populateSuraSelect() {
+  const sel = document.getElementById('suraSelect');
+  if (!sel || typeof SOURATES === 'undefined') return;
+  // Vide d'abord (au cas où DOMContentLoaded est appelé 2 fois)
+  sel.innerHTML = '';
+  SOURATES.forEach((s, i) => {
+    const opt = document.createElement('option');
+    opt.value = String(i + 1);
+    opt.textContent = `${i + 1} — ${s[0]} (${s[1]})`;
+    sel.appendChild(opt);
+  });
+}
+
+// Gère la bascule du segmented control Page/Sourate.
+function setupNavSegmented() {
+  const tabs = document.querySelectorAll('.nav-tab');
+  const panes = document.querySelectorAll('.nav-pane');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const mode = tab.dataset.mode;
+      tabs.forEach(t => {
+        const active = t.dataset.mode === mode;
+        t.classList.toggle('active', active);
+        t.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      panes.forEach(p => { p.hidden = p.dataset.pane !== mode; });
+    });
+  });
+}
+
+// Ouvre la page coranique qui contient le verset (sura, aya). Appelé depuis
+// les résultats de recherche cliquables. Bascule visuellement en mode Page,
+// met à jour les champs, et charge la page.
+function openPageForVerse(sura, aya) {
+  if (!_pagesData) {
+    setTimeout(() => openPageForVerse(sura, aya), 200);
+    return;
+  }
+  const page = findPageForSuraAya(sura, aya);
+  if (!page) { alert(`Aucune page trouvée pour ${sura}:${aya}`); return; }
+  // Bascule visuellement vers l'onglet "Page" pour cohérence avec l'action
+  const pageTab = document.querySelector('.nav-tab[data-mode="page"]');
+  if (pageTab) pageTab.click();
+  const pageInput = document.getElementById('pageNumberInput');
+  if (pageInput) pageInput.value = page;
+  // Stocke le verset cible pour l'éventuel surlignage post-chargement
+  window._lastSearchTarget = { sura, aya };
+  loadPage();
+}
+
+// Charge la page contenant la sourate (+ verset optionnel) choisie dans le
+// select. Sans verset → début de la sourate.
+function loadSura() {
+  const sel = document.getElementById('suraSelect');
+  const ayaInput = document.getElementById('ayaNumberInput');
+  if (!sel) return;
+  const sura = parseInt(sel.value, 10);
+  const aya = parseInt(ayaInput && ayaInput.value, 10) || 1;
+  if (!sura) { alert('Sélectionne une sourate'); return; }
+  if (!_pagesData) {
+    // pages.json pas encore chargé → on attend un peu
+    setTimeout(loadSura, 200);
+    return;
+  }
+  const page = findPageForSuraAya(sura, aya);
+  if (!page) { alert(`Aucune page trouvée pour sourate ${sura}:${aya}`); return; }
+  // Remplit aussi le champ Page pour cohérence entre les 2 modes
+  const pageInput = document.getElementById('pageNumberInput');
+  if (pageInput) pageInput.value = page;
+  loadPage();
+}
+
+// ─── MINI-CLAVIER ARABE ──────────────────────────────────────────────────
+// Insère du texte à la position du curseur dans un input. Préserve la
+// sélection si présente (remplace la sélection). Re-focus l'input après.
+function _insertAtCursor(input, text) {
+  if (!input) return;
+  const start = input.selectionStart ?? input.value.length;
+  const end   = input.selectionEnd   ?? input.value.length;
+  input.value = input.value.slice(0, start) + text + input.value.slice(end);
+  input.selectionStart = input.selectionEnd = start + text.length;
+  input.focus();
+}
+
+function _backspaceAtCursor(input) {
+  if (!input) return;
+  const start = input.selectionStart;
+  const end   = input.selectionEnd;
+  if (start === end && start > 0) {
+    input.value = input.value.slice(0, start - 1) + input.value.slice(end);
+    input.selectionStart = input.selectionEnd = start - 1;
+  } else if (start !== end) {
+    input.value = input.value.slice(0, start) + input.value.slice(end);
+    input.selectionStart = input.selectionEnd = start;
+  }
+  input.focus();
+}
+
+function setupArabicKeyboard() {
+  const toggle = document.getElementById('kbdToggleBtn');
+  const kbd    = document.getElementById('arabicKeyboard');
+  const input  = document.getElementById('searchInput');
+  if (!toggle || !kbd || !input) return;
+
+  // Toggle ouverture / fermeture
+  const setOpen = (open) => {
+    kbd.hidden = !open;
+    toggle.setAttribute('aria-pressed', open ? 'true' : 'false');
+    if (open) input.focus();
+  };
+  toggle.addEventListener('click', () => setOpen(kbd.hidden));
+
+  // Délégation : un seul listener pour toutes les touches
+  kbd.addEventListener('click', (e) => {
+    const key = e.target.closest('.kbd-key');
+    if (!key) return;
+    e.preventDefault();
+    const action = key.dataset.action;
+    if (action) {
+      if      (action === 'space')     _insertAtCursor(input, ' ');
+      else if (action === 'backspace') _backspaceAtCursor(input);
+      else if (action === 'clear')     { input.value = ''; input.focus(); }
+      else if (action === 'close')     setOpen(false);
+      return;
+    }
+    const ch = key.dataset.char;
+    if (ch) _insertAtCursor(input, ch);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateSuraSelect();
+  setupNavSegmented();
+  setupArabicKeyboard();
+});
+
 // 🪟 Rendre les fonctions globales (accessibles depuis le HTML)
 window.LoadPageBefore = LoadPageBefore;
 window.LoadPageAfter = LoadPageAfter;
 window.loadPage = loadPage; // si tu appelles aussi loadPage() depuis le HTML
+window.loadSura = loadSura;
+window.openPageForVerse = openPageForVerse;
 
 const menuToggle = document.getElementById('menu-toggle');
 const sidebar = document.getElementById('sidebar');
@@ -4365,6 +4726,16 @@ function initChatPanel() {
   const input     = document.getElementById('chatInput');
   const sendBtn   = document.getElementById('chatSendBtn');
   if (!toggleBtn || !panel) return;
+
+  // Chat disponible uniquement en local (MAMP). En prod (alwaysdata),
+  // on cache le bouton pour éviter erreurs et consommation API incontrôlée.
+  const host = window.location.hostname;
+  const isLocal = host === 'localhost' || host === '127.0.0.1' || host === '';
+  if (!isLocal) {
+    toggleBtn.style.display = 'none';
+    if (panel) panel.style.display = 'none';
+    return;
+  }
 
   const open  = () => { panel.classList.add('open');  toggleBtn.classList.add('open');
                         toggleBtn.textContent = '✕'; updateChatContextLabel();

@@ -78,26 +78,79 @@
     }
     .search {
       display: flex;
+      gap: .25rem;
       margin-bottom: .5rem;
     }
     .search input {
       flex: 1;
       padding: .5rem;
       border: none;
-      border-radius: .5rem 0 0 .5rem;
+      border-radius: .5rem;
       box-shadow: inset 4px 4px 8px #a1b0b9, inset -4px -4px 8px #ffffff;
       font-size: 1rem;
     }
     .search button {
       padding: 0 .75rem;
+      min-width: 2.6rem;
       border: none;
       background: inherit;
-      border-radius: 0 .5rem .5rem 0;
+      border-radius: .5rem;
       box-shadow: 4px 4px 8px #a1b0b9, -4px -4px 8px #ffffff;
       cursor: pointer;
-      transition: transform .2s;
+      transition: transform .2s, background-color .15s;
+      font-size: 1.05rem;
     }
     .search button:hover { transform: translateY(-2px); }
+    #kbdToggleBtn[aria-pressed="true"] { background: #c0a868; color: #fff; }
+
+    /* Mini-clavier arabe (style lexilogos) */
+    #arabicKeyboard {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+      margin: .35rem 0 .75rem;
+      padding: .5rem;
+      background: rgba(255, 250, 234, 0.6);
+      border-radius: .6rem;
+      box-shadow: inset 2px 2px 5px #a1b0b9, inset -2px -2px 5px #ffffff;
+    }
+    #arabicKeyboard[hidden] { display: none; }
+    .kbd-row {
+      display: flex;
+      gap: .2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .kbd-key {
+      flex: 1 0 1.8rem;
+      min-width: 1.8rem;
+      max-width: 2.6rem;
+      padding: .35rem 0;
+      border: none;
+      background: #fffaea;
+      color: #2c1810;
+      border-radius: .35rem;
+      cursor: pointer;
+      font-family: 'Scheherazade', serif;
+      font-size: 1.25rem;
+      line-height: 1.2;
+      box-shadow: 2px 2px 4px #a1b0b9, -2px -2px 4px #ffffff;
+      transition: background .12s ease, transform .08s ease;
+    }
+    .kbd-key:hover  { background: #f1e7c4; }
+    .kbd-key:active { transform: translateY(1px); box-shadow: inset 2px 2px 4px #a1b0b9, inset -2px -2px 4px #ffffff; }
+    .kbd-row-diacritics .kbd-key { font-size: 1.4rem; color: #c0392b; }
+    /* Caractères spéciaux coraniques (tatweel, alif silencieuse, ya silencieuse) :
+       marqueurs orthographiques distincts des voyelles → bleu marine. */
+    .kbd-row-special .kbd-key { font-size: 1.3rem; color: #1a4f6e; }
+    .kbd-row-actions .kbd-key {
+      flex: 1 1 auto;
+      font-size: 1rem;
+      max-width: none;
+      padding: .4rem .8rem;
+    }
+    .kbd-action[data-action="close"] { background: #fbe1de; }
+    .kbd-action[data-action="clear"] { background: #fff5c4; }
     #buttonGrid {
       max-height: calc(100vh - 6rem);
       overflow-y: auto;
@@ -249,6 +302,30 @@
       word-break: break-all;
       max-width: 100%;
     }
+    .share-modal-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin: 0.4rem auto 0;
+      padding: 0.3rem 0.7rem;
+      color: #3a2a14;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border-radius: 0.6rem;
+      transition: background .12s ease;
+    }
+    .share-modal-email:hover { background: rgba(58, 42, 20, 0.08); }
+    .share-modal-email-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      background: rgba(58, 42, 20, 0.85);
+      color: #fff;
+      font-size: 0.85rem;
+    }
     .share-modal-actions {
       display: flex;
       gap: 0.5rem;
@@ -284,16 +361,49 @@
       font-style: italic;
     }
 
-    /* PAGE CONTROLS - UNIFORM HEIGHT */
-    .page-controls {
+    /* NAVIGATION CONTROLS — sélecteur Page/Sourate + inputs */
+    .nav-controls {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+      margin-bottom: .75rem;
+    }
+    /* Segmented control : bascule Page / Sourate */
+    .nav-segmented {
+      display: flex;
+      gap: .3rem;
+      padding: .25rem;
+      background: inherit;
+      border-radius: .6rem;
+      box-shadow: inset 3px 3px 6px #a1b0b9, inset -3px -3px 6px #ffffff;
+      align-self: flex-start;
+    }
+    .nav-tab {
+      padding: .35rem 1.1rem;
+      border: none;
+      background: transparent;
+      border-radius: .45rem;
+      cursor: pointer;
+      font-size: .95rem;
+      color: #4a5560;
+      transition: background .15s ease, color .15s ease, box-shadow .15s ease;
+    }
+    .nav-tab:hover { background: rgba(255,255,255,0.4); }
+    .nav-tab.active {
+      background: #fffaea;
+      color: #2c1810;
+      font-weight: 600;
+      box-shadow: 2px 2px 5px #a1b0b9, -2px -2px 5px #ffffff;
+    }
+    /* Conteneurs d'inputs pour chaque mode */
+    .nav-pane {
       display: flex;
       gap: .5rem;
-      margin-bottom: .75rem;
       flex-wrap: nowrap;
-      justify-content: space-between;
       align-items: center;
     }
-    .page-controls button {
+    .nav-pane[hidden] { display: none; }
+    .nav-pane button {
       flex: 1;
       padding: .5rem .75rem;
       border: none;
@@ -305,7 +415,8 @@
       font-size: 1rem;
       text-align: center;
     }
-    .page-controls input {
+    .nav-pane input,
+    .nav-pane select {
       flex: 0 0 auto;
       padding: .5rem .75rem;
       margin: 0;
@@ -315,17 +426,45 @@
       box-shadow: inset 4px 4px 8px #a1b0b9, inset -4px -4px 8px #ffffff;
       font-size: 1rem;
       text-align: center;
+      font-family: inherit;
     }
-    .page-controls button:hover,
-    .page-controls input:focus {
+    .nav-pane button:hover,
+    .nav-pane input:focus,
+    .nav-pane select:focus {
       background: #b0bac2;
     }
+    /* Labels bilingues : arabe en grand + français en plus petit/discret
+       à côté. Sur mobile (< 600px), on cache le français pour gagner de la
+       place ; les noms arabes restent (plus universels pour cette appli). */
+    .nav-tab span,
+    .nav-pane button span {
+      font-size: 0.78rem;
+      color: #6d7a85;
+      margin-inline-start: 0.35rem;
+      font-weight: normal;
+    }
+    .nav-tab.active span { color: #826f4b; }
+    @media (max-width: 600px) {
+      .nav-tab span,
+      .nav-pane button span { display: none; }
+    }
+    /* Combo sourates : plus large que les autres inputs */
+    #suraSelect {
+      flex: 1 1 auto;
+      min-width: 12rem;
+      text-align: left;
+      direction: rtl;
+    }
+    #ayaNumberInput { width: 4rem; }
 
     #results { margin-bottom: .75rem; font-weight: 500; color: #444; font-size: 1rem; }
     #quranContent {
       flex: 1;
       overflow-y: auto;
-      padding: 2rem;
+      /* padding-bottom plus large : laisse une zone vide sous le dernier
+         verset pour que le panneau d'analyse flottant puisse toujours être
+         scrollé "au-dessus" du contenu visible, sans cacher la ligne cliquée. */
+      padding: 2rem 2rem 14rem 2rem;
       background: inherit;
       border-radius: 1.25rem;
       box-shadow: inset 4px 4px 12px #a1b0b9, inset -4px -4px 12px #ffffff;
@@ -342,6 +481,29 @@
       background-color: #fffbe6;
       padding: 1rem 1.5rem;
       border-radius: 1rem;
+    }
+    /* Résultats de recherche : chaque .search-result est cliquable, ouvre la
+       page contenant le verset trouvé. */
+    #quranContent .search-result {
+      margin-bottom: 1rem;
+      padding: 0.75rem 1rem;
+      background-color: #fffbe6;
+      border-radius: 0.7rem;
+      cursor: pointer;
+      transition: background-color .15s ease, transform .1s ease, box-shadow .15s ease;
+      font-size: 1.8rem;
+      line-height: 2.4rem;
+    }
+    #quranContent .search-result:hover {
+      background-color: #fff5c4;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.1);
+    }
+    #quranContent .search-result:active { transform: scale(0.99); }
+    #quranContent .search-result .highlight {
+      background-color: #ffd966;
+      padding: 0 0.2rem;
+      border-radius: 0.25rem;
+      font-weight: bold;
     }
 
     /* ANALYSIS PANEL — barre flottante en bas, alignée avec #content */
@@ -425,6 +587,28 @@
     }
     #copyAnalysisFullBtn:hover { background: #fff; color: #2e7d32; }
     #copyAnalysisFullBtn.copied { background: #2e7d32; color: #fff; }
+    /* Bouton mute : coupe la récitation du mot + le TTS du panneau.
+       Placé à gauche, à côté du bouton copy (📋), pour rester groupé avec
+       les autres contrôles à gauche du panneau. */
+    #muteAudioBtn {
+      position: absolute;
+      left: 3rem;
+      top: 0.55rem;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      border: none;
+      background: #f1e8c8;
+      color: #555;
+      font-size: 0.95rem;
+      line-height: 1;
+      cursor: pointer;
+      pointer-events: auto;
+      box-shadow: inset 2px 2px 4px #c9bf9e, inset -2px -2px 4px #fffbe6;
+      transition: background .15s ease, color .15s ease;
+    }
+    #muteAudioBtn:hover { background: #fff; }
+    #muteAudioBtn[aria-pressed="true"] { background: #c0392b; color: #fff; }
     .analysis-toggles {
       position: absolute;
       left: 3rem;
@@ -812,7 +996,78 @@
       <h2>أحكام التجويد / Tajwid</h2>
       <div class="search">
         <input type="text" id="searchInput" placeholder="Recherche...">
-        <button onclick="search()">🔍</button>
+        <button onclick="search()" title="Rechercher">🔍</button>
+        <button id="kbdToggleBtn" type="button" title="Afficher / cacher le clavier arabe">⌨</button>
+      </div>
+      <!-- Mini-clavier arabe (style lexilogos) — caché par défaut -->
+      <div id="arabicKeyboard" hidden>
+        <div class="kbd-row">
+          <button class="kbd-key" data-char="ء" title="hamza isolée">ء</button>
+          <button class="kbd-key" data-char="أ" title="hamza sur alif (au-dessus)">أ</button>
+          <button class="kbd-key" data-char="إ" title="hamza sous alif">إ</button>
+          <button class="kbd-key" data-char="ٱ" title="hamza al-wasla (alif silencieuse)">ٱ</button>
+          <button class="kbd-key" data-char="ؤ" title="hamza sur waw">ؤ</button>
+          <button class="kbd-key" data-char="ئ" title="hamza sur ya">ئ</button>
+        </div>
+        <div class="kbd-row">
+          <button class="kbd-key" data-char="ا">ا</button>
+          <button class="kbd-key" data-char="ب">ب</button>
+          <button class="kbd-key" data-char="ت">ت</button>
+          <button class="kbd-key" data-char="ث">ث</button>
+          <button class="kbd-key" data-char="ج">ج</button>
+          <button class="kbd-key" data-char="ح">ح</button>
+          <button class="kbd-key" data-char="خ">خ</button>
+          <button class="kbd-key" data-char="د">د</button>
+          <button class="kbd-key" data-char="ذ">ذ</button>
+          <button class="kbd-key" data-char="ر">ر</button>
+        </div>
+        <div class="kbd-row">
+          <button class="kbd-key" data-char="ز">ز</button>
+          <button class="kbd-key" data-char="س">س</button>
+          <button class="kbd-key" data-char="ش">ش</button>
+          <button class="kbd-key" data-char="ص">ص</button>
+          <button class="kbd-key" data-char="ض">ض</button>
+          <button class="kbd-key" data-char="ط">ط</button>
+          <button class="kbd-key" data-char="ظ">ظ</button>
+          <button class="kbd-key" data-char="ع">ع</button>
+          <button class="kbd-key" data-char="غ">غ</button>
+          <button class="kbd-key" data-char="ف">ف</button>
+        </div>
+        <div class="kbd-row">
+          <button class="kbd-key" data-char="ق">ق</button>
+          <button class="kbd-key" data-char="ك">ك</button>
+          <button class="kbd-key" data-char="ل">ل</button>
+          <button class="kbd-key" data-char="م">م</button>
+          <button class="kbd-key" data-char="ن">ن</button>
+          <button class="kbd-key" data-char="ه">ه</button>
+          <button class="kbd-key" data-char="و">و</button>
+          <button class="kbd-key" data-char="ي">ي</button>
+          <button class="kbd-key" data-char="ى">ى</button>
+          <button class="kbd-key" data-char="ة">ة</button>
+        </div>
+        <div class="kbd-row kbd-row-diacritics">
+          <button class="kbd-key kbd-diac" data-char="َ"  title="fatha">ـَ</button>
+          <button class="kbd-key kbd-diac" data-char="ِ"  title="kasra">ـِ</button>
+          <button class="kbd-key kbd-diac" data-char="ُ"  title="damma">ـُ</button>
+          <button class="kbd-key kbd-diac" data-char="ً"  title="tanwin fatha">ـً</button>
+          <button class="kbd-key kbd-diac" data-char="ٍ"  title="tanwin kasra">ـٍ</button>
+          <button class="kbd-key kbd-diac" data-char="ٌ"  title="tanwin damma">ـٌ</button>
+          <button class="kbd-key kbd-diac" data-char="ْ"  title="sukoon">ـْ</button>
+          <button class="kbd-key kbd-diac" data-char="ّ"  title="shadda">ـّ</button>
+          <button class="kbd-key kbd-diac" data-char="ٰ"  title="alif suscrit (ـٰ — dagger alif, ex: ذَٰلِكَ)">ـٰ</button>
+          <button class="kbd-key kbd-diac" data-char="ٓ"  title="maddah above (madd lazim 6 temps, ex: الٓم)">ـٓ</button>
+        </div>
+        <div class="kbd-row kbd-row-special">
+          <button class="kbd-key kbd-spec" data-char="ـ" title="tatweel (élongation horizontale, ex: الرَّحْمَـٰنِ)">ـ</button>
+          <button class="kbd-key kbd-spec" data-char="۟" title="alif silencieuse (small high zero, ex: قَالُوا۟)">ـ۟</button>
+          <button class="kbd-key kbd-spec" data-char="ۦ" title="ya silencieuse (small high ya, ex: بِهِۦ)">ـۦ</button>
+        </div>
+        <div class="kbd-row kbd-row-actions">
+          <button class="kbd-key kbd-action" data-action="space"     title="Espace">⎵</button>
+          <button class="kbd-key kbd-action" data-action="backspace" title="Effacer">⌫</button>
+          <button class="kbd-key kbd-action" data-action="clear"     title="Tout effacer">🗑</button>
+          <button class="kbd-key kbd-action" data-action="close"     title="Fermer le clavier">✕</button>
+        </div>
       </div>
       <select id="voiceSelect" title="Voix arabe (TTS)" style="width:100%; padding:.4rem; margin-bottom:.5rem; border:none; border-radius:.5rem; background:inherit; box-shadow: inset 4px 4px 8px #a1b0b9, inset -4px -4px 8px #ffffff; font-size: .9rem;">
         <option value="">— Voix automatique —</option>
@@ -861,11 +1116,28 @@
           <button id="qrShareBtn" type="button" title="Partager l'application" aria-label="Partager">📱</button>
         </div>
       </div>
-      <div class="page-controls">
-        <button onclick="LoadPageBefore()">Avant</button>
-        <button onclick="loadPage()">Charger</button>
-        <input type="number" id="pageNumberInput" min="1" max="1206" placeholder="n°">
-        <button onclick="LoadPageAfter()">Après</button>
+      <div class="nav-controls">
+        <div class="nav-segmented" role="tablist" aria-label="Mode de navigation">
+          <button type="button" class="nav-tab active" data-mode="page"
+                  role="tab" aria-selected="true">صفحة <span>Page</span></button>
+          <button type="button" class="nav-tab" data-mode="sura"
+                  role="tab" aria-selected="false">سورة <span>Sourate</span></button>
+        </div>
+        <!-- Mode Page (par défaut) -->
+        <div class="nav-pane" data-pane="page">
+          <button onclick="LoadPageBefore()">السابق <span>Avant</span></button>
+          <button onclick="loadPage()">تحميل <span>Charger</span></button>
+          <input type="number" id="pageNumberInput" min="1" max="604" placeholder="n°">
+          <button onclick="LoadPageAfter()">التالي <span>Après</span></button>
+        </div>
+        <!-- Mode Sourate (caché par défaut, peuplé par JS) -->
+        <div class="nav-pane" data-pane="sura" hidden>
+          <select id="suraSelect" aria-label="Sourate">
+            <!-- 114 options ajoutées au DOMContentLoaded -->
+          </select>
+          <input type="number" id="ayaNumberInput" min="1" placeholder="آية / v." title="N° de verset (optionnel)">
+          <button onclick="loadSura()">اذهب <span>Aller</span></button>
+        </div>
       </div>
       <div id="results">Résultats : <span id="arabicCount"></span> / <span id="frenchCount"></span></div>
       <div id="quranContent"></div>
@@ -873,6 +1145,7 @@
         <button id="clearAnalysisBtn" type="button" title="Effacer la règle détectée">✕</button>
         <button id="copyAnalysisBtn" type="button" title="Copier juste le verbe au passé (pour coller dans Almaany / Google)">🔎</button>
         <button id="copyAnalysisFullBtn" type="button" title="Copier toute l'analyse multi-lignes (pour notes / transmission)">📋</button>
+        <button id="muteAudioBtn" type="button" title="Couper / activer le son (récitation + analyse)" aria-pressed="false">🔊</button>
         <div class="analysis-toggles">
           <button id="detectionToggleBtn" type="button" role="switch" aria-pressed="false"
                   title="Activer la détection au clic">
@@ -934,6 +1207,10 @@
            alt="QR code vers studiocoran.alwaysdata.net"
            width="260" height="260">
       <div class="share-modal-url" id="shareModalUrl">https://studiocoran.alwaysdata.net/</div>
+      <a class="share-modal-email" href="mailto:studiocoran1@gmail.com">
+        <span class="share-modal-email-icon" aria-hidden="true">✉</span>
+        studiocoran1@gmail.com
+      </a>
       <div class="share-modal-actions">
         <button type="button" id="shareCopyBtn" class="share-btn">📋 Copier le lien</button>
         <button type="button" id="shareNativeBtn" class="share-btn share-btn-primary">📤 Partager</button>
@@ -943,6 +1220,7 @@
   </div>
 
   <script src="utilitaires.js"></script>
+  <script src="sourates.js"></script>
   <script src="script_wasla.js"></script>
 </body>
 </html>

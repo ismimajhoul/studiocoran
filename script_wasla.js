@@ -440,11 +440,12 @@ function renderVerseWithHighlight(verse, hits) {
   vDiv.dataset.aya  = verse.aya;
   vDiv.dataset.text = text;
 
-  // En-tête « Sura : X, Aya : Y, » dans un span dédié → on peut ainsi
-  // isoler le corps arabe et calculer les offsets sans risque de pollution.
+  // En-tête « X:Y » (notation coranique standard) dans un span dédié → on
+  // peut ainsi isoler le corps arabe et calculer les offsets sans risque
+  // de pollution.
   const header = document.createElement('span');
   header.className = 'verseHeader';
-  header.textContent = `Sura : ${verse.sura}, Aya : ${verse.aya}, `;
+  header.textContent = `${verse.sura}:${verse.aya}  `;
   vDiv.appendChild(header);
 
   const body = document.createElement('span');
@@ -2435,7 +2436,7 @@ function search() {
                 count++;
                 return `<span class="highlight">${match}</span>`;
               });
-              verseDiv.innerHTML = `Sura : ${result.sura}, Aya : ${result.aya}, ${highlightedText}`;
+              verseDiv.innerHTML = `<span class="verseHeader">${result.sura}:${result.aya}  </span>${highlightedText}`;
               verseDiv.addEventListener('click', () => openPageForVerse(result.sura, result.aya));
               tajweedContent.appendChild(verseDiv);
           });
@@ -4384,6 +4385,31 @@ function setupNavSegmented() {
       panes.forEach(p => { p.hidden = p.dataset.pane !== mode; });
     });
   });
+
+  // Auto-trigger : chargement dès qu'on change la sourate sélectionnée ou
+  // qu'on saisit un n° de verset (pas besoin de bouton "Aller").
+  const sel = document.getElementById('suraSelect');
+  const ayaInput = document.getElementById('ayaNumberInput');
+  if (sel) sel.addEventListener('change', () => loadSura());
+  if (ayaInput) {
+    // input : déclenché à chaque caractère saisi (clavier physique OU virtuel
+    //         sur mobile). Debounce 400ms pour ne charger qu'une fois quand
+    //         l'utilisateur arrête de taper.
+    let debounceId = null;
+    ayaInput.addEventListener('input', () => {
+      clearTimeout(debounceId);
+      if (!ayaInput.value.trim()) return;
+      debounceId = setTimeout(() => loadSura(), 400);
+    });
+    // Enter : déclenchement immédiat sans attendre le debounce
+    ayaInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        clearTimeout(debounceId);
+        loadSura();
+      }
+    });
+  }
 }
 
 // Ouvre la page coranique qui contient le verset (sura, aya). Appelé depuis

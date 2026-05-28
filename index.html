@@ -497,6 +497,40 @@
       border-bottom: 1px solid rgba(0,0,0,0.1);
     }
     #sarfStatsHeader strong { color: #c0392b; }
+    /* Sous-onglets de catégorie : Verbes / Noms / Harf */
+    .sarf-cat-tabs {
+      display: flex;
+      gap: 0.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .sarf-cat-tab {
+      flex: 1;
+      padding: 0.3rem 0.2rem;
+      border: none;
+      background: #fff;
+      color: #555;
+      border-radius: 0.4rem;
+      cursor: pointer;
+      font-family: 'Scheherazade', serif;
+      font-size: 1.05rem;
+      line-height: 1.1;
+      box-shadow: 2px 2px 4px #a1b0b9, -2px -2px 4px #ffffff;
+      transition: background .12s ease, color .12s ease;
+    }
+    .sarf-cat-tab span {
+      display: block;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      color: #888;
+      font-weight: 500;
+    }
+    .sarf-cat-tab:hover { background: #f1e7c4; }
+    .sarf-cat-tab.active {
+      background: #2c5f2d;
+      color: #fff;
+      box-shadow: inset 2px 2px 4px #1e421f, inset -2px -2px 4px #3a7a3b;
+    }
+    .sarf-cat-tab.active span { color: #d6e8d0; }
     /* Liste détaillée des verbes : groupes par temps (Passé / Présent / Impératif) */
     .vstat-group {
       display: block;
@@ -636,7 +670,6 @@
     }
     #ayaNumberInput { width: 4rem; flex: 0 0 4rem; }
 
-    #results { margin-bottom: .75rem; font-weight: 500; color: #444; font-size: 1rem; }
     #quranContent {
       flex: 1;
       overflow-y: auto;
@@ -853,6 +886,31 @@
       margin-bottom: 0.4rem;
     }
     #analysisRule:empty { display: none; }
+    /* Ligne unique de résultat (détection de règle / recherche) :
+       nom_ar nom_latin · N · تكرار / occurrence(s) — tout sur une ligne. */
+    .count-line {
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: baseline;
+      gap: 0.4rem;
+      direction: ltr;
+      font-family: 'Scheherazade', serif;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .count-line .count-name-ar  { color: #c0392b; font-weight: bold; }
+    .count-line .count-name-latin,
+    .count-line .count-unit-fr {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62em;
+      color: #888;
+      font-weight: 500;
+    }
+    .count-line .count-sep      { color: #bbb; }
+    .count-line .count-num      { color: #2c5f2d; font-weight: bold; }
+    .count-line .count-unit-ar  { color: #555; font-size: 0.85em; }
     #analysisRule .ety-morph-line {
       display: block;
       font-size: 0.85em;          /* ≈ 1.87rem, proche de la taille des versets */
@@ -1260,6 +1318,11 @@
       <!-- Panneau de stats verbales (mode Sarf+Page uniquement).
            Caché par défaut, peuplé par _renderVerbStats() au chargement de page. -->
       <div id="sarfStatsPanel">
+        <div class="sarf-cat-tabs" role="tablist" aria-label="Catégorie morphologique">
+          <button type="button" class="sarf-cat-tab active" data-cat="verb">أفعال <span>Verbes</span></button>
+          <button type="button" class="sarf-cat-tab" data-cat="noun">أسماء <span>Noms</span></button>
+          <button type="button" class="sarf-cat-tab" data-cat="harf">حروف <span>Harf</span></button>
+        </div>
         <div id="sarfStatsHeader"></div>
         <div id="sarfStatsList"></div>
       </div>
@@ -1344,7 +1407,6 @@
           <input type="number" id="ayaNumberInput" min="1" placeholder="آية / v." title="N° de verset (optionnel — chargement auto)">
         </div>
       </div>
-      <div id="results">Résultats : <span id="arabicCount"></span> / <span id="frenchCount"></span></div>
       <div id="quranContent"></div>
       <div id="analysisPanel">
         <button id="clearAnalysisBtn" type="button" title="Effacer la règle détectée">✕</button>

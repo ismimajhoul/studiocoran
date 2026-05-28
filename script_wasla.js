@@ -1894,12 +1894,28 @@ function formatCountSpeech(arabicName, n) {
   return                         `وجدنا ${arabicName} ${toArabicDigits(n)} مرة`;
 }
 
+// Construit une ligne unique "nom_ar nom_latin · N · تكرار / occurrence(s)".
+// Réutilisé pour la détection de règle (tajwid) et la recherche.
+function _renderCountLine(arName, latinName, count, unitFr) {
+  return `<div class="count-line">`
+       + `<span class="count-name-ar">${arName}</span>`
+       + `<span class="count-name-latin">${latinName}</span>`
+       + `<span class="count-sep">·</span>`
+       + `<strong class="count-num">${count}</strong>`
+       + `<span class="count-unit-ar">تكرار</span>`
+       + `<span class="count-unit-fr">/ ${unitFr}</span>`
+       + `</div>`;
+}
+
 function updateCounters(ruleDetails, totalHits) {
-  // Affichage des compteurs uniquement. La voix est désormais centralisée
-  // dans loadPageWithButton qui fait une seule prise de parole combinant
-  // « annonce de recherche » + « résultat ».
-  document.getElementById('frenchCount').textContent = `${ruleDetails.frenchName}: ${totalHits}`;
-  document.getElementById('arabicCount').textContent = ruleDetails.arabicName;
+  // Résultat affiché sur UNE seule ligne dans le panneau du bas (la ligne
+  // "Résultats : ..." a été supprimée). Voix centralisée dans loadPageWithButton.
+  const ruleDiv = document.getElementById('analysisRule');
+  const txtDiv  = document.getElementById('analysisText');
+  if (ruleDiv) ruleDiv.innerHTML = _renderCountLine(
+    ruleDetails.arabicName, ruleDetails.frenchName, totalHits, 'occurrence(s)');
+  if (txtDiv)  txtDiv.innerHTML  = '';
+  if (typeof updateClearAnalysisBtnVisibility === 'function') updateClearAnalysisBtnVisibility();
 }
 
 
@@ -1907,8 +1923,6 @@ function updateCounters(ruleDetails, totalHits) {
 
 function resetDisplay() {
   document.getElementById('quranContent').innerHTML    = '';
-  document.getElementById('frenchCount').textContent   = '';
-  document.getElementById('arabicCount').textContent   = '';
   // Efface aussi le panneau d'analyse en bas (résultat d'un précédent
   // « Détecter la règle ») — il n'est plus pertinent pour la nouvelle recherche.
   const rule = document.getElementById('analysisRule');
@@ -2404,8 +2418,6 @@ function search() {
   const rawValue = document.getElementById('searchInput').value;
   const searchValue = _normalizeSearchQuery(rawValue);
   const tajweedContent = document.getElementById('quranContent');
-  const frenchOccurrences = document.getElementById('frenchCount');
-  const arabicOccurrences = document.getElementById('arabicCount');
 
   if (!searchValue) {
       alert('Veuillez entrer un mot à rechercher');
@@ -2417,10 +2429,6 @@ function search() {
       .then(data => {
           const results = data.verses;
           const regex = new RegExp(searchValue, 'gi');
-          
-          // Clear the previous count
-          frenchOccurrences.innerHTML = '';
-          arabicOccurrences.innerHTML = '';
 
           tajweedContent.innerHTML = '';
 
@@ -2441,8 +2449,13 @@ function search() {
               tajweedContent.appendChild(verseDiv);
           });
 
-          frenchOccurrences.innerHTML = `occurrence(s): ${count}`;
-          arabicOccurrences.innerHTML = `عدد: ${count}`;
+          // Compte des occurrences affiché sur une ligne dans le panneau du bas
+          const ruleDiv = document.getElementById('analysisRule');
+          const txtDiv  = document.getElementById('analysisText');
+          if (ruleDiv) ruleDiv.innerHTML = _renderCountLine(
+            rawValue, 'recherche', count, `occurrence(s) · ${results.length} verset(s)`);
+          if (txtDiv)  txtDiv.innerHTML  = '';
+          if (typeof updateClearAnalysisBtnVisibility === 'function') updateClearAnalysisBtnVisibility();
 
       })
       .catch((error) => {
@@ -4570,72 +4583,144 @@ function _applyMode(axis, value) {
 // ─── ÉTAPE 5 : MODE PAGE+SARF — stats verbales sur la page courante ──────
 // Fetch les verbes d'une page (via morphology_page.php) et affiche un récap
 // dans le panneau d'analyse : total + breakdown par temps + liste détaillée.
+// Catégorie morphologique courante en mode Sarf+Page : verb | noun | harf
+let _sarfCat = 'verb';
+
 async function loadAndRenderPageVerbStats(pageNum) {
   if (!pageNum || !_pagesData) return;
   const range = _pagesData.find(e => e.p === pageNum);
   if (!range) return;
-  const url = `morphology_page.php?sura=${range.s}&first_aya=${range.a}`
+  const url = `morphology_page.php?cat=${_sarfCat}`
+            + `&sura=${range.s}&first_aya=${range.a}`
             + `&last_sura=${range.ls}&last_aya=${range.la}`;
   try {
     const resp = await fetch(url);
     const data = await resp.json();
     if (data.error) { console.warn('morphology_page error:', data.error); return; }
-    _renderVerbStats(data.verbs || [], pageNum);
+    _renderMorphoStats(data.verbs || [], pageNum, _sarfCat);
   } catch (e) {
-    console.error('Verb stats fetch error:', e);
+    console.error('Morpho stats fetch error:', e);
   }
 }
 
-function _tenseLabel(features) {
-  if (!features) return { ar: 'autre', fr: 'autre' };
-  if (features.includes('PERF')) return { ar: 'ماضي',  fr: 'Passé' };
-  if (features.includes('IMPF')) return { ar: 'مضارع', fr: 'Présent' };
-  if (features.includes('IMPV')) return { ar: 'أمر',   fr: 'Impératif' };
-  return { ar: 'autre', fr: 'autre' };
+// Détermine la clé de regroupement d'un item selon la catégorie :
+//  - verb : par temps (Passé / Présent / Impératif)
+//  - noun : par cas (Nominatif مرفوع / Accusatif منصوب / Génitif مجرور)
+//  - harf : par type de particule (préposition, conjonction, article...)
+const _HARF_LABELS = {
+  'P':'Préposition · جر', 'CONJ':'Conjonction · عطف', 'DET':'Article · ال',
+  'NEG':'Négation · نفي', 'SUB':'Subordination', 'ACC':'Particule نصب',
+  'COND':'Conditionnelle · شرط', 'INTG':'Interrogation · استفهام',
+  'EMPH':'Emphase · توكيد', 'REM':'Reprise · استئناف', 'CERT':'Certitude · تحقيق',
+  'VOC':'Vocatif · نداء', 'RES':'Restriction · حصر', 'FUT':'Futur · استقبال',
+  'T':'Adverbe de temps', 'LOC':'Adverbe de lieu', 'EXP':'Explication',
+};
+const _GROUP_ORDER = {
+  verb: ['Passé', 'Présent', 'Impératif', 'Autre'],
+  noun: ['Nominatif · مرفوع', 'Accusatif · منصوب', 'Génitif · مجرور', 'Indéclinable'],
+  harf: null, // ordre naturel d'apparition
+};
+
+function _groupKey(cat, item) {
+  const f = item.features || '';
+  if (cat === 'verb') {
+    if (f.includes('PERF')) return 'Passé';
+    if (f.includes('IMPF')) return 'Présent';
+    if (f.includes('IMPV')) return 'Impératif';
+    return 'Autre';
+  }
+  if (cat === 'noun') {
+    if (f.includes('NOM')) return 'Nominatif · مرفوع';
+    if (f.includes('ACC')) return 'Accusatif · منصوب';
+    if (f.includes('GEN')) return 'Génitif · مجرور';
+    return 'Indéclinable';
+  }
+  // harf
+  return _HARF_LABELS[item.pos] || 'Autre particule';
 }
 
-function _renderVerbStats(verbs, pageNum) {
-  // Cible : nouveau panneau dans la sidebar (#sarfStatsPanel) — visible
-  // uniquement en mode Page+Sarf via CSS. Le panneau du bas (#analysisPanel)
-  // est masqué dans ce mode (voir CSS).
+// Construit une map (sura:aya) → texte arabe complet du verset, depuis les
+// .verse déjà rendus dans #quranContent (mode Page).
+function _buildVerseTextMap() {
+  const map = {};
+  document.querySelectorAll('#quranContent .verse').forEach(v => {
+    const s = v.dataset.sura, a = v.dataset.aya;
+    if (s && a) map[`${s}:${a}`] = v.dataset.text || '';
+  });
+  return map;
+}
+
+// Extrait le MOT COMPLET (verbe + pronoms attachés) à la position corpus
+// donnée, depuis le texte du verset. Gère le décalage basmala : le texte du
+// verset 1 (sauf sourates 1 et 9) commence par les 4 mots de la basmala que
+// le corpus n'inclut pas dans son comptage → display = corpus + 4.
+function _fullWordFromVerse(verseText, sura, aya, corpusWordPos) {
+  if (!verseText) return null;
+  const trimmed = verseText.trim();
+  const words = trimmed.split(/\s+/).filter(Boolean);
+  let idx = corpusWordPos;
+  if (aya === 1 && sura !== 1 && sura !== 9 &&
+      (trimmed.startsWith('بِسْمِ') || trimmed.startsWith('بسم'))) {
+    idx += 4;
+  }
+  return words[idx - 1] || null;
+}
+
+function _renderMorphoStats(items, pageNum, cat) {
+  // Cible : panneau dans la sidebar (#sarfStatsPanel) — visible uniquement
+  // en mode Page+Sarf via CSS.
   const headerDiv = document.getElementById('sarfStatsHeader');
   const listDiv   = document.getElementById('sarfStatsList');
   if (!headerDiv || !listDiv) return;
 
-  // Regroupe par temps (ماضي / مضارع / أمر)
-  const groups = { 'Passé': [], 'Présent': [], 'Impératif': [], 'autre': [] };
+  // Regroupement selon la catégorie (temps / cas / type de particule)
+  const groups = {};
+  const seen = [];
   let passive = 0;
-  verbs.forEach(v => {
-    const t = _tenseLabel(v.features).fr;
-    groups[t] = groups[t] || [];
-    groups[t].push(v);
-    if ((v.features || '').includes('PASS')) passive++;
+  items.forEach(v => {
+    const k = _groupKey(cat, v);
+    if (!groups[k]) { groups[k] = []; seen.push(k); }
+    groups[k].push(v);
+    if (cat === 'verb' && (v.features || '').includes('PASS')) passive++;
   });
 
-  const total = verbs.length;
-  // En-tête : total + breakdown par temps + voix
-  const recapParts = [`<strong>${total}</strong> verbes (page ${pageNum})`];
-  ['Passé','Présent','Impératif'].forEach(t => {
-    const n = (groups[t] || []).length;
-    if (n) recapParts.push(`${t}: <strong>${n}</strong>`);
+  // Ordre des groupes : fixe pour verbe/nom, naturel pour harf
+  const order = _GROUP_ORDER[cat] || seen;
+  const orderedKeys = order ? order.filter(k => groups[k]) : seen;
+
+  const catLabel = cat === 'verb' ? 'verbes' : cat === 'noun' ? 'noms' : 'particules';
+  const total = items.length;
+  const recapParts = [`<strong>${total}</strong> ${catLabel} (page ${pageNum})`];
+  orderedKeys.forEach(k => {
+    const n = groups[k].length;
+    // libellé court pour le récap (avant le ·)
+    const shortK = k.split(' · ')[0];
+    recapParts.push(`${shortK}: <strong>${n}</strong>`);
   });
   if (passive) recapParts.push(`Passif: <strong>${passive}</strong>`);
   headerDiv.innerHTML = recapParts.join(' · ');
 
-  // Liste détaillée groupée par temps
+  // Map des textes de versets (pour extraire le mot complet, avec pronoms)
+  const verseMap = _buildVerseTextMap();
+
   const out = [];
-  ['Passé','Présent','Impératif'].forEach(t => {
-    const list = groups[t] || [];
-    if (!list.length) return;
-    const items = list.map(v => {
+  orderedKeys.forEach(k => {
+    const list = groups[k];
+    if (!list || !list.length) return;
+    const itemsHtml = list.map(v => {
       const root = v.root_ar || '';
-      const isPass = (v.features || '').includes('PASS') ? ' <em>(passif)</em>' : '';
+      const isPass = (cat === 'verb' && (v.features || '').includes('PASS'))
+        ? ' <em>(passif)</em>' : '';
+      const verseText = verseMap[`${v.sura}:${v.aya}`] || '';
+      const fullWord = _fullWordFromVerse(
+        verseText, parseInt(v.sura,10), parseInt(v.aya,10),
+        parseInt(v.word_position,10)) || '?';
       return `<span class="vstat-item" data-sura="${v.sura}" data-aya="${v.aya}" data-word="${v.word_position}">`
-           + `<strong>${v.form_ar}</strong>`
+           + `<strong>${fullWord}</strong>`
            + (root ? ` <span class="vstat-root">[${root}]</span>` : '')
            + `${isPass}</span>`;
     }).join(' · ');
-    out.push(`<div class="vstat-group"><span class="vstat-tense">${t}</span> ${items}</div>`);
+    out.push(`<div class="vstat-group"><span class="vstat-tense">${k}</span> ${itemsHtml}</div>`);
   });
   listDiv.innerHTML = out.join('');
 }
@@ -4646,10 +4731,6 @@ function _renderVerbStats(verbs, pageNum) {
 // rester visibles dans le nouveau mode.
 function _resetOnModeSwitch() {
   if (typeof clearAnalysisAndHighlights === 'function') clearAnalysisAndHighlights();
-  const fr = document.getElementById('frenchCount');
-  const ar = document.getElementById('arabicCount');
-  if (fr) fr.textContent = '';
-  if (ar) ar.textContent = '';
 }
 
 // Synchronise le comportement de l'app avec le mode courant (axes
@@ -4723,11 +4804,28 @@ function setupModeSelector() {
   _syncModeToBehavior(false);
 }
 
+// Sous-onglets de catégorie (Verbes/Noms/Harf) du panneau stats Sarf+Page.
+function setupSarfCatTabs() {
+  const tabs = document.querySelectorAll('.sarf-cat-tab');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const cat = tab.dataset.cat;
+      if (!['verb','noun','harf'].includes(cat)) return;
+      _sarfCat = cat;
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
+      if (lastLoadedPageNumber && typeof loadAndRenderPageVerbStats === 'function') {
+        loadAndRenderPageVerbStats(parseInt(lastLoadedPageNumber, 10));
+      }
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   populateSuraSelect();
   setupNavSegmented();
   setupArabicKeyboard();
   setupModeSelector();
+  setupSarfCatTabs();
 });
 
 // 🪟 Rendre les fonctions globales (accessibles depuis le HTML)

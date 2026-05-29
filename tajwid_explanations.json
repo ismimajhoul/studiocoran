@@ -1,0 +1,129 @@
+{
+  "_comment": "Explications pré-enregistrées des règles de tajwid (zéro appel API). Clé = id du bouton de règle. Affichées au clic sur la règle. Style : pédagogique, français simple, avec un exemple coranique.",
+
+  "kalkala": {
+    "ar": "القلقلة",
+    "fr": "La Qalqala (le rebond)",
+    "text": "Il y a 5 lettres spéciales : ق ط ب ج د (on les retient avec « قُطْبُ جَدّ »). Quand l'une d'elles porte un sukoon (pas de voyelle), elle fait un petit rebond, un mini « echo » sonore. Exemple : dans أَحَدْ (à la fin de la sourate Al-Ikhlas), le دْ rebondit légèrement : « ahad-d »."
+  },
+  "ikhfa": {
+    "ar": "الإخفاء",
+    "fr": "L'Ikhfa (la dissimulation)",
+    "text": "Quand un نْ (noun sans voyelle) ou un tanwin est suivi de l'une des 15 lettres d'ikhfa, le son du noun se cache à moitié : on ne le prononce pas franchement, mais on garde un bourdonnement nasal (ghunna) pendant 2 temps. Exemple : مِن قَبْلُ se lit avec un « n » nasalisé et adouci avant le ق."
+  },
+  "idghamGhouna": {
+    "ar": "الإدغام بغنة",
+    "fr": "L'Idgham avec ghunna (la fusion nasale)",
+    "text": "Quand un نْ ou un tanwin rencontre l'une des 4 lettres ي ن م و (on les retient avec « يَنْمُو »), les deux sons fusionnent en un seul, avec un bourdonnement du nez de 2 temps. Exemple : مَن يَقُولُ se lit « may-yaqoulou » — le نْ disparaît dans le ي."
+  },
+  "idghamNoGhouna": {
+    "ar": "الإدغام بغير غنة",
+    "fr": "L'Idgham sans ghunna (la fusion sèche)",
+    "text": "Quand un نْ ou un tanwin rencontre ل ou ر, les deux fusionnent MAIS sans bourdonnement du nez. Le son passe directement dans la lettre suivante. Exemple : مِن رَّبِّهِمْ se lit « mir-rabbihim » — le نْ se fond dans le ر, sans nasaliser."
+  },
+  "izhar": {
+    "ar": "الإظهار",
+    "fr": "L'Izhar (la clarté)",
+    "text": "Quand un نْ ou un tanwin rencontre une des 6 lettres de la gorge (ء ه ع ح غ خ), on prononce le noun clairement et nettement, sans le fondre ni le cacher. Exemple : مِنْ هَادٍ — on entend bien le « n » avant le ه."
+  },
+  "iqlab": {
+    "ar": "الإقلاب",
+    "fr": "L'Iqlab (la transformation)",
+    "text": "Quand un نْ ou un tanwin rencontre la lettre ب, le son « n » se transforme en un « m » bourdonnant (ghunna) de 2 temps. Exemple : مِن بَعْدِ se lit « mim-ba'di » — le نْ devient un م."
+  },
+  "nounshedda": {
+    "ar": "النون المشددة",
+    "fr": "Le Noun doublé (avec shadda)",
+    "text": "Un نّ avec une shadda (donc doublé) porte toujours un bourdonnement nasal (ghunna) de 2 temps, qu'on soit en train de lire ou de s'arrêter. Exemple : إِنَّ — on tient le « nnn » dans le nez."
+  },
+  "idghamShafawi": {
+    "ar": "الإدغام الشفوي",
+    "fr": "L'Idgham labial (des lèvres)",
+    "text": "Quand un مْ (mim sans voyelle) rencontre un autre م, les deux fusionnent avec un bourdonnement nasal de 2 temps. On dit « labial » car le son se forme avec les lèvres. Exemple : لَهُم مَّا se lit « lahum-mâ »."
+  },
+  "izharShafawi": {
+    "ar": "الإظهار الشفوي",
+    "fr": "L'Izhar labial",
+    "text": "Quand un مْ rencontre n'importe quelle lettre SAUF م et ب, on le prononce clairement, sans fusion ni bourdonnement. Exemple : أَلَمْ تَرَ — le « m » est net avant le ت."
+  },
+  "ikhfaShafawi": {
+    "ar": "الإخفاء الشفوي",
+    "fr": "L'Ikhfa labial",
+    "text": "Quand un مْ rencontre la lettre ب, on cache à moitié le son du mim en gardant un léger bourdonnement nasal de 2 temps, lèvres à peine jointes. Exemple : تَرْمِيهِم بِحِجَارَةٍ."
+  },
+  "mimshedda": {
+    "ar": "الميم المشددة",
+    "fr": "Le Mim doublé (avec shadda)",
+    "text": "Un مّ avec une shadda (doublé) porte toujours un bourdonnement nasal (ghunna) de 2 temps. Exemple : ثُمَّ — on tient le « mmm » dans le nez."
+  },
+  "lamshamsi": {
+    "ar": "اللام الشمسية",
+    "fr": "Le Lam solaire (muet)",
+    "text": "Dans l'article « ال », le ل ne se prononce PAS quand il est suivi d'une « lettre solaire » (comme ش س ت د ر...). À la place, la lettre solaire est doublée. Exemple : ٱلشَّمْس se lit « ach-chams » et non « al-chams » — le ل disparaît."
+  },
+  "lamqamari": {
+    "ar": "اللام القمرية",
+    "fr": "Le Lam lunaire (prononcé)",
+    "text": "Dans l'article « ال », le ل SE prononce clairement quand il est suivi d'une « lettre lunaire » (comme ق م ك ب...). Le ل porte alors un sukoon visible. Exemple : ٱلْقَمَر se lit « al-qamar » — on entend bien le « l »."
+  },
+  "asli": {
+    "ar": "المد الطبيعي",
+    "fr": "Le Madd naturel (de base)",
+    "text": "C'est l'allongement de base d'une voyelle longue (ا و ي de prolongation), tenu exactement 2 temps — ni plus ni moins. C'est la « durée normale ». Exemple : قَالَ — le ا s'allonge sur 2 temps."
+  },
+  "badal": {
+    "ar": "مد البدل",
+    "fr": "Le Madd de substitution",
+    "text": "Quand une hamza est suivie d'une lettre d'allongement, on tient le son 2 temps. Le nom vient du fait que cet allongement « remplace » souvent une 2e hamza d'origine. Exemple : ءَامَنُوا — le « â » au début dure 2 temps."
+  },
+  "iwad": {
+    "ar": "مد العوض",
+    "fr": "Le Madd de compensation",
+    "text": "Quand on s'ARRÊTE sur un mot finissant par un tanwin fatha (ـً), on ne prononce pas le tanwin : on l'allonge en un « a » de 2 temps à la place. Exemple : عَلِيمًا, si on s'arrête, se lit « 'aliimâ »."
+  },
+  "silatuSura": {
+    "ar": "صلة الصغرى",
+    "fr": "La petite liaison (Sila sughra)",
+    "text": "Le pronom هُ / هِ (« lui/son »), placé entre deux lettres voyellées, reçoit un petit allongement de 2 temps comme s'il y avait un و ou un ي caché. Exemple : إِنَّهُۥ كَانَ — le هُ s'allonge légèrement."
+  },
+  "mouttasil": {
+    "ar": "المد المتصل",
+    "fr": "Le Madd connecté (obligatoire)",
+    "text": "Quand une lettre d'allongement est suivie d'une hamza DANS LE MÊME MOT, on doit allonger 4 à 5 temps (obligatoire). Exemple : جَآءَ — le « â » est tenu longuement avant la hamza."
+  },
+  "mounfasil": {
+    "ar": "المد المنفصل",
+    "fr": "Le Madd séparé",
+    "text": "Quand un mot finit par une lettre d'allongement et que le mot SUIVANT commence par une hamza, on allonge 4 à 5 temps. Le madd est « séparé » car il s'étale sur 2 mots. Exemple : يَٰٓأَيُّهَا — le « yâ » s'allonge avant أَيُّهَا."
+  },
+  "silatuKubra": {
+    "ar": "صلة الكبرى",
+    "fr": "La grande liaison (Sila kubra)",
+    "text": "Comme la petite liaison, mais quand le pronom هُ / هِ est suivi d'une hamza : on allonge alors 4 à 5 temps. Exemple : مَالَهُۥٓ أَخْلَدَهُ — le هُ est tenu longuement avant أَخْلَدَ."
+  },
+  "laazim_k_tha": {
+    "ar": "اللازم الكلمي المثقل",
+    "fr": "Le Madd nécessaire de mot, lourd",
+    "text": "Dans un mot, quand une lettre d'allongement est suivie d'une lettre DOUBLÉE (shadda), on tient obligatoirement 6 temps. « Lourd » à cause de la lettre doublée. Exemple : ٱلضَّآلِّينَ (fin de la Fatiha) — le « â » dure 6 temps avant le لّ."
+  },
+  "laazim_k_kha": {
+    "ar": "اللازم الكلمي المخفف",
+    "fr": "Le Madd nécessaire de mot, léger",
+    "text": "Dans un mot, quand une lettre d'allongement est suivie d'une lettre portant un sukoon (non doublée), on tient 6 temps. C'est très rare. Exemple : ءَآلْـَٰٔنَ (« maintenant ? ») — le « â » dure 6 temps avant le لْ."
+  },
+  "laazim_h_kha": {
+    "ar": "اللازم الحرفي المخفف",
+    "fr": "Le Madd nécessaire de lettre, léger",
+    "text": "Dans les lettres isolées au début de certaines sourates (les « fawâtih »), quand une lettre se prononce avec un allongement suivi d'un sukoon, on tient 6 temps. Exemple : la lettre ص dans صٓ se lit « sâââd » (6 temps)."
+  },
+  "laazim_h_tha": {
+    "ar": "اللازم الحرفي المثقل",
+    "fr": "Le Madd nécessaire de lettre, lourd",
+    "text": "Dans les lettres isolées en tête de sourate, quand l'allongement est suivi d'une lettre doublée (fusion), on tient 6 temps. Exemple : dans الٓم, le ل (« lâââm ») dure 6 temps puis fusionne avec le م."
+  },
+  "waqfSoukoun": {
+    "ar": "المد العارض للسكون",
+    "fr": "Le Madd du sukoon passager",
+    "text": "Quand on s'ARRÊTE à la fin d'un verset sur une lettre d'allongement, on peut tenir 2, 4 ou 6 temps (au choix, mais on reste régulier). C'est « passager » car l'allongement n'apparaît que lorsqu'on s'arrête. Exemple : نَسْتَعِينُ (fin de verset) — le « î » s'allonge à l'arrêt."
+  }
+}

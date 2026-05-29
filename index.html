@@ -922,6 +922,32 @@
     .count-line .count-sep      { color: #bbb; }
     .count-line .count-num      { color: #2c5f2d; font-weight: bold; }
     .count-line .count-unit-ar  { color: #555; font-size: 0.85em; }
+    /* Explication pédagogique de règle de tajwid (pré-enregistrée) */
+    .tajwid-exp { direction: ltr; text-align: left; margin-top: 0.3rem; }
+    .tajwid-exp-title {
+      display: block;
+      font-family: 'Scheherazade', serif;
+      font-size: 1.2rem;
+      color: #2c5f2d;
+      font-weight: bold;
+      margin-bottom: 0.2rem;
+    }
+    .tajwid-exp-text {
+      margin: 0;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      color: #444;
+      font-family: 'Inter', sans-serif;
+    }
+    /* Famille de racine (analyse nominale) : liste des mots du même جذر */
+    .fam-list {
+      font-family: 'Scheherazade', serif;
+      font-size: 1.3rem;
+      line-height: 1.8;
+    }
+    .fam-item { margin: 0 0.15rem; }
+    .fam-n { font-size: 0.6em; color: #2c5f2d; font-family: 'Inter', sans-serif; font-weight: 600; }
+    .fam-legend { font-size: 0.7rem; color: #999; font-style: italic; font-family: 'Inter', sans-serif; }
     #analysisRule .ety-morph-line {
       display: block;
       font-size: 0.85em;          /* ≈ 1.87rem, proche de la taille des versets */
@@ -1000,6 +1026,14 @@
       color: #666;
       font-style: italic;
       margin-top: 0.25rem;
+    }
+    /* Traduction française = langue secondaire : plus petite et discrète que
+       l'arabe (langue principale de l'appli). S'applique dans le panneau et
+       l'en-tête de famille. */
+    .ety-fr {
+      font-size: 0.72em;
+      color: #777;
+      font-weight: 400;
     }
     #analysisText {
       font-family: 'Scheherazade', serif;

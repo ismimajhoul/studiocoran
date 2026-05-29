@@ -1,0 +1,17 @@
+{
+  "_comment": "Overrides du wazn (schème morphologique) pour les NOMS dont la racine est faible/assimilée, où la substitution automatique (lettres de la racine → ف ع ل) échoue ou donne un schème non-standard. Clé = lemma_buck (translittération Buckwalter exacte telle que stockée dans quran_morphology_all, ex: 'quw~ap' pour قُوَّة). Valeur = { wazn, ar, comment }. Seul 'wazn' est utilisé par l'app ; 'ar' et 'comment' sont documentaires. Les clés commençant par '_' sont ignorées. Même principe que verb_canonical_overrides.json.",
+
+  "_examples": {
+    "EXEMPLE_buck": {
+      "wazn": "فُعْلَة",
+      "ar": "mot arabe",
+      "comment": "pourquoi l'auto échoue"
+    }
+  },
+
+  "quw~ap": {
+    "wazn": "فُعْلَة",
+    "ar": "قُوَّة",
+    "comment": "Racine ق و ي (assimilée) : la 3e radicale ي s'est fondue dans le و doublé (قُوْيَة → قُوَّة). La substitution auto ne retrouve pas le ي → wazn non calculable. Schème standard : فُعْلَة."
+  }
+}

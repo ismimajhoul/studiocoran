@@ -80,6 +80,7 @@ async function loadPageWithButton(ruleId, useOptionA = true) {
     }
 
     updateCounters(ruleDetails, totalHits);
+    _showTajwidExplanation(ruleId); // explication pré-enregistrée sous le compteur
     bindAudioOnOverlay(useOptionA);
     updateClearAnalysisBtnVisibility();
     // L'ancien bindSpeechOnOverlay (clic droit direct sur lettre coloriée) est
@@ -1063,6 +1064,36 @@ async function fetchEtymology(sura, aya, wordPos) {
   }
 }
 
+// Récupère la morphologie complète d'un mot (nom/adjectif/particule) depuis
+// quran_morphology_all, + la famille de sa racine. Utilisé pour l'analyse
+// nominale quand le mot cliqué n'est pas un verbe.
+async function fetchWordMorphology(sura, aya, wordPos) {
+  try {
+    const res = await fetch(`morphology_word.php?sura=${sura}&aya=${aya}&word=${wordPos}`);
+    if (!res.ok) return { error: `HTTP ${res.status}` };
+    return await res.json();
+  } catch (e) {
+    return { error: e.message || 'fetch failed' };
+  }
+}
+
+// Convertit une chaîne Buckwalter en arabe (lemmes du corpus → affichage).
+const _BUCK2AR_FULL = {
+  "'":'ء','>':'أ','<':'إ','&':'ؤ','}':'ئ','|':'آ','{':'ٱ',
+  'A':'ا','b':'ب','p':'ة','t':'ت','v':'ث','j':'ج','H':'ح','x':'خ',
+  'd':'د','*':'ذ','r':'ر','z':'ز','s':'س','$':'ش','S':'ص','D':'ض',
+  'T':'ط','Z':'ظ','E':'ع','g':'غ','f':'ف','q':'ق','k':'ك','l':'ل',
+  'm':'م','n':'ن','h':'ه','w':'و','Y':'ى','y':'ي',
+  'F':'ً','N':'ٌ','K':'ٍ','a':'َ','u':'ُ','i':'ِ','~':'ّ','o':'ْ','`':'ٰ',
+  '_':'ـ',
+};
+function _buckToArabic(s) {
+  if (!s) return '';
+  let out = '';
+  for (const c of s) out += (_BUCK2AR_FULL[c] !== undefined ? _BUCK2AR_FULL[c] : c);
+  return out;
+}
+
 // I-X en chiffres romains. NULL en base = Form I implicite.
 function verbFormRoman(num) {
   const map = ['I','II','III','IV','V','VI','VII','VIII','IX','X'];
@@ -1509,10 +1540,15 @@ function showEtymologyAnalysis(data, ctx) {
   }
 
   if (!data || data.error || data.notVerb) {
+    // Pas un verbe → on tente l'analyse NOMINALE (nom / adjectif / nom propre)
+    // si on a le contexte du mot cliqué. Sinon message générique.
+    if (data && data.notVerb && ctx && ctx.sura && typeof fetchWordMorphology === 'function') {
+      fetchWordMorphology(ctx.sura, ctx.aya, (ctx.wordIdx || 0) + 1)
+        .then(wd => showNounAnalysis(wd, ctx));
+      return;
+    }
     ruleDiv.textContent = '';
-    txtDiv.textContent  = data && data.notVerb
-      ? 'Ce mot n’est pas un verbe (V1 — verbes uniquement).'
-      : 'Étymologie indisponible.';
+    txtDiv.textContent  = 'Étymologie indisponible.';
     updateClearAnalysisBtnVisibility();
     return;
   }
@@ -1675,6 +1711,153 @@ function showEtymologyAnalysis(data, ctx) {
   }
 }
 
+// ─── ANALYSE NOMINALE (noms / adjectifs / noms propres) ──────────────────
+// Décode les features du corpus en libellés lisibles. L'arabe est la langue
+// principale (taille normale) ; la traduction française est secondaire et
+// rendue en plus petit via la classe .ety-fr.
+function _arFr(ar, fr) { return `${ar} <span class="ety-fr">${fr}</span>`; }
+
+function _nounTypeLabel(features, pos) {
+  const f = features || '';
+  if (pos === 'PN') return _arFr('اسم علم', 'nom propre');
+  if (pos === 'ADJ') return _arFr('صفة', 'adjectif');
+  if (f.includes('ACT') && f.includes('PCPL')) return _arFr('اسم الفاعل', 'participe actif');
+  if (f.includes('PASS') && f.includes('PCPL')) return _arFr('اسم المفعول', 'participe passif');
+  if (f.includes('VN')) return _arFr('مصدر', 'nom verbal');
+  return _arFr('اسم', 'nom');
+}
+function _caseLabel(features) {
+  const f = features || '';
+  if (f.includes('NOM')) return _arFr('مرفوع', 'nominatif');
+  if (f.includes('ACC')) return _arFr('منصوب', 'accusatif');
+  if (f.includes('GEN')) return _arFr('مجرور', 'génitif');
+  return null;
+}
+function _genderNumberLabel(features) {
+  // Tokenisation stricte sur '|' : le corpus encode genre/nombre par des
+  // tokens isolés (F, M, MS, FS, MP, FP, MD, FD, ou P/D/S nus). On ne fait PAS
+  // de includes() sous peine de faux positifs (ex: '|P' matchait '|POS:N').
+  const toks = (features || '').split('|');
+  const has = (t) => toks.includes(t);
+  const parts = [];
+  // Genre
+  if (has('F') || has('FS') || has('FD') || has('FP')) parts.push(_arFr('مؤنث', 'féminin'));
+  else if (has('M') || has('MS') || has('MD') || has('MP')) parts.push(_arFr('مذكر', 'masculin'));
+  // Nombre — absence de marque (ni P ni D) = singulier (cas de قُوَّة, tag 'F' seul)
+  if (has('P') || has('MP') || has('FP')) parts.push(_arFr('جمع', 'pluriel'));
+  else if (has('D') || has('MD') || has('FD')) parts.push(_arFr('مثنى', 'duel'));
+  else parts.push(_arFr('مفرد', 'singulier'));
+  return parts;
+}
+
+// Calcule le wazn (schème) d'un nom par substitution des lettres de la racine
+// par ف ع ل dans le lemme. Fiable pour les noms "sains" ; renvoie null si on
+// ne retrouve pas toutes les lettres de la racine dans l'ordre (racines
+// faibles/assimilées comme قوة → on préfère ne rien afficher que d'inventer).
+const _NWAZN_DIAC = new Set(['ً','ٌ','ٍ','َ','ُ','ِ','ّ','ْ','ٰ','ـ']);
+const _NWAZN_HAMZA = new Set(['ء','أ','إ','ؤ','ئ','آ','ٱ','ا']);
+// Overrides de wazn pour noms à racine faible/assimilée (chargés une fois).
+// Clé = lemma_buck (Buckwalter exact de la BDD). Cf. noun_wazn_overrides.json.
+let _nounWaznOverrides = null;
+fetch('noun_wazn_overrides.json')
+  .then(r => r.json())
+  .then(d => { _nounWaznOverrides = d; })
+  .catch(e => console.warn('noun_wazn_overrides.json non chargé', e));
+
+// Renvoie le wazn surchargé pour un lemma_buck donné, ou null si pas d'override.
+function _nounWaznOverride(lemmaBuck) {
+  if (!_nounWaznOverrides || !lemmaBuck || lemmaBuck[0] === '_') return null;
+  const o = _nounWaznOverrides[lemmaBuck];
+  return (o && o.wazn) ? o.wazn : null;
+}
+
+function _computeNounWazn(lemmaAr, rootAr) {
+  if (!lemmaAr || !rootAr) return null;
+  const roots = rootAr.split(/\s+/).filter(Boolean);
+  if (roots.length !== 3 && roots.length !== 4) return null;
+  const fal = roots.length === 3 ? ['ف','ع','ل'] : ['ف','ع','ل','ل'];
+  const same = (a, b) =>
+    a === b || (_NWAZN_HAMZA.has(a) && _NWAZN_HAMZA.has(b));
+  let ri = 0, out = '';
+  for (const ch of lemmaAr) {
+    if (_NWAZN_DIAC.has(ch)) { out += ch; continue; }
+    if (ri < roots.length && same(ch, roots[ri])) { out += fal[ri]; ri++; }
+    else out += ch;
+  }
+  return ri === roots.length ? out : null; // sûr seulement si racine complète
+}
+
+function showNounAnalysis(wd, ctx) {
+  const ruleDiv = document.getElementById('analysisRule');
+  const txtDiv  = document.getElementById('analysisText');
+  if (!ruleDiv || !txtDiv) return;
+
+  if (!wd || wd.error || !wd.head) {
+    ruleDiv.textContent = '';
+    txtDiv.textContent  = 'Analyse morphologique indisponible pour ce mot.';
+    updateClearAnalysisBtnVisibility();
+    return;
+  }
+
+  const head = wd.head;
+  const word = (ctx && ctx.word) || _buckToArabic(head.lemma_buck) || '';
+  const lemmaAr = _buckToArabic(head.lemma_buck);
+  const rootAr = head.root_ar || '';
+  const typeLabel = _nounTypeLabel(head.features, head.pos);
+  const caseLabel = _caseLabel(head.features);
+  const gn = _genderNumberLabel(head.features);
+  const isIndef = (head.features || '').includes('INDEF');
+  const defLabel = isIndef ? _arFr('نكرة', 'indéfini') : _arFr('معرفة', 'défini');
+  const wazn = _nounWaznOverride(head.lemma_buck) || _computeNounWazn(lemmaAr, rootAr);
+
+  // Ligne 1 : le mot + racine + type + wazn (si calculable)
+  const line1Parts = [`<span class="ety-header">الاسم:</span> <span class="ety-root">${word}</span>`];
+  if (rootAr) line1Parts.push(`<span class="ety-trilitere">جذر: ${rootAr}</span>`);
+  line1Parts.push(`<span class="ety-class">${typeLabel}</span>`);
+  if (wazn) line1Parts.push(`<span class="ety-wazn">وزن: ${wazn}</span>`);
+  const line1 = `<div class="ety-line ety-line-root">${line1Parts.join(' · ')}</div>`;
+
+  // Ligne 2 : إعراب (cas, genre/nombre, définitude)
+  const irabParts = [];
+  if (caseLabel) irabParts.push(caseLabel);
+  gn.forEach(g => irabParts.push(g));
+  irabParts.push(defLabel);
+  const line2 = `<div class="ety-line ety-line-verb">`
+    + `<span class="ety-header">الإعراب:</span> `
+    + `<span class="ety-morph-line">${irabParts.join(' · ')}</span></div>`;
+
+  ruleDiv.innerHTML = line1 + line2;
+
+  // Famille de la racine : autres mots du Coran partageant la racine.
+  // On fusionne par orthographe arabe (un même mot tagué N et ADJ ne doit
+  // apparaître qu'une fois) en sommant les occurrences. Format : "mot ×N".
+  if (wd.family && wd.family.length) {
+    const merged = {};
+    wd.family.forEach(m => {
+      if (!m.lemma_buck) return;
+      const ar = _buckToArabic(m.lemma_buck);
+      merged[ar] = (merged[ar] || 0) + (parseInt(m.n, 10) || 0);
+    });
+    const fam = Object.entries(merged)
+      .sort((a, b) => b[1] - a[1])
+      .map(([ar, n]) => `<span class="fam-item">${ar} <span class="fam-n">×${n}</span></span>`)
+      .join(' · ');
+    txtDiv.innerHTML =
+      `<span class="ety-header">من نفس الجذر <span class="ety-fr">(même racine)</span></span> `
+      + `<span class="fam-legend">× = مرّة (occurrences)</span><br>`
+      + `<span class="fam-list">${fam}</span>`;
+  } else {
+    txtDiv.innerHTML = '';
+  }
+  updateClearAnalysisBtnVisibility();
+
+  // Récitation du mot (voix du lecteur) — pas de TTS d'analyse pour l'instant.
+  if (ctx && typeof ctx.sura === 'number' && typeof ctx.wordIdx === 'number'
+      && typeof playWordAudio === 'function') {
+    playWordAudio(ctx.sura, ctx.aya, ctx.wordIdx);
+  }
+}
+
 /**
  * Pose les bindings :
  *  - clic droit dans une .verse → affiche le menu contextuel
@@ -1791,6 +1974,7 @@ function bindContextDetection() {
             sura:    target.sura,
             aya:     target.aya,
             wordIdx: corpusWordPos - 1,
+            word:    wordText,   // pour l'affichage en analyse nominale
           }));
       }
       return;
@@ -1905,6 +2089,27 @@ function _renderCountLine(arName, latinName, count, unitFr) {
        + `<span class="count-unit-ar">تكرار</span>`
        + `<span class="count-unit-fr">/ ${unitFr}</span>`
        + `</div>`;
+}
+
+// Explications de tajwid pré-enregistrées (chargées une fois, zéro appel API).
+let _tajwidExplanations = null;
+fetch('tajwid_explanations.json')
+  .then(r => r.json())
+  .then(d => { _tajwidExplanations = d; })
+  .catch(e => console.warn('tajwid_explanations.json non chargé', e));
+
+// Affiche l'explication pédagogique de la règle dans le panneau d'analyse,
+// sous la ligne de comptage. Texte statique = gratuit, dispo en prod.
+function _showTajwidExplanation(ruleId) {
+  const txtDiv = document.getElementById('analysisText');
+  if (!txtDiv || !_tajwidExplanations) return;
+  const exp = _tajwidExplanations[ruleId];
+  if (!exp) return;
+  txtDiv.innerHTML =
+    `<div class="tajwid-exp">`
+  + `<span class="tajwid-exp-title">${exp.ar} — ${exp.fr}</span>`
+  + `<p class="tajwid-exp-text">${exp.text}</p>`
+  + `</div>`;
 }
 
 function updateCounters(ruleDetails, totalHits) {

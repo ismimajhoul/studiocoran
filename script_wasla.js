@@ -4501,6 +4501,22 @@ function loadSura() {
   loadPage();
 }
 
+// Navigation sourate par sourate (boutons Avant/Après en mode Sourate).
+// Change la sourate sélectionnée dans le combo, remet le verset à 1, recharge.
+function _gotoSura(delta) {
+  const sel = document.getElementById('suraSelect');
+  const ayaInput = document.getElementById('ayaNumberInput');
+  if (!sel) return;
+  let n = parseInt(sel.value, 10) || 1;
+  n += delta;
+  if (n < 1 || n > 114) return; // bornes
+  sel.value = String(n);
+  if (ayaInput) ayaInput.value = ''; // début de la nouvelle sourate
+  loadSura();
+}
+function loadSuraBefore() { _gotoSura(-1); }
+function loadSuraAfter()  { _gotoSura(+1); }
+
 // ─── MINI-CLAVIER ARABE ──────────────────────────────────────────────────
 // Insère du texte à la position du curseur dans un input. Préserve la
 // sélection si présente (remplace la sélection). Re-focus l'input après.
@@ -4813,8 +4829,14 @@ function setupSarfCatTabs() {
       if (!['verb','noun','harf'].includes(cat)) return;
       _sarfCat = cat;
       tabs.forEach(t => t.classList.toggle('active', t.dataset.cat === cat));
-      if (lastLoadedPageNumber && typeof loadAndRenderPageVerbStats === 'function') {
-        loadAndRenderPageVerbStats(parseInt(lastLoadedPageNumber, 10));
+      // Page courante : lastLoadedPageNumber, sinon repli sur le champ page.
+      let pg = parseInt(lastLoadedPageNumber, 10);
+      if (!pg) {
+        const pi = document.getElementById('pageNumberInput');
+        pg = parseInt(pi && pi.value, 10);
+      }
+      if (pg && typeof loadAndRenderPageVerbStats === 'function') {
+        loadAndRenderPageVerbStats(pg);
       }
     });
   });
@@ -4825,14 +4847,18 @@ document.addEventListener('DOMContentLoaded', () => {
   setupNavSegmented();
   setupArabicKeyboard();
   setupModeSelector();
-  setupSarfCatTabs();
 });
+// DOMContentLoaded isolé pour les sous-onglets Sarf : ainsi, même si un
+// setup précédent lève une exception, le binding des onglets reste posé.
+document.addEventListener('DOMContentLoaded', setupSarfCatTabs);
 
 // 🪟 Rendre les fonctions globales (accessibles depuis le HTML)
 window.LoadPageBefore = LoadPageBefore;
 window.LoadPageAfter = LoadPageAfter;
 window.loadPage = loadPage; // si tu appelles aussi loadPage() depuis le HTML
 window.loadSura = loadSura;
+window.loadSuraBefore = loadSuraBefore;
+window.loadSuraAfter = loadSuraAfter;
 window.openPageForVerse = openPageForVerse;
 
 const menuToggle = document.getElementById('menu-toggle');

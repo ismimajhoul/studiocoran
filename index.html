@@ -192,9 +192,10 @@
     #content .header {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       flex-wrap: wrap;
-      margin-bottom: .75rem;
+      gap: .5rem;
+      margin-bottom: .5rem;
     }
     #content .header h1 {
       font-family: 'Scheherazade', serif;
@@ -369,6 +370,12 @@
       gap: .5rem;
       margin-bottom: .5rem;
       flex-wrap: wrap;
+      justify-content: center;  /* ligne 3 centrée */
+    }
+    /* Sélecteur Page/Sourate placé dans le header (ligne 1), centré entre
+       le titre arabe (droite) et "Studio Coran" (gauche). */
+    .header-nav {
+      margin: 0 auto;
     }
     .mode-segmented {
       display: flex;
@@ -571,7 +578,11 @@
       flex-direction: column;
       gap: .4rem;
       margin-bottom: .75rem;
+      align-items: center;  /* ligne 2 (inputs de navigation) centrée */
     }
+    /* La nav-pane garde sa largeur naturelle mais ne s'étire pas en pleine
+       largeur — bloc compact centré. */
+    .nav-pane { width: 100%; max-width: 40rem; }
     /* Segmented control : bascule Page / Sourate */
     .nav-segmented {
       display: flex;
@@ -1363,16 +1374,40 @@
       </div>
     </div>
     <div id="content">
+      <!-- LIGNE 1 : titre + sélecteur Page/Sourate centré (niveau header) -->
       <div class="header">
         <h1>ستوديو القرآن</h1>
+        <div class="nav-segmented header-nav" role="tablist" aria-label="Mode de navigation">
+          <button type="button" class="nav-tab active" data-mode="page"
+                  role="tab" aria-selected="true">صفحة <span>Page</span></button>
+          <button type="button" class="nav-tab" data-mode="sura"
+                  role="tab" aria-selected="false">سورة <span>Sourate</span></button>
+        </div>
         <div class="header-right">
           <span>Studio Coran</span>
           <button id="qrShareBtn" type="button" title="Partager l'application" aria-label="Partager">📱</button>
         </div>
       </div>
-      <!-- Sélecteur de mode 2D : Discipline (Tajwid|Sarf) × Scope (Page|Mot).
-           Persisté dans localStorage. La classe correspondante est appliquée
-           sur <body> pour piloter le layout des futures étapes. -->
+      <!-- LIGNE 2 : navigation (inputs). Page = Avant/Charger/n°/Après ;
+           Sourate = Avant/[combo]/[verset]/Après (navigation sourate par sourate). -->
+      <div class="nav-controls">
+        <div class="nav-pane" data-pane="page">
+          <button onclick="LoadPageBefore()">السابق <span>Avant</span></button>
+          <button onclick="loadPage()">تحميل <span>Charger</span></button>
+          <input type="number" id="pageNumberInput" min="1" max="604" placeholder="n°">
+          <button onclick="LoadPageAfter()">التالي <span>Après</span></button>
+        </div>
+        <div class="nav-pane" data-pane="sura" hidden>
+          <button onclick="loadSuraBefore()">السابق <span>Avant</span></button>
+          <select id="suraSelect" aria-label="Sourate">
+            <!-- 114 options ajoutées au DOMContentLoaded -->
+          </select>
+          <input type="number" id="ayaNumberInput" min="1" placeholder="آية / v." title="N° de verset (optionnel — chargement auto)">
+          <button onclick="loadSuraAfter()">التالي <span>Après</span></button>
+        </div>
+      </div>
+      <!-- LIGNE 3 : mode Discipline (Tajwid|Sarf) × Scope (Page|Mot), centré.
+           Zone où s'ajouteront les futures fonctions. -->
       <div class="mode-controls">
         <div class="mode-segmented" data-axis="discipline" role="tablist" aria-label="Discipline">
           <button type="button" class="mode-tab" data-value="tajwid">تجويد <span>Tajwid</span></button>
@@ -1381,30 +1416,6 @@
         <div class="mode-segmented" data-axis="scope" role="tablist" aria-label="Granularité d'analyse">
           <button type="button" class="mode-tab" data-value="page">صفحة <span>Page</span></button>
           <button type="button" class="mode-tab" data-value="mot">كلمة <span>Mot</span></button>
-        </div>
-      </div>
-      <div class="nav-controls">
-        <div class="nav-segmented" role="tablist" aria-label="Mode de navigation">
-          <button type="button" class="nav-tab active" data-mode="page"
-                  role="tab" aria-selected="true">صفحة <span>Page</span></button>
-          <button type="button" class="nav-tab" data-mode="sura"
-                  role="tab" aria-selected="false">سورة <span>Sourate</span></button>
-        </div>
-        <!-- Mode Page (par défaut) -->
-        <div class="nav-pane" data-pane="page">
-          <button onclick="LoadPageBefore()">السابق <span>Avant</span></button>
-          <button onclick="loadPage()">تحميل <span>Charger</span></button>
-          <input type="number" id="pageNumberInput" min="1" max="604" placeholder="n°">
-          <button onclick="LoadPageAfter()">التالي <span>Après</span></button>
-        </div>
-        <!-- Mode Sourate (caché par défaut, peuplé par JS).
-             Pas de bouton "Aller" : le chargement se déclenche au changement
-             du select ou de l'input verset (auto-trigger). -->
-        <div class="nav-pane" data-pane="sura" hidden>
-          <select id="suraSelect" aria-label="Sourate">
-            <!-- 114 options ajoutées au DOMContentLoaded -->
-          </select>
-          <input type="number" id="ayaNumberInput" min="1" placeholder="آية / v." title="N° de verset (optionnel — chargement auto)">
         </div>
       </div>
       <div id="quranContent"></div>

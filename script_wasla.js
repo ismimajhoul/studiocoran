@@ -1771,6 +1771,15 @@ function _nounWaznOverride(lemmaBuck) {
   return (o && o.wazn) ? o.wazn : null;
 }
 
+// Note explicative optionnelle d'un override (ex: pourquoi فُعْلَة n'a pas la
+// shadda visible de قُوَّة). Renvoie {ar, fr} ou null.
+function _nounWaznNote(lemmaBuck) {
+  if (!_nounWaznOverrides || !lemmaBuck || lemmaBuck[0] === '_') return null;
+  const o = _nounWaznOverrides[lemmaBuck];
+  if (!o || (!o.note_ar && !o.note_fr)) return null;
+  return { ar: o.note_ar || '', fr: o.note_fr || '' };
+}
+
 function _computeNounWazn(lemmaAr, rootAr) {
   if (!lemmaAr || !rootAr) return null;
   const roots = rootAr.split(/\s+/).filter(Boolean);
@@ -1785,6 +1794,28 @@ function _computeNounWazn(lemmaAr, rootAr) {
     else out += ch;
   }
   return ri === roots.length ? out : null; // sûr seulement si racine complète
+}
+
+// Présente un wazn « à la manière des manuels » : terminé par un tanwin damma
+// (forme indéfinie nominative), ex: فَعْل → فَعْلٌ, فُعْلَة → فُعْلَةٌ. On
+// n'ajoute rien si le wazn porte déjà un tanwin final.
+function _waznWithTanwin(w) {
+  if (!w) return w;
+  if (/[ًٌٍ]$/.test(w)) return w; // déjà tanwin (ً ٌ ٍ)
+  return w + 'ٌ'; // ٌ damma tanwin
+}
+
+// Détecte l'état d'annexion (مضاف) à partir des seuls segments du mot :
+// un nom/adjectif qui a perdu son tanwin (ni INDEF) et n'a PAS l'article ال
+// est مضاف (cas de فَضْلُ ٱللَّهِ, ou d'un nom + pronom suffixe comme رَحْمَتُهُ).
+function _isMudaf(head, segments) {
+  if (!head) return false;
+  if (head.pos !== 'N' && head.pos !== 'ADJ') return false;
+  if ((head.features || '').includes('INDEF')) return false;
+  const segs = segments || [];
+  const hasAl = segs.some(s =>
+    s.pos === 'DET' || /PREFIX\|Al\+/.test(s.features || ''));
+  return !hasAl;
 }
 
 function showNounAnalysis(wd, ctx) {
@@ -1807,26 +1838,43 @@ function showNounAnalysis(wd, ctx) {
   const caseLabel = _caseLabel(head.features);
   const gn = _genderNumberLabel(head.features);
   const isIndef = (head.features || '').includes('INDEF');
-  const defLabel = isIndef ? _arFr('نكرة', 'indéfini') : _arFr('معرفة', 'défini');
+  const hasAl = (wd.segments || []).some(s =>
+    s.pos === 'DET' || /PREFIX\|Al\+/.test(s.features || ''));
+  const isMudaf = _isMudaf(head, wd.segments);
+  // Définitude : par l'article (ال), nue (نكرة), ou par l'annexion (مضاف).
+  let defLabel;
+  if (hasAl)        defLabel = _arFr('معرفة', 'défini (par ال)');
+  else if (isIndef) defLabel = _arFr('نكرة', 'indéfini');
+  else if (isMudaf) defLabel = _arFr('معرفة', 'défini (par annexion)');
+  else              defLabel = _arFr('معرفة', 'défini');
   const wazn = _nounWaznOverride(head.lemma_buck) || _computeNounWazn(lemmaAr, rootAr);
 
   // Ligne 1 : le mot + racine + type + wazn (si calculable)
   const line1Parts = [`<span class="ety-header">الاسم:</span> <span class="ety-root">${word}</span>`];
   if (rootAr) line1Parts.push(`<span class="ety-trilitere">جذر: ${rootAr}</span>`);
   line1Parts.push(`<span class="ety-class">${typeLabel}</span>`);
-  if (wazn) line1Parts.push(`<span class="ety-wazn">وزن: ${wazn}</span>`);
+  if (wazn) line1Parts.push(`<span class="ety-wazn">وزن: ${_waznWithTanwin(wazn)}</span>`);
   const line1 = `<div class="ety-line ety-line-root">${line1Parts.join(' · ')}</div>`;
 
-  // Ligne 2 : إعراب (cas, genre/nombre, définitude)
+  // Note explicative du wazn (ex: قُوَّة → فُعْلَة : pourquoi pas de shadda).
+  const waznNote = _nounWaznNote(head.lemma_buck);
+  const noteLine = waznNote
+    ? `<div class="ety-line ety-note">${waznNote.ar}`
+      + (waznNote.fr ? ` <span class="ety-fr">— ${waznNote.fr}</span>` : '')
+      + `</div>`
+    : '';
+
+  // Ligne 2 : إعراب (cas, genre/nombre, état d'annexion, définitude)
   const irabParts = [];
   if (caseLabel) irabParts.push(caseLabel);
   gn.forEach(g => irabParts.push(g));
+  if (isMudaf) irabParts.push(_arFr('مضاف', "1er terme d'une annexion"));
   irabParts.push(defLabel);
   const line2 = `<div class="ety-line ety-line-verb">`
     + `<span class="ety-header">الإعراب:</span> `
     + `<span class="ety-morph-line">${irabParts.join(' · ')}</span></div>`;
 
-  ruleDiv.innerHTML = line1 + line2;
+  ruleDiv.innerHTML = line1 + noteLine + line2;
 
   // Famille de la racine : autres mots du Coran partageant la racine.
   // On fusionne par orthographe arabe (un même mot tagué N et ADJ ne doit

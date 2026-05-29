@@ -12,6 +12,8 @@
   "quw~ap": {
     "wazn": "فُعْلَة",
     "ar": "قُوَّة",
-    "comment": "Racine ق و ي (assimilée) : la 3e radicale ي s'est fondue dans le و doublé (قُوْيَة → قُوَّة). La substitution auto ne retrouve pas le ي → wazn non calculable. Schème standard : فُعْلَة."
+    "note_ar": "أصلها قُوْيَة على وزن فُعْلَة",
+    "note_fr": "la shadda vient de la fusion de la racine faible (و + ي)",
+    "comment": "Racine ق و ي (assimilée) : la 3e radicale ي s'est fondue dans le و doublé (قُوْيَة → قُوَّة). La substitution auto ne retrouve pas le ي → wazn non calculable. Schème standard : فُعْلَة (sans shadda car c'est le schème sous-jacent, avant assimilation). La note explique l'absence de shadda dans le wazn."
   }
 }

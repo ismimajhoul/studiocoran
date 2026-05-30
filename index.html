@@ -1043,6 +1043,78 @@
       font-style: italic;
       margin-top: 0.15rem;
     }
+
+    /* ── Prototype « bulle de connaissance » (lentilles au survol) ─────── */
+    .bubble-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin: 0.35rem 0 0.1rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .bubble-controls #bubbleToggleBtn {
+      border: 1px solid #cdb;
+      background: #f3f7f1;
+      border-radius: 999px;
+      padding: 0.25rem 0.8rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .bubble-controls #bubbleToggleBtn[aria-pressed="true"] {
+      background: #2e7d32; color: #fff; border-color: #2e7d32;
+    }
+    .bubble-controls .bubble-lens-label { font-size: 0.8rem; color: #666; }
+    .bubble-controls #bubbleLensSelect {
+      font-size: 0.9rem; padding: 0.2rem 0.4rem;
+      border-radius: 6px; border: 1px solid #ccc;
+    }
+    #knowledgeBubble {
+      position: fixed;
+      z-index: 9998;
+      max-width: 340px;
+      min-width: 190px;
+      background: #fffdf7;
+      border: 1px solid #e0d9c4;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+      padding: 0.6rem 0.8rem;
+      font-family: 'Scheherazade New', 'Amiri', serif;
+      font-size: 1.25rem;
+      direction: rtl;
+      text-align: right;
+      line-height: 1.7;
+    }
+    #knowledgeBubble[hidden] { display: none; }
+    #knowledgeBubble .kb-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 0.5rem; border-bottom: 1px solid #eee4c8;
+      padding-bottom: 0.25rem; margin-bottom: 0.35rem;
+    }
+    #knowledgeBubble .kb-word { font-weight: bold; color: #1a3c1a; }
+    #knowledgeBubble .kb-lens {
+      font-size: 0.7rem; color: #999; font-family: 'Inter', sans-serif;
+    }
+    #knowledgeBubble .kb-line { margin: 0.1rem 0; }
+    #knowledgeBubble .kb-key { color: #c0392b; font-weight: bold; }
+    #knowledgeBubble .kb-fr {
+      font-size: 0.68em; color: #777;
+      font-family: 'Inter', sans-serif; font-weight: 400;
+    }
+    #knowledgeBubble .kb-rules { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.2rem; }
+    #knowledgeBubble .kb-rule {
+      background: #eef6ec; border: 1px solid #cfe3c8; border-radius: 999px;
+      padding: 0.05rem 0.55rem; font-size: 0.95rem;
+    }
+    #knowledgeBubble .kb-muted {
+      color: #999; font-size: 0.85rem; font-family: 'Inter', sans-serif;
+    }
+    #knowledgeBubble .kb-play {
+      font-family: 'Inter', sans-serif; font-size: 0.85rem;
+      background: #2e7d32; color: #fff; border: none; border-radius: 999px;
+      padding: 0.25rem 0.8rem; cursor: pointer; margin-top: 0.2rem;
+    }
     #analysisText {
       font-family: 'Scheherazade', serif;
       font-size: 1.9rem;          /* aligné sur la taille des versets (2.4rem) */
@@ -1460,6 +1532,20 @@
           <button type="button" class="mode-tab" data-value="mot">كلمة <span>Mot</span></button>
         </div>
       </div>
+      <!-- PROTOTYPE bulle de connaissance : survol d'un mot → bulle selon le thème. -->
+      <div class="bubble-controls">
+        <button type="button" id="bubbleToggleBtn" role="switch" aria-pressed="false"
+                title="Afficher une bulle de connaissance au survol des mots">
+          🫧 بطاقة <span>Bulle</span>
+        </button>
+        <label class="bubble-lens-label" for="bubbleLensSelect">المحور / Thème :</label>
+        <select id="bubbleLensSelect" aria-label="Thème de la bulle">
+          <option value="analyse">تحليل · Analyse</option>
+          <option value="conjugaison">تصريف · Conjugaison</option>
+          <option value="tajweed">تجويد · Tajwid</option>
+          <option value="lecture">قراءة · Lecture</option>
+        </select>
+      </div>
       <div id="quranContent"></div>
       <div id="analysisPanel">
         <button id="clearAnalysisBtn" type="button" title="Effacer la règle détectée">✕</button>
@@ -1481,6 +1567,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Bulle de connaissance (prototype) : positionnée près du curseur par JS. -->
+  <div id="knowledgeBubble" hidden role="tooltip" aria-live="polite"></div>
 
   <!-- CHAT LINGUISTIQUE — bouton flottant + panneau latéral -->
   <button id="chatToggleBtn" type="button" title="Poser une question linguistique" aria-label="Chat">💬</button>

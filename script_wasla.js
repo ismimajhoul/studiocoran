@@ -4994,6 +4994,270 @@ function _renderMorphoStats(items, pageNum, cat) {
   listDiv.innerHTML = out.join('');
 }
 
+// ════════════════════════════════════════════════════════════════════════
+//  PROTOTYPE — Bulle de connaissance « à lentilles »
+//  Survol d'un mot dans le verset → bulle CSS dont le contenu dépend de la
+//  lentille active (analyse / conjugaison / tajwid / lecture). Architecture :
+//  registre de lentilles + contrat uniforme render(ctx) → html | Promise<html>.
+//  Données 100% locales/corpus (PHP), ZÉRO appel IA. Cache par mot pour que le
+//  survol reste instantané. Réutilise pickCharacterAt + les fetchs existants.
+// ════════════════════════════════════════════════════════════════════════
+(function () {
+  let bubbleMode = false;       // activé par le toggle 🫧
+  let activeLens = 'analyse';   // lentille courante (sélecteur de thème)
+  let currentKey = null;        // "sura:aya:wordPos" du mot survolé
+  let currentCtx = null;        // contexte du mot survolé (pour l'audio)
+  let hideTimer  = null;
+  let renderToken = 0;          // anti-course pour les rendus async
+  let lastX = 0, lastY = 0, rafPending = false;
+  const morphoCache  = new Map(); // "s:a:corpusPos" → {kind, verb?|noun?}
+  const tajweedCache = new Map(); // "s:a:wordPos"   → html
+
+  const bubbleEl = () => document.getElementById('knowledgeBubble');
+
+  // ── Contexte du mot sous le curseur (réutilise pickCharacterAt) ──────────
+  function wordCtxAt(x, y) {
+    if (typeof pickCharacterAt !== 'function') return null;
+    const t = pickCharacterAt(x, y);
+    if (!t) return null;
+    const wp = wordPositionFromIndex(t.verseText, t.index);
+    if (!wp) return null;
+    let corpusWordPos = wp.wordPos;          // décalage basmala (= clic étymo)
+    if (t.aya === 1 && t.sura !== 1 && t.sura !== 9) {
+      const trimmed = (t.verseText || '').trim();
+      if (trimmed.startsWith('بِسْمِ') || trimmed.startsWith('بسم')) {
+        corpusWordPos -= 4;
+        if (corpusWordPos < 1) return null;  // curseur dans la basmala
+      }
+    }
+    const word = (t.verseText || '').split(/\s+/).filter(Boolean)[wp.wordPos - 1] || '';
+    return {
+      sura: t.sura, aya: t.aya, verseText: t.verseText,
+      wordPos: wp.wordPos, corpusWordPos,
+      wordStart: wp.wordStart, wordLength: wp.wordLength, word,
+    };
+  }
+
+  // ── Données morpho (verbe via morphology.php, sinon nom via word.php) ────
+  async function getWordData(ctx) {
+    const k = `${ctx.sura}:${ctx.aya}:${ctx.corpusWordPos}`;
+    if (morphoCache.has(k)) return morphoCache.get(k);
+    let data;
+    const ety = await fetchEtymology(ctx.sura, ctx.aya, ctx.corpusWordPos);
+    if (ety && !ety.error && !ety.notVerb) {
+      data = { kind: 'verb', verb: ety };
+    } else {
+      const wd = await fetchWordMorphology(ctx.sura, ctx.aya, ctx.corpusWordPos);
+      data = (wd && !wd.error && wd.head) ? { kind: 'noun', noun: wd } : { kind: 'none' };
+    }
+    morphoCache.set(k, data);
+    return data;
+  }
+
+  // Ajoute le tanwin damma (convention dictionnaire) — gère "/" et finales faibles.
+  function _twKB(s) {
+    if (!s) return null;
+    if (s.includes('/')) return s.split(/\s*\/\s*/).filter(Boolean).map(_twKB).join(' / ');
+    if (/[ًٌٍ]$/.test(s) || s.endsWith('ى')) return s;
+    return s + 'ٌ';
+  }
+
+  // ── Lentille ANALYSE ─────────────────────────────────────────────────────
+  async function lensAnalyse(ctx) {
+    const data = await getWordData(ctx);
+    if (data.kind === 'verb') {
+      const v = data.verb;
+      const cls = (typeof classifyVerb === 'function') ? classifyVerb(v.root_ar) : null;
+      const isPass = (v.features || '').includes('PASS');
+      const out = [];
+      if (v.root_ar) out.push(`<div class="kb-line"><span class="kb-key">جذر:</span> ${v.root_ar}</div>`);
+      out.push(`<div class="kb-line">فعل${cls ? ' ' + cls.branch + ' ' + cls.sub : ''}</div>`);
+      out.push(`<div class="kb-line">الصيغة <span class="kb-fr">forme ${v.verb_form || 1}</span>`
+             + (isPass ? ' · مبني للمجهول <span class="kb-fr">(passif)</span>' : '') + `</div>`);
+      return out.join('');
+    }
+    if (data.kind === 'noun') return _nounAnalyseCompact(data.noun);
+    return `<div class="kb-muted">Analyse non disponible pour ce mot.</div>`;
+  }
+
+  // Version compacte de showNounAnalysis (réutilise les helpers globaux).
+  function _nounAnalyseCompact(wd) {
+    const head = wd.head;
+    const lemmaAr = _buckToArabic(head.lemma_buck);
+    const rootAr  = head.root_ar || '';
+    const typeLabel = _nounTypeLabel(head.features, head.pos);
+    const caseLabel = _caseLabel(head.features);
+    const gn = _genderNumberLabel(head.features);
+    const isIndef = (head.features || '').includes('INDEF');
+    const hasAl = (wd.segments || []).some(s => s.pos === 'DET' || /PREFIX\|Al\+/.test(s.features || ''));
+    const isMudaf = (typeof _isMudaf === 'function') ? _isMudaf(head, wd.segments) : false;
+    const wazn = _nounWaznOverride(head.lemma_buck) || _computeNounWazn(lemmaAr, rootAr);
+    const irab = [];
+    if (caseLabel) irab.push(caseLabel);
+    gn.forEach(g => irab.push(g));
+    if (isMudaf) irab.push(_arFr('مضاف', 'annexion'));
+    irab.push(isIndef && !hasAl ? _arFr('نكرة', 'indéfini') : _arFr('معرفة', 'défini'));
+    const out = [];
+    out.push(`<div class="kb-line"><span class="kb-key">جذر:</span> ${rootAr} · ${typeLabel}</div>`);
+    if (wazn) out.push(`<div class="kb-line">وزن: ${_waznWithTanwin(wazn)}</div>`);
+    out.push(`<div class="kb-line">${irab.join(' · ')}</div>`);
+    return out.join('');
+  }
+
+  // ── Lentille CONJUGAISON (verbes uniquement) ─────────────────────────────
+  async function lensConjugaison(ctx) {
+    const data = await getWordData(ctx);
+    if (data.kind !== 'verb') return `<div class="kb-muted">Ce mot n'est pas un verbe.</div>`;
+    const v = data.verb;
+    const out = [];
+    if (v.root_ar) out.push(`<div class="kb-line"><span class="kb-key">جذر:</span> ${v.root_ar}</div>`);
+    const conj = [v.past_3ms, v.present_3ms, v.imperative_2ms].filter(Boolean).join(' — ');
+    if (conj) out.push(`<div class="kb-line">${conj}</div>`);
+    if (v.masdar) out.push(`<div class="kb-line">مصدر: ${_twKB(v.masdar)}</div>`);
+    const part = [];
+    if (v.active_participle)  part.push(`اسم الفاعل: ${_twKB(v.active_participle)}`);
+    if (v.passive_participle) part.push(`اسم المفعول: ${_twKB(v.passive_participle)}`);
+    if (part.length) out.push(`<div class="kb-line">${part.join(' · ')}</div>`);
+    if (out.length <= 1) out.push(`<div class="kb-muted">Conjugaison non disponible dans le corpus.</div>`);
+    return out.join('');
+  }
+
+  // ── Lentille TAJWID (local, via analyzeAt sur chaque lettre du mot) ───────
+  function lensTajweed(ctx) {
+    const k = `${ctx.sura}:${ctx.aya}:${ctx.wordPos}`;
+    if (tajweedCache.has(k)) return tajweedCache.get(k);
+    let html;
+    if (typeof analyzeAt !== 'function') {
+      html = `<div class="kb-muted">Tajwid indisponible.</div>`;
+    } else {
+      const seen = new Map(); // ar → fr
+      const end = ctx.wordStart + ctx.wordLength;
+      for (let i = ctx.wordStart; i < end; i++) {
+        const r = analyzeAt(ctx.verseText, i);
+        if (r && r.ruleAr && !seen.has(r.ruleAr)) seen.set(r.ruleAr, r.ruleFr || '');
+      }
+      if (!seen.size) {
+        html = `<div class="kb-muted">Aucune règle de tajwid notable dans ce mot.</div>`;
+      } else {
+        const chips = [...seen.entries()]
+          .map(([ar, fr]) => `<span class="kb-rule">${ar}<span class="kb-fr"> ${fr}</span></span>`).join('');
+        html = `<div class="kb-rules">${chips}</div>`;
+      }
+    }
+    tajweedCache.set(k, html);
+    return html;
+  }
+
+  // ── Lentille LECTURE (récitation du mot) ─────────────────────────────────
+  function lensLecture(ctx) {
+    return `<div class="kb-line">${ctx.word || ''}</div>`
+      + `<button type="button" class="kb-play" data-kb-play="1">▶ écouter</button>`
+      + `<div class="kb-muted">récitation — un seul lecteur pour l'instant</div>`;
+  }
+
+  // ── Registre des lentilles (contrat uniforme) ────────────────────────────
+  const LENSES = {
+    analyse:     { ar: 'تحليل', fr: 'Analyse',     render: lensAnalyse },
+    conjugaison: { ar: 'تصريف', fr: 'Conjugaison', render: lensConjugaison },
+    tajweed:     { ar: 'تجويد', fr: 'Tajwid',      render: lensTajweed },
+    lecture:     { ar: 'قراءة', fr: 'Lecture',     render: lensLecture },
+  };
+
+  // ── Positionnement / affichage / masquage ────────────────────────────────
+  function positionBubble(x, y) {
+    const el = bubbleEl();
+    if (!el) return;
+    const pad = 14;
+    el.style.visibility = 'hidden';
+    el.hidden = false;
+    const w = el.offsetWidth, h = el.offsetHeight;
+    let left = x + pad, top = y + pad;
+    if (left + w > window.innerWidth  - 8) left = x - w - pad;
+    if (top  + h > window.innerHeight - 8) top  = y - h - pad;
+    if (left < 8) left = 8;
+    if (top  < 8) top  = 8;
+    el.style.left = left + 'px';
+    el.style.top  = top  + 'px';
+    el.style.visibility = 'visible';
+  }
+
+  function hideBubble() {
+    const el = bubbleEl();
+    if (el) el.hidden = true;
+    currentKey = null;
+  }
+  function scheduleHide() { cancelHide(); hideTimer = setTimeout(hideBubble, 220); }
+  function cancelHide()   { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } }
+
+  async function renderBubble(ctx) {
+    const el = bubbleEl();
+    if (!el) return;
+    const lens = LENSES[activeLens] || LENSES.analyse;
+    const token = ++renderToken;
+    const headHtml = `<div class="kb-head"><span class="kb-word">${ctx.word || ''}</span>`
+      + `<span class="kb-lens">${lens.ar} · ${lens.fr}</span></div>`;
+    el.innerHTML = headHtml + `<div class="kb-muted">…</div>`;
+    positionBubble(lastX, lastY);
+    let body;
+    try { body = await lens.render(ctx); }
+    catch (e) { body = `<div class="kb-muted">Erreur de rendu.</div>`; }
+    if (token !== renderToken) return;       // un autre mot a pris la main
+    el.innerHTML = headHtml + body;
+    positionBubble(lastX, lastY);
+  }
+
+  // ── Survol ────────────────────────────────────────────────────────────────
+  function onMove(e) {
+    if (!bubbleMode) return;
+    lastX = e.clientX; lastY = e.clientY;
+    if (rafPending) return;
+    rafPending = true;
+    requestAnimationFrame(() => {
+      rafPending = false;
+      const ctx = wordCtxAt(lastX, lastY);
+      if (!ctx) { scheduleHide(); return; }
+      cancelHide();
+      currentCtx = ctx;
+      const key = `${ctx.sura}:${ctx.aya}:${ctx.wordPos}`;
+      if (key === currentKey) return;        // même mot → on ne re-rend pas
+      currentKey = key;
+      renderBubble(ctx);
+    });
+  }
+
+  function onBubbleClick(e) {
+    if (e.target.closest('[data-kb-play]') && currentCtx && typeof playWordAudio === 'function') {
+      playWordAudio(currentCtx.sura, currentCtx.aya, currentCtx.corpusWordPos - 1);
+    }
+  }
+
+  function initKnowledgeBubble() {
+    const content = document.getElementById('quranContent');
+    const toggle  = document.getElementById('bubbleToggleBtn');
+    const select  = document.getElementById('bubbleLensSelect');
+    const bub     = bubbleEl();
+    if (!content || !toggle || !select || !bub) return;
+    content.addEventListener('mousemove', onMove);
+    content.addEventListener('mouseleave', scheduleHide);
+    bub.addEventListener('mouseenter', cancelHide);
+    bub.addEventListener('mouseleave', scheduleHide);
+    bub.addEventListener('click', onBubbleClick);
+    toggle.addEventListener('click', () => {
+      bubbleMode = !bubbleMode;
+      toggle.setAttribute('aria-pressed', String(bubbleMode));
+      if (!bubbleMode) hideBubble();
+    });
+    select.addEventListener('change', () => {
+      activeLens = select.value;
+      if (bubbleMode && currentCtx) renderBubble(currentCtx); // re-rend le même mot
+    });
+  }
+
+  if (document.readyState === 'loading')
+    document.addEventListener('DOMContentLoaded', initKnowledgeBubble);
+  else initKnowledgeBubble();
+})();
+
 // Réinitialise les effets persistants quand l'utilisateur change de mode :
 // surlignages tajwid en page, panneau d'analyse, marqueur de lettre, compteurs
 // de règle, audio en cours. Empêche les artefacts d'un mode précédent de
